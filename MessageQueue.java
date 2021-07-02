@@ -4,6 +4,7 @@ import java.util.ArrayList;
    A first-in, first-out collection of messages. This
    implementation is not very efficient. We will consider
    a more efficient implementation in chapter 3.
+   change something
 */
 public class MessageQueue
 {
