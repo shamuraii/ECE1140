@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FailureModeSelector</class>
+ <widget class="QDialog" name="FailureModeSelector">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>317</width>
+    <height>174</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QComboBox" name="brokenRailBox">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>20</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Block 1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Block 2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Block 3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Block 4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Block 5</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>120</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="circuit_fail">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>50</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Track Circuit Failure</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="broken_rail">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Broken Rail</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="power_fail">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>80</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Power Failure</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="apply">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>120</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Apply</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="trackFailBox">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>50</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Block 1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Block 2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Block 3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Block 4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Block 5</string>
+    </property>
+   </item>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
