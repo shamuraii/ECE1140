@@ -9,9 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    asdf.cpp \
     main.cpp \
-    qcontroller.cpp \
     testui.cpp \
     traincontroller.cpp \
     traincontrollerhandler.cpp \
@@ -19,8 +17,6 @@ SOURCES += \
     traincontrollerui.cpp
 
 HEADERS += \
-    asdf.h \
-    qcontroller.h \
     testui.h \
     traincontroller.h \
     traincontrollerhandler.h \
