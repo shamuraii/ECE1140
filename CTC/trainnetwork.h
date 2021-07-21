@@ -31,10 +31,13 @@ public:
 
 public slots:
     void TrainMoved(Block *old_loc, Block *new_loc);
-    void UpdateWaysideOutputs();
+    void UpdateOutputs();
+
+    void SwitchMoved(int pointing_to, bool line);
+    void UpdateOccupancy(std::vector<bool> occupancy, bool line);
 
 signals:
-    //void WaysideOutputsUpdated(std::vector<QPair<int, int>> out_auth, std::vector<QPair<int, int>> out_speed);
+    void OutputsUpdated(std::vector<bool> out_auth, std::vector<int> out_speed, bool line);
     void NetworkUpdated();
     void TrainAdded(int num);
 };

@@ -63,7 +63,7 @@ void CtcRedLineGui::block_clicked()
     if (button) {
         int block_num = button->text().toInt();
         Block *b = GetRedLine()->GetBlock(block_num);
-        b->SetClosed(!b->IsClosed());
+        b->SetClosed(!b->IsClosed(), kRedBool);
     } else {
         QMessageBox::warning(this, "Error", "Invalid block_clicked signal sent.");
     }
@@ -75,10 +75,31 @@ void CtcRedLineGui::switch_clicked() {
     if (button) {
         int sw_num = button->text().toInt();
         Switch *sw = GetRedLine()->GetSwitch(sw_num);
-        if (sw->PointingTo() == sw->LowerBlock()) {
-            sw->UpdateState(sw->UpperBlock());
+        if (sw->InMaintenance()) {
+            int result = QMessageBox::question(this, "Maintenance Mode", "Currently, switch in maintenance mode. Would you like to disable maintenance mode?",
+                                 QMessageBox::No | QMessageBox::Yes);
+            if (result == QMessageBox::Yes) {
+                sw->SetMaintenance(false, kRedBool);
+                return;
+            }
         } else {
-            sw->UpdateState(sw->LowerBlock());
+            int result = QMessageBox::question(this, "Maintenance Mode", "Currently, switch is NOT in maintenance mode. Would you like to enable maintenance mode?",
+                                 QMessageBox::No | QMessageBox::Yes);
+            if (result == QMessageBox::Yes) {
+                sw->SetMaintenance(true, kRedBool);
+            } else {
+                return;
+            }
+        }
+
+        int result = QMessageBox::question(this, "Flip Switch", "Flip Switch Position?",
+                                            QMessageBox::No | QMessageBox::Yes);
+        if (result == QMessageBox::Yes) {
+            if (sw->PointingTo() == sw->LowerBlock()) {
+                sw->UpdateState(sw->UpperBlock(), kRedBool);
+            } else {
+                sw->UpdateState(sw->LowerBlock(), kRedBool);
+            }
         }
     } else {
         QMessageBox::warning(this, "Error", "Invalid block_clicked signal sent.");

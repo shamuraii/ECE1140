@@ -13,7 +13,7 @@ private:
     bool occupied_;
     bool closed_;
 
-    int sug_auth_;
+    bool sug_auth_;
     int sug_speed_;
 
     int speed_limit_;
@@ -32,17 +32,20 @@ public:
 
     int GetNum() const;
     int GetWeight() const;
-    int GetAuth() const;
+    bool GetAuth() const;
     int GetSpeed() const;
     int GetSpeedLimit() const;
     int GetLength() const;
     std::set<int> GetConnections() const;
 
-    void SetClosed(bool closed);
+    void SetClosed(bool closed, bool line);
     void SetOccupied(bool occupied);
+    void SetAuth(bool auth);
+    void SetSpeed(int speed);
     void AddConnection(int conn_block_num);
 
 signals:
+    void MaintChanged(int block_num, bool maint_mode, bool line);
 
 };
 

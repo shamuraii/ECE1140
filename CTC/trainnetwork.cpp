@@ -5,10 +5,16 @@
 #include "block.h"
 #include "train.h"
 #include "trackline.h"
+#include "ctc_signal_handler.h"
 
 TrainNetwork::TrainNetwork() : QObject(nullptr)
 {
     automatic_mode_ = true;
+
+    connect(this, &TrainNetwork::OutputsUpdated, &CtcSH::Get(), &CtcSH::OutputsUpdated);
+    connect(&CtcSH::Get(), &CtcSH::UpdateOutputs, this, &TrainNetwork::UpdateOutputs);
+    connect(&CtcSH::Get(), &CtcSH::NewSwitchPos, this, &TrainNetwork::SwitchMoved);
+    connect(&CtcSH::Get(), &CtcSH::NewOccupancies, this, &TrainNetwork::UpdateOccupancy);
 }
 
 std::vector<Train*> TrainNetwork::GetTrains() {
@@ -66,22 +72,51 @@ void TrainNetwork::TrainMoved(Block *old_loc, Block *new_loc) {
     emit NetworkUpdated();
 }
 
-void TrainNetwork::UpdateWaysideOutputs() {
-    std::vector<int> out_auth;
+void TrainNetwork::UpdateOutputs() {
+    for (Train *t : trains_) {
+        t->UpdateOutputs();
+    }
+    TrackLine *line = GetTrackLine(kRedlineName);
+    std::vector<bool> out_auth;
     std::vector<int> out_speed;
 
-    for (int i = 0; i < GetTrackLine(kRedlineName)->GetBlockCount(); i++) {
-        out_auth.push_back(0);
-        out_speed.push_back(0);
+    for (Block *b : line->GetBlocks()) {
+        out_auth.push_back(b->GetAuth());
+        out_speed.push_back(b->GetSpeed());
     }
+    emit OutputsUpdated(out_auth, out_speed, kRedBool);
 
-    for (Train *t : trains_) {
-        out_auth[t->GetLocation()->GetNum()] = 1;
-        out_auth[t->GetNextBlock()->GetNum()] = 1;
+    // TODO: green line
+}
 
-        out_speed[t->GetLocation()->GetNum()] = t->GetLocation()->GetSpeedLimit();
-        out_speed[t->GetNextBlock()->GetNum()] = t->GetNextBlock()->GetSpeedLimit();
+void TrainNetwork::SwitchMoved(int pointing_to, bool line) {
+    if (line == kRedBool) {
+        TrackLine *l = GetTrackLine(kRedlineName);
+        for (Switch *s : l->GetSwitches()) {
+            if (s->HasBlock(pointing_to))
+                s->UpdateState(pointing_to, line);
+        }
     }
+}
 
+void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
+    //TODO: this is BROKEN for 2 lines
+    if (line == kRedBool) {
+        TrackLine *l = GetTrackLine(kRedlineName);
+        std::vector<Block*> blocks = l->GetBlocks();
+        for (size_t i = 0; i < occupancy.size(); i++) {
+            bool prev = blocks[i+1]->IsOccupied();
+            bool now = occupancy[i];
 
+            blocks[i+1]->SetOccupied(now);
+
+            if (prev && !now) {
+                for (Train *t : trains_) {
+                    if (t->GetLocation()->GetNum() == blocks[i+1]->GetNum()) {
+                        t->SetLocation(t->GetNextBlock());
+                    }
+                }
+            }
+        }
+    }
 }

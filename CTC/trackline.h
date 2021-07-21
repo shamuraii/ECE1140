@@ -43,6 +43,7 @@ public:
     Station *GetStation(QString station_name) const;
     Switch *GetSwitch(int block_num) const;
     int GetBlockCount() const;
+    std::vector<Block*> GetBlocks() const;
     std::vector<Station*> GetStations() const;
     std::vector<Switch*> GetSwitches() const;
 

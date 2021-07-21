@@ -103,6 +103,10 @@ int TrackLine::GetBlockCount() const {
     return blocks_.size();
 }
 
+std::vector<Block*> TrackLine::GetBlocks() const {
+    return blocks_;
+}
+
 std::vector<Station*> TrackLine::GetStations() const {
     return stations_;
 }

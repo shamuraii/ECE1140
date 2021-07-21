@@ -1,6 +1,7 @@
 #include <set>
 
 #include "block.h"
+#include "ctc_signal_handler.h"
 
 const int Block::kInfiniteWeight = -1;
 const int Block::kYardNum = 0;
@@ -13,6 +14,8 @@ Block::Block(int num) : QObject(nullptr), num_(num)
     length_ = 1;
     sug_auth_ = 0;
     sug_speed_ = 0;
+
+    connect(this, &Block::MaintChanged, &CtcSH::Get(), &CtcSH::BlockMaint);
 }
 
 bool Block::IsYard() const {
@@ -40,7 +43,7 @@ int Block::GetWeight() const {
         return 1;
 }
 
-int Block::GetAuth() const {
+bool Block::GetAuth() const {
     return sug_auth_;
 }
 
@@ -60,12 +63,21 @@ std::set<int> Block::GetConnections() const {
     return connections_;
 }
 
-void Block::SetClosed(bool closed) {
+void Block::SetClosed(bool closed, bool line) {
     closed_ = closed;
+    emit MaintChanged(num_, closed_, line);
 }
 
 void Block::SetOccupied(bool occupied) {
     occupied_ = occupied;
+}
+
+void Block::SetAuth(bool auth) {
+    sug_auth_ = auth;
+}
+
+void Block::SetSpeed(int speed) {
+    sug_speed_ = speed;
 }
 
 void Block::AddConnection(int conn_block_num) {

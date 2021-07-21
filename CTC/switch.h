@@ -10,6 +10,8 @@ private:
     int lower_;
     int upper_;
     int pointing_to_;
+
+    bool maint_mode_;
 public:
     explicit Switch(int lower, int upper);
 
@@ -18,12 +20,15 @@ public:
     int LowerBlock() const;
     int UpperBlock() const;
     int PointingTo() const;
+    bool InMaintenance() const;
 
 public slots:
-    void UpdateState(int new_target);
+    void UpdateState(int new_target, bool line);
+    void SetMaintenance(bool mode, bool line);
 
 signals:
-
+    void StateChanged(int pointing_to, bool line);
+    void MaintChanged(int switch_num, bool mode, bool line);
 };
 
 #endif // SWITCH_H
