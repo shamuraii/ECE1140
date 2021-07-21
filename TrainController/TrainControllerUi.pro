@@ -15,6 +15,7 @@ SOURCES += \
     testui.cpp \
     traincontroller.cpp \
     traincontrollerhandler.cpp \
+    traincontrollersignalhandler.cpp \
     traincontrollerui.cpp
 
 HEADERS += \
@@ -23,6 +24,7 @@ HEADERS += \
     testui.h \
     traincontroller.h \
     traincontrollerhandler.h \
+    traincontrollersignalhandler.h \
     traincontrollerui.h
 
 FORMS += \

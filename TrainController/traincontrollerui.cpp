@@ -6,11 +6,54 @@ TrainControllerUi::TrainControllerUi(QWidget *parent)
     , ui(new Ui::TrainControllerUi)
 {
     ui->setupUi(this);
+    SetUpSignals();
+
 }
 
 TrainControllerUi::~TrainControllerUi()
 {
     delete ui;
+}
+
+// Connects all signals and slots between Uis and train controller handler
+void TrainControllerUi::SetUpSignals()
+{
+    // Train gui and handler singal connection
+    QObject::connect(&train_handler, SIGNAL(GuiUpdate(TrainController)), this, SLOT(Update(TrainController)));
+    QObject::connect(&train_handler, SIGNAL(GuiNewTrain(int)), this, SLOT(NewTrain(int)));
+    QObject::connect(this, SIGNAL(ToggleServiceBrake(int)), &train_handler, SLOT(ToggleServiceBrake(int)));
+    QObject::connect(this, SIGNAL(ToggleEmergencyBrake(int)), &train_handler, SLOT(ToggleEmergencyBrake(int)));
+    QObject::connect(this, SIGNAL(ToggleHeadlights(int)), &train_handler, SLOT(ToggleHeadlights(int)));
+    QObject::connect(this, SIGNAL(ToggleCabinLights(int)), &train_handler, SLOT(ToggleCabinLights(int)));
+    QObject::connect(this, SIGNAL(SetCabinTemp(int,double)), &train_handler, SLOT(SetCabinTemp(int,double)));
+    QObject::connect(this, SIGNAL(ToggleLeftDoor(int)), &train_handler, SLOT(ToggleLeftDoor(int)));
+    QObject::connect(this, SIGNAL(ToggleRightDoor(int)), &train_handler, SLOT(ToggleRightDoor(int)));
+    QObject::connect(this, SIGNAL(SetKp(int,double)), &train_handler, SLOT(SetKp(int,double)));
+    QObject::connect(this, SIGNAL(SetKi(int,double)), &train_handler, SLOT(SetKi(int,double)));
+    QObject::connect(this, SIGNAL(UpdateGui(int)), &train_handler, SLOT(UpdateGui(int)));
+    QObject::connect(this, SIGNAL(StartAnnouncement(int)), &train_handler, SLOT(StartAnnouncement(int)));
+    QObject::connect(this, SIGNAL(NewSetpointSpeed(int,double)), &train_handler, SLOT(NewSetpointSpeed(int,double)));
+
+
+    // Test gui and handler signal connection
+    QObject::connect(&test_ui, SIGNAL(NewTrain(int)), &train_handler, SLOT(NewTrainController(int)));
+    QObject::connect(&test_ui, SIGNAL(NewCommandedSpeed(int,double)), &train_handler, SLOT(NewCommandedSpeed(int,double)));
+    QObject::connect(&train_handler, SIGNAL(ServiceBrake(int,bool)), &test_ui, SLOT(ServiceBrake(int,bool)));
+    QObject::connect(&train_handler, SIGNAL(EmergencyBrake(int,bool)), &test_ui, SLOT(EmergencyBrake(int,bool)));
+    QObject::connect(&train_handler, SIGNAL(SendPower(int,double)), &test_ui, SLOT(NewPower(int,double)));
+    QObject::connect(&test_ui, SIGNAL(NewActualSpeed(int,double)), &train_handler, SLOT(NewActualSpeed(int,double)));
+    QObject::connect(&train_handler, SIGNAL(Headlights(int,bool)), &test_ui, SLOT(Headlights(int,bool)));
+    QObject::connect(&train_handler, SIGNAL(CabinLights(int,bool)), &test_ui, SLOT(CabinLights(int,bool)));
+    QObject::connect(&train_handler, SIGNAL(CabinTemp(int,double)), &test_ui, SLOT(CabinTemp(int,double)));
+    QObject::connect(&train_handler, SIGNAL(LeftDoor(int,bool)), &test_ui, SLOT(LeftDoor(int,bool)));
+    QObject::connect(&train_handler, SIGNAL(RightDoor(int,bool)), &test_ui, SLOT(RightDoor(int,bool)));\
+    QObject::connect(&test_ui, SIGNAL(ToggleEmergencyBrake(int)), &train_handler, SLOT(ToggleEmergencyBrake(int)));
+    QObject::connect(&train_handler, SIGNAL(Announcement(int,string)), &test_ui, SLOT(Announcement(int,string)));
+    QObject::connect(&train_handler, SIGNAL(GuiTestUpdate(TrainController)), &test_ui, SLOT(UpdateTest(TrainController)));
+    QObject::connect(&test_ui, SIGNAL(UpdateTestGui(int)), &train_handler, SLOT(UpdateTestGui(int)));
+    QObject::connect(&test_ui, SIGNAL(NewAuthority(int,int)), &train_handler, SLOT(NewAuthority(int,int)));
+    QObject::connect(&test_ui, SIGNAL(FailureMode(int,string)), &train_handler, SLOT(FailureMode(int,string)));
+
 }
 
 // Helper function to check if input is a number
@@ -185,5 +228,11 @@ void TrainControllerUi::on_emergency_brake_button_clicked()
     //string text = ui->emergency_brake_status->text().toStdString();
     //ui->emergency_brake_status->setText((text == "Off") ? "On" : "Off");
     emit UpdateGui(ui->train_index->currentIndex());
+}
+
+
+void TrainControllerUi::on_debugger_clicked()
+{
+    test_ui.show();
 }
 

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <vector>
 #include "traincontroller.h"
+#include "traincontrollersignalhandler.h"
 
 class TrainControllerHandler : public QObject
 {
@@ -38,6 +39,8 @@ private:
     int current_gui_index;
     int current_test_gui_index;
     vector<TrainController> trains;
+
+    void SetUpSignals();
 
 signals:
     void GuiUpdate(TrainController);

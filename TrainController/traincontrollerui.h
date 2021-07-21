@@ -2,7 +2,10 @@
 #define TRAINCONTROLLERUI_H
 
 #include <QWidget>
+#include "traincontrollerhandler.h"
 #include "traincontroller.h"
+#include "testui.h"
+#include "traincontrollersignalhandler.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class TrainControllerUi; }
@@ -62,9 +65,15 @@ private slots:
 
     void on_emergency_brake_button_clicked();
 
+    void on_debugger_clicked();
+
 private:
     Ui::TrainControllerUi *ui;
 
     bool IsNumber(string);
+    void SetUpSignals();
+
+    TrainControllerHandler train_handler;
+    TestUi test_ui;
 };
 #endif // TRAINCONTROLLERUI_H
