@@ -1,5 +1,4 @@
 #include "traincontrollerui.h"
-#include "qcontroller.h"
 #include "traincontrollerhandler.h"
 #include "testui.h"
 #include <iostream>
