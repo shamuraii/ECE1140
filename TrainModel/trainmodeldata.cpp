@@ -1,5 +1,6 @@
 #include "trainmodeldata.h"
 #include "controllerinterface.h"
+#include <math.h>
 
 TrainModelData::TrainModelData()
 {
@@ -27,8 +28,13 @@ TrainModelData::TrainModelData()
 
 void TrainModelData::tick(int time)
 {
-    //Update speed based on power and brakes (TODO)
-    actual_speed++;
+    //Update speed based on power and brakes
+    //From Kinetic Energy = 1/2 * m * v^2
+    //v = sqrt(2*E/m)
+    double current_energy = .5 * mass * actual_speed * actual_speed;
+    current_energy += 0.001 * time * power;
+    double new_speed = sqrt(2 * current_energy / mass);
+    actual_speed = new_speed;
     //Tell controller our speed changed
     emit ControllerInterface::getInstance().speedChanged(getID(), actual_speed);
     //Tell track model our speed changed (TODO)
