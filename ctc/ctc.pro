@@ -18,11 +18,11 @@ SOURCES += \
     ctc_signal_handler.cpp \
     ctc_trains_dialog.cpp \
     ctc_upload_dialog.cpp \
+    ctrain.cpp \
     main.cpp \
     station.cpp \
     switch.cpp \
     trackline.cpp \
-    train.cpp \
     trainnetwork.cpp
 
 HEADERS += \
@@ -36,10 +36,10 @@ HEADERS += \
     ctc_signal_handler.h \
     ctc_trains_dialog.h \
     ctc_upload_dialog.h \
+    ctrain.h \
     station.h \
     switch.h \
     trackline.h \
-    train.h \
     trainnetwork.h
 
 FORMS += \
