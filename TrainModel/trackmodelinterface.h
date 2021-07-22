@@ -21,12 +21,14 @@ private:
 public slots:
     //Slots for incoming data
     void setAuthority(int, bool);
-    void setCurrentStation(int, std::string);
-    void setDoorSide(int, bool);
+    void setBeaconInfo(QString);
     void setCommandedSpeed(int, int);
+
 signals:
     //Signals for outgoing data
-    void speedChanged(int, int);
+    void distanceTraveled(int train_num, double distance_m);
+    //For CTC
+    void trainStopped(int train_num);
 public:
     //Singleton functions
     static TrackModelInterface& getInstance();
