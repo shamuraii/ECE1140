@@ -92,6 +92,8 @@ Simulation::~Simulation()
     delete ui;
 }
 
+
+
 void Simulation::emitTrackInfo(){
     emit sendBlockInfo(getSpeed(), getLength(), getLine());
 }
@@ -254,3 +256,18 @@ void Simulation::setOccupied(){
     lbl2->setStyleSheet(ui->blueBlock->styleSheet());
 
 }
+
+void Simulation::on_startButton_clicked()
+{
+    timer->start();
+    ptimer->start();
+}
+
+
+
+void Simulation::on_stopButton_clicked()
+{
+    timer->stop();
+    ptimer->stop();
+}
+
