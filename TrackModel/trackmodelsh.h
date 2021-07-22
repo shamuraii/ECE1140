@@ -29,18 +29,19 @@ signals:
 
 
     //To track controller
-    //void sendBrokenRail(int blockNum, bool isFailed);
+    //void sendBrokenRail(int blockNum, bool isFailed); //eventually
     void sendCurrentBlockNum(int curr, int prev);
 
     //To CTC
     void sendTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
     void sendLineSales(int sales, bool line); //eventually
 
+    //Time
     void sendTimerTicked();
     void sendPtimerTicked();
 
     //internal
-    void sendDistanceTraveled(int);
+    void sendDistanceTraveled(int, double);
 
 public slots:
     //From Train Model
@@ -49,7 +50,7 @@ public slots:
     //From Track Controller
     void getAuthority(std::vector<bool>);
     void getCommandedSpeed(std::vector<int>);
-    //void getSwitchPosition(int switchBlock, int pointingTo);
+    //void getSwitchPosition(int switchBlock, int pointingTo, bool line);
     //void getLightStatus();
 
     //internal
