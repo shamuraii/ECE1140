@@ -1,12 +1,12 @@
 #include "trainmodelgui.h"
 #include "ui_trainmodelgui.h"
 #include "trackmodelinterface.h"
-#include "trainmodeldatabase.h"
 
 #include <QGraphicsRectItem>
 #include <QGraphicsEllipseItem>
 
 #include <iostream>
+#include <trainmodeldatabase.h>
 
 TrainModelGUI::TrainModelGUI(QWidget *parent)
     : QMainWindow(parent)
