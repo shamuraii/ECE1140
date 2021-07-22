@@ -5,6 +5,8 @@
 
 #include "trainnetwork.h"
 
+using namespace ctc;
+
 namespace Ui {
 class CtcDebugger;
 }

@@ -9,6 +9,8 @@
 #include "station.h"
 #include "switch.h"
 
+using namespace ctc;
+
 TrackLine::TrackLine(QString block_file,
                      QString station_file,
                      QString switch_file,

@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+namespace ctc {
+
 class Station : public QObject
 {
     Q_OBJECT
@@ -21,5 +23,6 @@ public slots:
 signals:
     void ThroughputUpdated();
 };
+}
 
 #endif // STATION_H

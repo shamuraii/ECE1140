@@ -7,7 +7,7 @@
 
 #include "trainnetwork.h"
 #include "trackline.h"
-#include "train.h"
+#include "ctrain.h"
 
 CtcTrainsDialog::CtcTrainsDialog(QWidget *parent) :
     QDialog(parent),
@@ -34,7 +34,7 @@ void CtcTrainsDialog::FillTable() {
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     table->setSortingEnabled(true);
 
-    for (Train *t : network->GetTrains()) {
+    for (CTrain *t : network->GetTrains()) {
         table->insertRow(table->rowCount());
         table->setItem(table->rowCount() - 1, 0, new QTableWidgetItem(QString::number(t->GetNum())));
         table->setItem(table->rowCount() - 1, 1, new QTableWidgetItem(QString::number(t->GetLocation()->GetNum())));
@@ -80,7 +80,7 @@ void CtcTrainsDialog::on_route_button_clicked()
 
     QTableWidgetItem *item = table->item(row, 0);
     QString train_id = item->text();
-    Train *train = network->GetTrain(train_id.toInt());
+    CTrain *train = network->GetTrain(train_id.toInt());
 
     if (route_popup_ && route_popup_->isVisible())
         route_popup_->close();
