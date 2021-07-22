@@ -7,6 +7,8 @@
 #include "trackline.h"
 #include "ctc_signal_handler.h"
 
+using namespace ctc;
+
 TrainNetwork::TrainNetwork() : QObject(nullptr)
 {
     automatic_mode_ = true;

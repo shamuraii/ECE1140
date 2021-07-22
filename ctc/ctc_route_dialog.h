@@ -6,6 +6,8 @@
 #include "trackline.h"
 #include "train.h"
 
+using namespace ctc;
+
 namespace Ui {
 class CtcRouteDialog;
 }

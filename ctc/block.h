@@ -5,6 +5,8 @@
 #include <vector>
 #include <set>
 
+namespace ctc {
+
 class Block : public QObject
 {
     Q_OBJECT
@@ -48,5 +50,5 @@ signals:
     void MaintChanged(int block_num, bool maint_mode, bool line);
 
 };
-
+}
 #endif // BLOCK_H

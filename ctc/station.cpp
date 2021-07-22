@@ -1,5 +1,7 @@
 #include "station.h"
 
+using namespace ctc;
+
 Station::Station(int block_num, QString name)
     : QObject(nullptr),
       block_num_(block_num),

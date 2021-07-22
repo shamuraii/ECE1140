@@ -7,6 +7,8 @@
 #include "train.h"
 #include "trackline.h"
 
+namespace ctc {
+
 class TrainNetwork : public QObject
 {
     Q_OBJECT
@@ -41,5 +43,6 @@ signals:
     void NetworkUpdated();
     void TrainAdded(int num);
 };
+}
 
 #endif // TRAINNETWORK_H

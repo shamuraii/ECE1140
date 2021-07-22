@@ -9,6 +9,8 @@
 #include "station.h"
 #include "trackline.h"
 
+namespace ctc {
+
 class Train : public QObject
 {
     Q_OBJECT
@@ -53,5 +55,7 @@ public slots:
 signals:
     void UpdatedLocation(Block *old_loc, Block *new_loc);
 };
+
+}
 
 #endif // TRAIN_H

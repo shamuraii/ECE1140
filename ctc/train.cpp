@@ -3,6 +3,8 @@
 #include "station.h"
 #include "ctc_constants.h"
 
+using namespace ctc;
+
 Train::Train(Station *destination, QTime departure_time, TrackLine *line)
     : QObject(nullptr),
       destination_(destination),
