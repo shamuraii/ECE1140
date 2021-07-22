@@ -84,11 +84,6 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
         return;
 
-    if (speed > 0 && !trains[index].started_moving)
-        trains[index].started_moving = true;
-    else if (speed > 0)
-            trains[index].station_here = true;
-
     trains[index].actual_speed = ConvertKMPHToMS(speed);
     double power = trains[index].CalculatePower();
 
@@ -175,7 +170,6 @@ void TrainControllerHandler::StartAnnouncement(int index)
     if (trains[index].actual_speed != 0)
         return;
 
-    trains[index].made_announcement = false;
     emit Announcement(index, trains[index].announcement);
 }
 
@@ -327,22 +321,15 @@ void TrainControllerHandler::ArrivedAtStation(int index)
 {
     if (!trains[index].made_announcement)
     {
-        if (trains[index].open_door == 1)
+        if (trains[index].open_door)
         {
             trains[index].left_door = true;
             emit LeftDoor(index, true);
-        }
-        else if(trains[index].open_door == 0)
-        {
-            trains[index].right_door = true;
-            emit RightDoor(index, false);
         }
         else
         {
             trains[index].right_door = true;
-            trains[index].left_door = true;
-            emit LeftDoor(index, true);
-            emit RightDoor(index,true);
+            emit RightDoor(index, false);
         }
         StartAnnouncement(index);
     }

@@ -7,7 +7,7 @@ TrainController::TrainController()
     manual_mode = false;
     failure_mode = false;
     setpoint_speed = 0;
-    announcement = "Stopping at ShadySide";
+    announcement = "";
     headlights = false;
     cabin_lights = false;
     left_door = false;
@@ -18,7 +18,7 @@ TrainController::TrainController()
     ki = 1000;
     commanded_speed = 0;
     authority = 0;
-    open_door = 2;
+    open_door = -1;
     power = 0;
     leave_station = false;
     made_announcement = false;
@@ -29,7 +29,6 @@ TrainController::TrainController()
     prev_u = 0;
     T = 0.4;
     max_power = 120000;
-    started_moving = false;
 
 }
 
@@ -113,7 +112,7 @@ void TrainController::AtStation()
     {
         //Check if 60 seconds went by
         //at_station = false;
-        //leave_station = true;
+        leave_station = true;
     }
     else if (station_here && at_station && actual_speed != 0)
     {
@@ -124,8 +123,8 @@ void TrainController::AtStation()
 
 void TrainController::GrabBeaconInfo(QString info)
 {
-//    QStringList splitted = info.split(",");
-//    announcement = splitted[0];
-//    open_door = (splitted[1] == "Left");
+    QStringList splitted = info.split(",");
+    announcement = splitted[0];
+    open_door = (splitted[1] == "Left");
     station_here = !station_here;
 }
