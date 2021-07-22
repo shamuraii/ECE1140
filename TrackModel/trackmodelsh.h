@@ -64,6 +64,7 @@ signals:
     void getPTimerTicked();
     void getTrainAuthority(bool auth);
     void getTrainSpeed(int speed);
+    void updateBeaconInfo(std::vector<QString> station, std::vector<QString> side);
 
 };
 

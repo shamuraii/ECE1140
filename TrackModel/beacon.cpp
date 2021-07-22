@@ -12,3 +12,8 @@ Beacon::~Beacon()
 {
     delete ui;
 }
+
+void Beacon::update_beacon(QString s, QString t){
+    ui->stationName->setText(s);
+    ui->stationSide->setText(t);
+}

@@ -43,3 +43,8 @@ void TrackModelSH::getTrainSpeed(int speed){
     qDebug() << "TrackModel:  Speed: " << speed;
     emit sendCommandedSpeed(1, speed);
 }
+
+
+void TrackModelSH::updateBeaconInfo(std::vector<QString> station, std::vector<QString> side){
+    //emit sendBeaconInfo(1, s + "," + side);
+}

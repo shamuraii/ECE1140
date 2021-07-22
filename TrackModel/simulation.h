@@ -63,12 +63,17 @@ public:
     std::vector<int> getBoarding();
     std::vector<int> getDisembarking;
 
-
+    std::vector<QString> getBeaconStation();
+    void setBeaconStation(QString);
+    std::vector<QString> getBeaconSide();
+    void setBeaconSide(QString);
 
 signals:
     void new_block(QString g, QString e, QString l, QString s, QString d);
     void new_station(QString s, QString t, QString tr, QString b, QString d);
+    void new_beacon(QString station, QString side);
     void sendBlockInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
+    void sendBeaconInfo(std::vector<QString> beaconStation, std::vector<QString> side);
     void sendCurrentBlockNum(int curr, int prev);
     void sendTrainAuthority(bool);
     void sendTrainSpeed(int);
@@ -99,6 +104,8 @@ private:
     std::vector<int> ticketSales;
     std::vector<int> boarding;
     std::vector<int> disembarking;
+    std::vector<QString> beaconStation;
+    std::vector<QString> beaconSide;
 
 protected:
     void timerEvent(QTimerEvent *event);
