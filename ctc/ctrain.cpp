@@ -104,18 +104,21 @@ void CTrain::IncrementRouteIndex() {
     route_index_++;
 }
 void CTrain::UpdateOutputs() {
-    /*if (stopped_) {
+    bool found_station = false;
+    if (stopped_) {
         GetLocation()->SetAuth(1);
-    } else {*/
+    } else {
         for (Station *s : line_->GetStations()) {
-            if (s->GetBlockNum() == GetLocation()->GetNum()) {
+            if (s->GetBlockNum() == GetLocation()->GetNum()
+                    || s->GetBlockNum() == GetNextBlock()->GetNum()) {
                 qDebug() << "CTC: Train in station block";
                 GetLocation()->SetAuth(0);
+                found_station = true;
                 break;
             }
         }
-        GetLocation()->SetAuth(1);
-    //}
+        if (!found_station) GetLocation()->SetAuth(1);
+    }
     qDebug() << "CTC: Train at " << GetLocation()->GetNum();
     qDebug() << "CTC: SpeedLimit = " << GetLocation()->GetSpeedLimit();
     GetLocation()->SetSpeed(GetLocation()->GetSpeedLimit());
