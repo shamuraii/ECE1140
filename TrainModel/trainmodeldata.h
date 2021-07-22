@@ -38,7 +38,7 @@ public:
     unsigned int getMass();
     unsigned int getPassengers();
     unsigned int getCrew();
-    std::string getCurrentStation();
+    QString getCurrentStation();
     std::string getLastStation();
     bool getDoorSide();
     int getID();
@@ -62,7 +62,7 @@ public:
     void setMass(const unsigned int&);
     void setPassengers(const unsigned int&);
     void setCrew(const unsigned int&);
-    void setCurrentStation(const std::string&);
+    void setCurrentStation(const QString&);
     void setLastStation(const std::string&);
     void setDoorSide(const bool&);
     void setAuthority(const unsigned int&);
@@ -89,7 +89,8 @@ private:
     QElapsedTimer timer;
 
     //Beacon info
-    std::string current_station, last_station;
+    std::string last_station;
+    QString current_station;
     bool door_side;
 
     //Physical properties

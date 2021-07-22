@@ -31,13 +31,11 @@ TrainModelGUI::TrainModelGUI(QWidget *parent)
     updateGUI();
 
     //Speed calculation tick
-    /*
     timer_interval = 200;
     connect(&timer, &QTimer::timeout, &TrackModelInterface::getInstance(), &TrackModelInterface::ptimerTicked);
     timer.start(timer_interval);
     connect(&long_timer, &QTimer::timeout, &TrackModelInterface::getInstance(), &TrackModelInterface::timerTicked);
     long_timer.start(1000);
-    */
 }
 
 TrainModelGUI::~TrainModelGUI()
@@ -145,7 +143,7 @@ void TrainModelGUI::keyPressEvent(QKeyEvent *event)
 
 void TrainModelGUI::updateGUI()
 {
-    ui->label->setText("Train #" + QString::number(data->getID()) +  " @ " + QString::fromStdString(data->getCurrentStation()));
+    ui->label->setText("Train #" + QString::number(data->getID()) +  " @ " + data->getCurrentStation());
     ui->label_5->setText((data->getLeftDoors()) ? "Left Doors: Open" : "Left Doors: Closed");
     ui->label_2->setText((data->getRightDoors()) ? "Right Doors: Open" : "Right Doors: Closed");
     ui->label_3->setText((data->getCabinLights()) ? "Cabin Lights: On" : "Cabin Lights: Off");

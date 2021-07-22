@@ -36,9 +36,4 @@ void TrainModelMovementDialog::update()
     std::string s5 = "Authority: " + std::to_string(data->getAuthority());
     ui->label_5->setText(QString::fromStdString(s5));
     std::string s6 = "Acceleration Limit: " + std::to_string(data->getAccelLimit()) + " Mph/s";
-    ui->label_6->setText(QString::fromStdString(s6));
-    std::string s7 = "Deceleration Limit: " + std::to_string(data->getDecelLimit()) + " Mph/s";
-    ui->label_7->setText(QString::fromStdString(s7));
-    std::string s8 = "Speed Limit: " + std::to_string(data->getSpeedLimit()) + " Mph";
-    ui->label_8->setText(QString::fromStdString(s8));
 }

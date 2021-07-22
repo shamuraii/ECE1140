@@ -21,6 +21,7 @@ TrainModelData::TrainModelData()
     crew = 8;
     speed_limit = 20;
     id = 1;
+    distance = 0;
 
     brakes_on = ebrakes_on = engine_failure = signal_failure = brake_failure = false;
     left_doors = right_doors = door_side = false;
@@ -189,7 +190,7 @@ unsigned int TrainModelData::getCrew()
     return crew;
 }
 
-std::string TrainModelData::getCurrentStation()
+QString TrainModelData::getCurrentStation()
 {
     return current_station;
 }
@@ -323,7 +324,7 @@ void TrainModelData::setCrew(const unsigned int & i)
     emit dataChanged();
 }
 
-void TrainModelData::setCurrentStation(const std::string& s)
+void TrainModelData::setCurrentStation(const QString& s)
 {
     current_station = s;
     emit dataChanged();
