@@ -1,4 +1,6 @@
 #include <QApplication>
+#include <QTimer>
+#include <QObject>
 
 #include "connections.h"
 #include "ctc/ctc_home.h"
@@ -17,6 +19,8 @@ int main(int argc, char *argv[])
     trc.show();
     TrainModelGUI trainm;
     trainm.show();
+
+
 
     ConnectSystem();
     return a.exec();

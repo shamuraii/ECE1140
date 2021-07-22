@@ -24,6 +24,9 @@ public slots:
     void setBeaconInfo(QString);
     void setCommandedSpeed(int, int);
 
+    void timerTicked() {};
+    void ptimerTicked() {};
+
 signals:
     //Signals for outgoing data
     void distanceTraveled(int train_num, double distance_m);

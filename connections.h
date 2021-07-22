@@ -2,6 +2,7 @@
 #define CONNECTIONS_H
 
 #include <QObject>
+#include <QTimer>
 
 #include "ctc/ctc_signal_handler.h"
 #include "TrainModel/controllerinterface.h"
@@ -10,7 +11,8 @@
 
 void ConnectSystem() {
     CtcSH *ctc = &CtcSH::Get();
-
+    //wayside stuff
+    //Track model stuff
     TrackModelInterface *tmi = &TrackModelInterface::getInstance();
     ControllerInterface *ci = &ControllerInterface::getInstance();
     TrainControllerSignalHandler *tcsh = &TrainControllerSignalHandler::Get();
@@ -36,7 +38,6 @@ void ConnectSystem() {
     QObject::connect(ci, &ControllerInterface::authorityChanged, tcsh, &TrainControllerSignalHandler::NewAuthority);
     QObject::connect(ci, &ControllerInterface::commandedSpeedChanged, tcsh, &TrainControllerSignalHandler::NewCommandedSpeed);
     QObject::connect(ci, &ControllerInterface::beaconInfoChanged, tcsh, &TrainControllerSignalHandler::NewBeaconInfo);
-
 
     QObject::connect(tcsh, &TrainControllerSignalHandler::NewServiceBrake, ci, &ControllerInterface::setServiceBrake);
     QObject::connect(tcsh, &TrainControllerSignalHandler::NewSendPower, ci, &ControllerInterface::setCommandedPower);
