@@ -27,6 +27,8 @@ Simulation::Simulation(QWidget *parent) :
     timer->setInterval(1000);
     ptimer->setInterval(400);
 
+    currentBlockNum = 0;
+
     QObject::connect(timer.get(), &QTimer::timeout, &TrackModelSH::Get(), &TrackModelSH::getTimerTicked);
     QObject::connect(ptimer.get(), &QTimer::timeout, &TrackModelSH::Get(), &TrackModelSH::getPTimerTicked);
 
