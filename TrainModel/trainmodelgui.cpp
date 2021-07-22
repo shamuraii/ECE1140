@@ -1,5 +1,6 @@
 #include "trainmodelgui.h"
 #include "ui_trainmodelgui.h"
+#include "trackmodelinterface.h"
 
 #include <QGraphicsRectItem>
 #include <QGraphicsEllipseItem>
@@ -31,9 +32,11 @@ TrainModelGUI::TrainModelGUI(QWidget *parent)
     updateGUI();
 
     //Speed calculation tick
-    timer_interval = 100;
-    connect(&timer, &QTimer::timeout, this, &TrainModelGUI::tick);
+    timer_interval = 200;
+    connect(&timer, &QTimer::timeout, &TrackModelInterface::getInstance(), &TrackModelInterface::ptimerTicked);
     timer.start(timer_interval);
+    connect(&long_timer, &QTimer::timeout, &TrackModelInterface::getInstance(), &TrackModelInterface::timerTicked);
+    long_timer.start(1000);
 }
 
 TrainModelGUI::~TrainModelGUI()

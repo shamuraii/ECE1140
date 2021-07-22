@@ -15,7 +15,7 @@ TrainModelData::TrainModelData()
     decel_limit = 5;
     length = 100;
     height = 12;
-    mass = 3000;
+    mass = 100000;
     passengers = 200;
     crew = 8;
     speed_limit = 20;
@@ -44,6 +44,9 @@ void TrainModelData::tick(int time)
      *  Time is in ms
     */
 
+    //Update times and distance
+    distance += actual_speed*0.001*timer.restart();
+
     bool wasMoving = actual_speed > 0;
     double current_energy = .5 * .454 * mass * actual_speed * actual_speed;
     current_energy += 0.001 * time * power;
@@ -55,8 +58,8 @@ void TrainModelData::tick(int time)
     //Update GUI
     emit dataChanged();
 
-    //Tell controller our speed changed
-    emit ControllerInterface::getInstance().speedChanged(getID(), actual_speed);
+    //Tell controller our speed changed in kmh
+    emit ControllerInterface::getInstance().speedChanged(getID(), 3.6*actual_speed);
 
     //Tell track model our speed changed (TODO) (Moved to long tick)
 
@@ -202,6 +205,13 @@ int TrainModelData::getID()
 unsigned int TrainModelData::getSpeedLimit()
 {
     return speed_limit;
+}
+
+double TrainModelData::getDistance()
+{
+    //Add distance up to now as well
+    distance += actual_speed*0.001*timer.restart();
+    return distance;
 }
 
 void TrainModelData::setBrakesOn(const bool& b)
@@ -364,4 +374,9 @@ void TrainModelData::setID(const int& i)
 {  
     id = i;
     emit dataChanged();
+}
+
+void TrainModelData::setDistance(const double& d)
+{
+    distance = d;
 }

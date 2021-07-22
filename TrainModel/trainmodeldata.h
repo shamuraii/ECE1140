@@ -3,6 +3,7 @@
 
 #include <string>
 #include <QObject>
+#include <QElapsedTimer>
 
 class TrainModelData : public QObject
 {
@@ -42,6 +43,7 @@ public:
     bool getDoorSide();
     int getID();
     unsigned int getSpeedLimit();
+    double getDistance();
 
     void setBrakesOn(const bool&);
     void setEbrakesOn(const bool&);
@@ -70,6 +72,7 @@ public:
     void setDecelLimit(const unsigned int&);
     void setActualSpeed(const float&);
     void setID(const int&);
+    void setDistance(const double&);
 
 signals:
     void dataChanged();
@@ -82,6 +85,8 @@ private:
     unsigned int power, commanded_speed, authority, accel_limit, decel_limit;
     unsigned int speed_limit;
     float actual_speed;
+    double distance;
+    QElapsedTimer timer;
 
     //Beacon info
     std::string current_station, last_station;

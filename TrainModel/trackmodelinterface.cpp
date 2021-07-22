@@ -1,5 +1,7 @@
 #include "trackmodelinterface.h"
 #include "controllerinterface.h"
+#include "trainmodeldatabase.h"
+#include <QDebug>
 
 //These don't update my own GUI but it's debateable
 //whether or not I'm going to display this anyway
@@ -23,12 +25,23 @@ void TrackModelInterface::setCommandedSpeed(int id, int comm_speed)
 //send distance traveled here
 void TrackModelInterface::timerTicked()
 {
-
+    std::vector<TrainModelData*> trains = TrainModelDatabase::getAllTrains();
+    for (auto train : trains)
+    {
+        //qDebug() << "Distance: " << train->getDistance();
+        emit distanceTraveled(train->getID(), train->getDistance());
+        train->setDistance(0);
+    }
 }
 
 //short timer tick
 //calculate power here
 void TrackModelInterface::ptimerTicked()
 {
-
+    std::vector<TrainModelData*> trains = TrainModelDatabase::getAllTrains();
+    for (auto train : trains)
+    {
+        //Assuming short timer ticks every 200ms
+        train->tick(200);
+    }
 }

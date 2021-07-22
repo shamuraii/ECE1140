@@ -13,6 +13,7 @@ private:
     TrainModelDatabase() {}
 public:
     static TrainModelData* getTrainByID(int);
+    static std::vector<TrainModelData*> getAllTrains();
     static int createTrain();
 };
 
