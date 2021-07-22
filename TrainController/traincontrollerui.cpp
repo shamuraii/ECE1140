@@ -74,9 +74,9 @@ void TrainControllerUi::NewTrain(int num)
 void TrainControllerUi::Update(TrainController train)
 {
     // Speed info
-    ui->actual_speed->setText(QString::number(train.actual_speed));
-    ui->commanded_speed->setText((QString::number(train.commanded_speed)));
-    ui->setpoint_speed->setText(QString::number(train.setpoint_speed));
+    ui->actual_speed->setText(QString::number(ConvertMStoMPH(train.actual_speed)));
+    ui->commanded_speed->setText((QString::number(ConvertMStoMPH(train.commanded_speed))));
+    ui->setpoint_speed->setText(QString::number(ConvertMStoMPH(train.setpoint_speed)));
 
     // Authority info
     ui->authority_status->setText(QString::number(train.authority));
@@ -93,7 +93,8 @@ void TrainControllerUi::Update(TrainController train)
     ui->cabin_temp_value->setText((QString::number(train.cabin_temp)));
 
     // Manual mode
-    ui->setpoint_speed_edit->setValue(50);
+    //ui->setpoint_speed_edit->setValue(50);
+    ui->manual_mode_status->setText((train.manual_mode) ? "On" : "Off");
     //ui->setpoint_speed_button->setEnabled(train.manual_mode);
 
     //Kp and Ki info
@@ -237,3 +238,7 @@ void TrainControllerUi::on_debugger_clicked()
     test_ui.show();
 }
 
+double TrainControllerUi::ConvertMStoMPH(double speed)
+{
+    return speed * 2.237;
+}

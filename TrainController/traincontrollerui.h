@@ -37,6 +37,7 @@ signals:
     void SetKi(int,double);
     void UpdateGui(int);
     void ToggleEmergencyBrake(int);
+    double ConvertMStoMPH(double);
 
 
 private slots:

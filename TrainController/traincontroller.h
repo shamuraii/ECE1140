@@ -39,13 +39,14 @@ public:
     bool leave_station;
     bool made_announcement;
     bool at_station;
+    bool started_moving;
+    bool station_here;
 
 private:
     double prev_u;
     double prev_error;
     double T;
     double max_power;
-    bool station_here;
 
     double CheckPowerCalculation(double,double);
 
