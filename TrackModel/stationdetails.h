@@ -15,6 +15,9 @@ public:
     explicit StationDetails(QWidget *parent = nullptr);
     ~StationDetails();
 
+public slots:
+    void update_station(QString, QString, QString, QString, QString);
+
 
 private:
     Ui::StationDetails *ui;

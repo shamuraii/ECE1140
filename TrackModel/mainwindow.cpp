@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "simulation.h"
 #include "debugger.h"
+#include "trackmodelsh.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -18,6 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
             debugger, &Debugger::updateFail);
     connect(track_select->simulation, &Simulation::new_block, track_select->simulation->track_details, &TrackDetails::update_track);
     //connect(upload_track->simulation, &Simulation::new_block, upload_track->simulation->track_details, &TrackDetails::update_track);
+
+    connect(track_select->simulation, &Simulation::new_station, track_select->simulation->station_details, &StationDetails::update_station);
+
+    connect(track_select->simulation, &Simulation::sendBlockInfo, &TrackModelSH::Get(), &TrackModelSH::updateBlockInfo);
+
 }
 
 MainWindow::~MainWindow()
