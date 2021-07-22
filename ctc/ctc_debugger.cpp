@@ -2,7 +2,7 @@
 
 #include "ctc_debugger.h"
 #include "ui_ctc_debugger.h"
-#include "train.h"
+#include "ctrain.h"
 #include "ctc_home.h"
 #include "ctc_constants.h"
 
@@ -26,7 +26,7 @@ CtcDebugger::~CtcDebugger()
 
 void CtcDebugger::ReloadPage() {
     ui->train_box->clear();
-    for (Train *t : network_->GetTrains()) {
+    for (CTrain *t : network_->GetTrains()) {
         ui->train_box->addItem(QStringLiteral("Train %1").arg(t->GetNum()));
     }
     ui->station_box->clear();
@@ -51,9 +51,9 @@ void CtcDebugger::RefreshTrainData() {
     QComboBox *box = ui->train_box;
     if (box && !box->currentText().isEmpty()) {
         int t_num = box->currentText().remove(0, 6).toInt();
-        Train *t = network_->GetTrain(t_num);
+        CTrain *t = network_->GetTrain(t_num);
         if (t) {
-            connect(ui->advance_button, &QPushButton::clicked, t, &Train::DebugAdvanceTrain);
+            connect(ui->advance_button, &QPushButton::clicked, t, &CTrain::DebugAdvanceTrain);
             ui->line_text->setText(t->GetLine()->GetName());
             ui->route_text->setText(t->GetRouteString());
             ui->stops_text->setText(t->GetStopsString());

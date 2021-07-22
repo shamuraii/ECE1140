@@ -19,7 +19,6 @@ SOURCES += \
     TrackModel/stationdetails.cpp \
     TrackModel/trackdetails.cpp \
     TrackModel/trackselect.cpp \
-    TrackModel/train.cpp \
     TrackModel/uploadtrack.cpp \
     TrainController/testui.cpp \
     TrainController/traincontroller.cpp \
@@ -45,10 +44,10 @@ SOURCES += \
     ctc/ctc_signal_handler.cpp \
     ctc/ctc_trains_dialog.cpp \
     ctc/ctc_upload_dialog.cpp \
+    ctc/ctrain.cpp \
     ctc/station.cpp \
     ctc/switch.cpp \
     ctc/trackline.cpp \
-    ctc/train.cpp \
     ctc/trainnetwork.cpp \
     main.cpp
 
@@ -63,7 +62,6 @@ HEADERS += \
     TrackModel/stationdetails.h \
     TrackModel/trackdetails.h \
     TrackModel/trackselect.h \
-    TrackModel/train.h \
     TrackModel/uploadtrack.h \
     TrainController/testui.h \
     TrainController/traincontroller.h \
@@ -90,10 +88,10 @@ HEADERS += \
     ctc/ctc_signal_handler.h \
     ctc/ctc_trains_dialog.h \
     ctc/ctc_upload_dialog.h \
+    ctc/ctrain.h \
     ctc/station.h \
     ctc/switch.h \
     ctc/trackline.h \
-    ctc/train.h \
     ctc/trainnetwork.h
 
 # Default rules for deployment.

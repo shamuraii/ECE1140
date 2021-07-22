@@ -1,5 +1,5 @@
-#ifndef TRAIN_H
-#define TRAIN_H
+#ifndef CTRAIN_H
+#define CTRAIN_H
 
 #include <QObject>
 #include <QDateTime>
@@ -11,7 +11,7 @@
 
 namespace ctc {
 
-class Train : public QObject
+class CTrain : public QObject
 {
     Q_OBJECT
 private:
@@ -28,7 +28,7 @@ private:
     void CalculateEstimatedArrival();
 
 public:
-    explicit Train(Station *destination, QTime departure_time, TrackLine *line);
+    explicit CTrain(Station *destination, QTime departure_time, TrackLine *line);
     int GetNum() const;
     std::vector<Station*> GetStops() const;
     std::vector<Block*> GetRoute() const;
@@ -58,4 +58,4 @@ signals:
 
 }
 
-#endif // TRAIN_H
+#endif // CTRAIN_H
