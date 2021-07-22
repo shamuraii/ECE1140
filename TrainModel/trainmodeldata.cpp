@@ -2,6 +2,7 @@
 #include "controllerinterface.h"
 #include "trackmodelinterface.h"
 #include <math.h>
+#include <QDebug>
 
 //TODO setter should send update signal to GUIs
 
@@ -55,6 +56,8 @@ void TrainModelData::tick(int time)
     else if (brakes_on) actual_speed -= 0.001*1.2*time;
     if (actual_speed < 0) actual_speed = 0;
 
+    qDebug() << "Train Model speed changed to: " << 3.6*actual_speed << "kmh";
+
     //Update GUI
     emit dataChanged();
 
@@ -64,7 +67,11 @@ void TrainModelData::tick(int time)
     //Tell track model our speed changed (TODO) (Moved to long tick)
 
     //If speed dropped to 0, tell CTC we've arrived at a station (TODO)
-    if (wasMoving && actual_speed == 0) emit TrackModelInterface::getInstance().trainStopped(getID());
+    if (wasMoving && actual_speed == 0)
+    {
+        qDebug() << "Train Model stopped...telling CTC";
+        emit TrackModelInterface::getInstance().trainStopped(getID());
+    }
 }
 
 unsigned int TrainModelData::getCommandedPower()

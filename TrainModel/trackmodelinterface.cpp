@@ -8,16 +8,19 @@
 
 void TrackModelInterface::setAuthority(int id, bool comm_auth)
 {
+    qDebug() << "Train Model received authority: " << comm_auth;
     emit ControllerInterface::getInstance().authorityChanged(id, comm_auth);
 }
 
 void TrackModelInterface::setBeaconInfo(int id, QString info)
 {
+    qDebug() << "Train Model received beacon info: " << info;
     emit ControllerInterface::getInstance().beaconInfoChanged(id, info);
 }
 
 void TrackModelInterface::setCommandedSpeed(int id, int comm_speed)
 {
+    qDebug() << "Train Model received commanded speed: " << comm_speed;
     emit ControllerInterface::getInstance().commandedSpeedChanged(id, comm_speed);
 }
 
@@ -28,7 +31,7 @@ void TrackModelInterface::timerTicked()
     std::vector<TrainModelData*> trains = TrainModelDatabase::getAllTrains();
     for (auto train : trains)
     {
-        //qDebug() << "Distance: " << train->getDistance();
+        qDebug() << "Train Model sending distance: " << train->getDistance();
         emit distanceTraveled(train->getID(), train->getDistance());
         train->setDistance(0);
     }
