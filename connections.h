@@ -5,6 +5,7 @@
 #include <QTimer>
 
 #include "ctc/ctc_signal_handler.h"
+#include "TrackModel/trackmodelsh.h"
 #include "TrainModel/controllerinterface.h"
 #include "TrainModel/trackmodelinterface.h"
 #include "TrainController/traincontrollersignalhandler.h"
@@ -12,7 +13,7 @@
 void ConnectSystem() {
     CtcSH *ctc = &CtcSH::Get();
     //wayside stuff
-    //Track model stuff
+    TrackModelSH *tmsh = &TrackModelSH::Get();
     TrackModelInterface *tmi = &TrackModelInterface::getInstance();
     ControllerInterface *ci = &ControllerInterface::getInstance();
     TrainControllerSignalHandler *tcsh = &TrainControllerSignalHandler::Get();
@@ -22,6 +23,8 @@ void ConnectSystem() {
     // CTC - Wayside
 
     // CTC - Track Model
+    QObject::connect(tmsh, &TrackModelSH::sendTrackInfo, ctc, &CtcSH::GetTrackInfo);
+    QObject::connect(tmsh, &TrackModelSH::sendLineSales, ctc, &CtcSH::GetLineSales);
 
     // CTC - Train Model
     QObject::connect(tmi, &TrackModelInterface::trainStopped, ctc, &CtcSH::GetTrainStopped);
@@ -29,6 +32,11 @@ void ConnectSystem() {
     // Wayside - Track Model
 
     // Track Model - Train Model
+    QObject::connect(tmsh, &TrackModelSH::sendAuthority, tmi, &TrackModelInterface::setAuthority);
+    QObject::connect(tmsh, &TrackModelSH::sendBeaconInfo, tmi, &TrackModelInterface::setBeaconInfo);
+    QObject::connect(tmsh, &TrackModelSH::sendCommandedSpeed, tmi, &TrackModelInterface::setCommandedSpeed);
+
+    QObject::connect(tmi, &TrackModelInterface::distanceTraveled, tmsh, &TrackModelSH::getDistanceTraveled);
 
     // Train Model - Train Controller
     QObject::connect(ci, &ControllerInterface::newTrain, tcsh, &TrainControllerSignalHandler::NewTrainController);

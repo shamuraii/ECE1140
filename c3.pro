@@ -18,6 +18,7 @@ SOURCES += \
     TrackModel/simulation.cpp \
     TrackModel/stationdetails.cpp \
     TrackModel/trackdetails.cpp \
+    TrackModel/trackmodelsh.cpp \
     TrackModel/trackselect.cpp \
     TrackModel/uploadtrack.cpp \
     TrainController/testui.cpp \
@@ -61,6 +62,7 @@ HEADERS += \
     TrackModel/simulation.h \
     TrackModel/stationdetails.h \
     TrackModel/trackdetails.h \
+    TrackModel/trackmodelsh.h \
     TrackModel/trackselect.h \
     TrackModel/uploadtrack.h \
     TrainController/testui.h \
