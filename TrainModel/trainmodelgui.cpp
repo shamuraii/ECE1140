@@ -5,7 +5,6 @@
 
 #include <QGraphicsRectItem>
 #include <QGraphicsEllipseItem>
-
 #include <iostream>
 
 TrainModelGUI::TrainModelGUI(QWidget *parent)
