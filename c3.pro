@@ -78,6 +78,7 @@ HEADERS += \
     TrainModel/trainmodelgui.h \
     TrainModel/trainmodelinterface.h \
     TrainModel/trainmodelmovementdialog.h \
+    connections.h \
     ctc/block.h \
     ctc/ctc_constants.h \
     ctc/ctc_debugger.h \

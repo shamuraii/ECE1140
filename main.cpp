@@ -1,5 +1,6 @@
 #include <QApplication>
 
+#include "connections.h"
 #include "ctc/ctc_home.h"
 #include "TrackModel/mainwindow.h"
 #include "TrainController/traincontrollerui.h"
@@ -17,5 +18,6 @@ int main(int argc, char *argv[])
     TrainModelGUI trainm;
     trainm.show();
 
+    ConnectSystem();
     return a.exec();
 }
