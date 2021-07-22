@@ -28,7 +28,7 @@ TrainModelData::TrainModelData()
     left_doors = right_doors = door_side = false;
     headlights = cabin_lights = false;
 
-    current_station = "Oakland Station";
+    current_station = "Yard";
     last_station = "Lawn St";
 }
 
@@ -73,6 +73,7 @@ void TrainModelData::tick(int time)
     {
         qDebug() << "Train Model stopped...telling CTC";
         emit TrackModelInterface::getInstance().trainStopped(getID());
+        setCurrentStation("Shadyside");
     }
 }
 
