@@ -32,7 +32,7 @@ void ControllerInterface::setHeadlights(int id, bool l)
     if (data != nullptr) data->setHeadlights(l);
 }
 
-void ControllerInterface::setAnnouncement(int id, std::string a)
+void ControllerInterface::setAnnouncement(int id, QString a)
 {
     TrainModelData* data = TrainModelDatabase::getTrainByID(id);
     if (data != nullptr) data->setAnnouncement(a);

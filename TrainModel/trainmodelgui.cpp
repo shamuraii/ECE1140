@@ -1,11 +1,12 @@
 #include "trainmodelgui.h"
 #include "ui_trainmodelgui.h"
+#include "trackmodelinterface.h"
 
 #include <QGraphicsRectItem>
 #include <QGraphicsEllipseItem>
 
 #include <iostream>
-#include "trainmodeldatabase.h"
+#include <trainmodeldatabase.h>
 
 TrainModelGUI::TrainModelGUI(QWidget *parent)
     : QMainWindow(parent)
@@ -15,23 +16,27 @@ TrainModelGUI::TrainModelGUI(QWidget *parent)
     int id = TrainModelDatabase::createTrain();
     data = TrainModelDatabase::getTrainByID(id);
 
+    //TODO add setTrain to movement and beacon dialogs
     failureDialog.setTrain(data);
+    moveDialog.setTrain(data);
+    debugDialog.setTrain(data);
 
-    //Home updates dialogs
-    QObject::connect(this, &TrainModelGUI::GUIChanged, &failureDialog, &TrainModelFailureDialog::update);
-    //QObject::connect(this, &TrainModelGUI::GUIChanged, &moveDialog, &TrainModelMovementDialog::update);
-    //QObject::connect(this, &TrainModelGUI::GUIChanged, &beaconDialog, &TrainModelBeaconDialog::update);
+    //GUI listens to data
+    QObject::connect(data, &TrainModelData::dataChanged, &failureDialog, &TrainModelFailureDialog::update);
+    QObject::connect(data, &TrainModelData::dataChanged, &moveDialog, &TrainModelMovementDialog::update);
+    //QObject::connect(data, &TrainModelData::dataChanged, &beaconDialog, &TrainModelBeaconDialog::update);
+    QObject::connect(data, &TrainModelData::dataChanged, this, &TrainModelGUI::updateGUI);
 
-    //Dialogs update home
-    QObject::connect(&debugDialog, &TrainModelDebugDialog::dataChanged, this, &TrainModelGUI::updateGUI);
     ui->setupUi(this);
     drawTrain();
     updateGUI();
 
     //Speed calculation tick
-    timer_interval = 100;
-    connect(&timer, &QTimer::timeout, this, &TrainModelGUI::tick);
+    timer_interval = 200;
+    connect(&timer, &QTimer::timeout, &TrackModelInterface::getInstance(), &TrackModelInterface::ptimerTicked);
     timer.start(timer_interval);
+    connect(&long_timer, &QTimer::timeout, &TrackModelInterface::getInstance(), &TrackModelInterface::timerTicked);
+    long_timer.start(1000);
 }
 
 TrainModelGUI::~TrainModelGUI()
@@ -114,7 +119,7 @@ void TrainModelGUI::drawTrain()
 
 void TrainModelGUI::on_pushButton_clicked()
 {
-    //moveDialog.show();
+    moveDialog.show();
 }
 
 
@@ -146,7 +151,7 @@ void TrainModelGUI::updateGUI()
     ui->label_6->setText((data->getHeadlights()) ? "Headlights: On" : "Headlights: Off");
     QString s = "Cabin Temp: " + QString::number(data->getCabinTemp()) + " F";
     ui->label_12->setText(s);
-    ui->label_4->setText("Announcement: " + QString::fromStdString(data->getAnnouncement()));
+    ui->label_4->setText("Announcement: " + data->getAnnouncement());
     ui->label_7->setText("Length: " + QString::number(data->getLength()) + " ft");
     ui->label_8->setText("Height: " + QString::number(data->getHeight()) + " ft");
     ui->label_11->setText("Mass: " + QString::number(data->getMass()) + " lbs");
@@ -157,16 +162,7 @@ void TrainModelGUI::updateGUI()
 
 void TrainModelGUI::tick()
 {
-    //Calculate train speed
-    float change = 0;
-    if (data->getBrakesOn() || data->getEbrakesOn()) change = ((float) timer_interval / 1000) * - (int) data->getDecelLimit();
-    else if (data->getActualPower() > 0)
-    {
-        change = ((float) timer_interval / 1000) * data->getActualPower() / data->getMass();
-    }
-    float new_speed = data->getActualSpeed() + change;
-    if (new_speed < 0) new_speed = 0;
-    data->setActualSpeed(new_speed);
+    data->tick(100);
     emit GUIChanged();
 }
 

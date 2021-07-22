@@ -14,9 +14,14 @@ TrainModelDebugDialog::~TrainModelDebugDialog()
     delete ui;
 }
 
+void TrainModelDebugDialog::setTrain(TrainModelData* d)
+{
+    data = d;
+}
+
 void TrainModelDebugDialog::update()
 {
-    emit dataChanged();
+    //emit dataChanged();
 }
 
 /***Train Controller Tab***/
@@ -37,7 +42,7 @@ void TrainModelDebugDialog::on_pushButton_6_clicked()
 //Send Announcement
 void TrainModelDebugDialog::on_pushButton_7_clicked()
 {
-    data->setAnnouncement(ui->lineEdit_3->text().toStdString());
+    data->setAnnouncement(ui->lineEdit_3->text());
     update();
 }
 
