@@ -15,7 +15,7 @@ void TrainControllerHandler::SetUpSignals()
     QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(ActualSpeed(int,double)), this, SLOT(NewActualSpeed(int,double)));
     //QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(TCEmergencyBrake(int, bool)), this, SLOT(ToggleEmergencyBrake(int, bool))); Emergency brake pull from user
     QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(Authority(int,int)), this, SLOT(NewAuthority(int,int)));
-    QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(BeaconInfo(int,string)), this, SLOT(NewBeaconInfo(int,string)));
+    QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(BeaconInfo(int,QString)), this, SLOT(NewBeaconInfo(int,QString)));
 //    QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(FailureMode(int,string)), this, SLOT(FailureMode(int,string)));
     // Future might have service brake to check for failure mode
 
@@ -28,7 +28,7 @@ void TrainControllerHandler::SetUpSignals()
     QObject::connect(this, SIGNAL(CabinTemp(int,double)), &TrainControllerSignalHandler::Get(), SLOT(CabinTemp(int,double)));
     QObject::connect(this, SIGNAL(LeftDoor(int,bool)), &TrainControllerSignalHandler::Get(), SLOT(LeftDoor(int,bool)));
     QObject::connect(this, SIGNAL(RightDoor(int,bool)), &TrainControllerSignalHandler::Get(), SLOT(RightDoor(int,bool)));\
-    QObject::connect(this, SIGNAL(Announcement(int,string)), &TrainControllerSignalHandler::Get(), SLOT(Announcement(int,string)));
+    QObject::connect(this, SIGNAL(Announcement(int,QString)), &TrainControllerSignalHandler::Get(), SLOT(Announcement(int,QString)));
 }
 
 void TrainControllerHandler::NewTrainController(int id)
@@ -284,7 +284,7 @@ void TrainControllerHandler::NewAuthority(int index, int a)
         emit GuiTestUpdate(trains[index]);
 }
 
-void TrainControllerHandler::FailureMode(int index, string failure)
+void TrainControllerHandler::FailureMode(int index, QString failure)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
         return;
@@ -302,9 +302,10 @@ void TrainControllerHandler::FailureMode(int index, string failure)
         emit GuiTestUpdate(trains[index]);
 }
 
-void TrainControllerHandler::NewBeaconInfo(int index, string info)
+void TrainControllerHandler::NewBeaconInfo(int index, QString info)
 {
-    cout << index << info;
+    //cout << index << info;
+    trains[index].GrabBeaconInfo(info);
 }
 
 void TrainControllerHandler::ArrivedAtStation(int index)
@@ -325,8 +326,9 @@ void TrainControllerHandler::ArrivedAtStation(int index)
     }
 }
 
-void TrainControllerHandler::ManualMode(int index, string password)
+void TrainControllerHandler::ManualMode(int index, QString password)
 {
-    cout << index << password;
+    //cout << index << password;
+    trains[index].manual_mode = !trains[index].manual_mode;
 }
 
