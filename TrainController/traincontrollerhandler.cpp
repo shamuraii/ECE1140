@@ -4,31 +4,34 @@ TrainControllerHandler::TrainControllerHandler(QObject *parent) : QObject(parent
 {
     current_gui_index = -1;
     SetUpSignals();
+    NewTrainController(1);
 }
 
 void TrainControllerHandler::SetUpSignals()
 {
+    TrainControllerSignalHandler *tcsh = &TrainControllerSignalHandler::Get();
+
     // Test gui and handler signal connection
     //Signals from train model
-    QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(TrainController(int)), this, SLOT(NewTrainController(int)));
-    QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(CommandedSpeed(int,double)), this, SLOT(NewCommandedSpeed(int,double)));
-    QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(ActualSpeed(int,double)), this, SLOT(NewActualSpeed(int,double)));
-    //QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(TCEmergencyBrake(int, bool)), this, SLOT(ToggleEmergencyBrake(int, bool))); Emergency brake pull from user
-    QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(Authority(int,int)), this, SLOT(NewAuthority(int,int)));
-    QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(BeaconInfo(int,QString)), this, SLOT(NewBeaconInfo(int,QString)));
-//    QObject::connect(&TrainControllerSignalHandler::Get(), SIGNAL(FailureMode(int,string)), this, SLOT(FailureMode(int,string)));
+    QObject::connect(tcsh, &TrainControllerSignalHandler::TrainController, this, &TrainControllerHandler::NewTrainController);
+    QObject::connect(tcsh, &TrainControllerSignalHandler::CommandedSpeed, this, &TrainControllerHandler::NewCommandedSpeed);
+    QObject::connect(tcsh, &TrainControllerSignalHandler::ActualSpeed, this, &TrainControllerHandler::NewActualSpeed);
+    //QObject::connect(tcsh, &TrainControllerSignalHandler::TCEmergencyBrake, this, &TrainControllerHandler::ToggleEmergencyBrake); Emergency brake pull from user
+    QObject::connect(tcsh, &TrainControllerSignalHandler::Authority, this, &TrainControllerHandler::NewAuthority);
+    QObject::connect(tcsh, &TrainControllerSignalHandler::BeaconInfo, this, &TrainControllerHandler::NewBeaconInfo);
+//    QObject::connect(tcsh, &TrainControllerSignalHandler::FailureMode, this, &TrainControllerHandler::FailureMode);
     // Future might have service brake to check for failure mode
 
     // Signals to train model
-    QObject::connect(this, SIGNAL(ServiceBrake(int,bool)), &TrainControllerSignalHandler::Get(), SLOT(ServiceBrake(int,bool)));
-    QObject::connect(this, SIGNAL(EmergencyBrake(int,bool)), &TrainControllerSignalHandler::Get(), SLOT(EmergencyBrake(int,bool)));
-    QObject::connect(this, SIGNAL(SendPower(int,double)), &TrainControllerSignalHandler::Get(), SLOT(SendPower(int,double)));
-    QObject::connect(this, SIGNAL(Headlights(int,bool)), &TrainControllerSignalHandler::Get(), SLOT(Headlights(int,bool)));
-    QObject::connect(this, SIGNAL(CabinLights(int,bool)), &TrainControllerSignalHandler::Get(), SLOT(CabinLights(int,bool)));
-    QObject::connect(this, SIGNAL(CabinTemp(int,double)), &TrainControllerSignalHandler::Get(), SLOT(CabinTemp(int,double)));
-    QObject::connect(this, SIGNAL(LeftDoor(int,bool)), &TrainControllerSignalHandler::Get(), SLOT(LeftDoor(int,bool)));
-    QObject::connect(this, SIGNAL(RightDoor(int,bool)), &TrainControllerSignalHandler::Get(), SLOT(RightDoor(int,bool)));\
-    QObject::connect(this, SIGNAL(Announcement(int,QString)), &TrainControllerSignalHandler::Get(), SLOT(Announcement(int,QString)));
+    QObject::connect(this, &TrainControllerHandler::ServiceBrake, tcsh, &TrainControllerSignalHandler::ServiceBrake);
+    QObject::connect(this, &TrainControllerHandler::EmergencyBrake, tcsh, &TrainControllerSignalHandler::EmergencyBrake);
+    QObject::connect(this, &TrainControllerHandler::SendPower, tcsh, &TrainControllerSignalHandler::SendPower);
+    QObject::connect(this, &TrainControllerHandler::Headlights, tcsh, &TrainControllerSignalHandler::Headlights);
+    QObject::connect(this, &TrainControllerHandler::CabinLights, tcsh, &TrainControllerSignalHandler::CabinLights);
+    QObject::connect(this, &TrainControllerHandler::CabinTemp, tcsh, &TrainControllerSignalHandler::CabinTemp);
+    QObject::connect(this, &TrainControllerHandler::LeftDoor, tcsh, &TrainControllerSignalHandler::LeftDoor);
+    QObject::connect(this, &TrainControllerHandler::RightDoor, tcsh, &TrainControllerSignalHandler::RightDoor);
+    QObject::connect(this, &TrainControllerHandler::Announcement, tcsh, &TrainControllerSignalHandler::Announcement);
 }
 
 void TrainControllerHandler::NewTrainController(int id)

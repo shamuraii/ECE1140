@@ -7,6 +7,7 @@ TestUi::TestUi(QWidget *parent) :
 {
     ui->setupUi(this);
     num_trains = 0;
+    on_new_train_button_clicked();
 }
 
 TestUi::~TestUi()
