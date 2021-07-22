@@ -52,7 +52,7 @@ Simulation::Simulation(QWidget *parent) :
    }
 
     QStringList blockData;
-    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
+    QFile file("C:\\Users\\Jeff\\Documents\\ECE1140\\Project Repo\\c3\\TrackModel\\redline_TrackDetails.csv");
 
     int lineCount = 76;
 
@@ -122,7 +122,7 @@ void Simulation::station_clicked(){
     QString s, t, tr, b, d;
     int station_num;
     QStringList stationData;
-    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
+    QFile file("C:\\Users\\Jeff\\Documents\\ECE1140\\Project Repo\\c3\\TrackModel\\redline_TrackDetails.csv");
 
     station_num = button->text().toInt();
 
@@ -165,7 +165,7 @@ void Simulation::block_clicked(){
     QString g, e, l, s, d;
     int block_num;
     QStringList blockData;
-    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
+    QFile file("C:\\Users\\Jeff\\Documents\\ECE1140\\Project Repo\\c3\\TrackModel\\redline_TrackDetails.csv");
 
     block_num = button->text().toInt();
 
