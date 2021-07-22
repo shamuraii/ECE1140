@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
     track_select = new TrackSelect(this);
     upload_track = new UploadTrack(this);
     help = new HelpMenu(this);
-    tmsh = new TrackModelSH(this);
 
     connect(track_select->simulation->fail_mode_selec, &FailureModeSelector::new_failure,
             debugger, &Debugger::updateFail);

@@ -49,11 +49,11 @@ public slots:
     //From Track Controller
     void getAuthority(std::vector<bool>);
     void getCommandedSpeed(std::vector<int>);
-    void getSwitchPosition(int switchBlock, int pointingTo);
+    //void getSwitchPosition(int switchBlock, int pointingTo);
     //void getLightStatus();
 
     //internal
-    void getTrainNum(int);
+    //void getTrainNum(int);
     void updateBlockInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
     void getCurrentBlockNum(int curr, int prev);
 
