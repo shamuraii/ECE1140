@@ -1,4 +1,4 @@
-﻿block,length,grade,speed,elevation,direction
+block,length,grade,speed,elevation,direction
 1,50,0.5,40,0.25,
 2,50,1,40,0.5,
 3,50,1.5,40,0.75,
