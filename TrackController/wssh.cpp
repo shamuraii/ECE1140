@@ -1,11 +1,14 @@
 #include "wssh.h"
 #include <iostream>
 #include <vector>
+#include <QDebug>
 
 
 //slots from CTC
 void wssh::SetSugAuthority(std::vector<bool> sug_authority, bool l) {
-    emit Get().ShareAuthority(sug_authority);
+    qDebug() << "WC entered SetSugAuth";
+
+    emit ShareAuthority(sug_authority);
     int size = sug_authority.size();
     for(int i=0; i<size; i++) {
         if(l == 0) {
@@ -23,7 +26,9 @@ void wssh::SetSugAuthority(std::vector<bool> sug_authority, bool l) {
 }
 
 void wssh::SetSugSpeed(std::vector<int> suggested_speed, bool l) {
-    emit Get().ShareCommSpeed(suggested_speed);
+    qDebug() << "WC entered SetSugSpeed";
+
+    emit ShareCommSpeed(suggested_speed);
     int size = suggested_speed.size();
     for(int i=0; i<size; i++) {
         if(l == 0) {

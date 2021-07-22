@@ -1,16 +1,20 @@
 #include "trackmodelsh.h"
 
+#include <QDebug>
+
 
 void TrackModelSH::getDistanceTraveled(int trainNum, double distance){
     emit sendDistanceTraveled(trainNum, distance);
 }
 
 void TrackModelSH::getAuthority(std::vector<bool> auth){
+    qDebug() << "TrackM entered getAuthority";
     //get the authority at block
     //emit sendAuthority(1, auth);
 }
 
 void TrackModelSH::getCommandedSpeed(std::vector<int> comSpeed){
+    qDebug() << "TrackM entered getCommandedSpeed";
     //get where train is
    // emit sendCommandedSpeed();
 }
