@@ -5,7 +5,7 @@
 #include <QGraphicsEllipseItem>
 
 #include <iostream>
-#include "trainmodeldatabase.h"
+#include <trainmodeldatabase.h>
 
 TrainModelGUI::TrainModelGUI(QWidget *parent)
     : QMainWindow(parent)
@@ -15,15 +15,17 @@ TrainModelGUI::TrainModelGUI(QWidget *parent)
     int id = TrainModelDatabase::createTrain();
     data = TrainModelDatabase::getTrainByID(id);
 
+    //TODO add setTrain to movement and beacon dialogs
     failureDialog.setTrain(data);
+    moveDialog.setTrain(data);
+    debugDialog.setTrain(data);
 
-    //Home updates dialogs
-    QObject::connect(this, &TrainModelGUI::GUIChanged, &failureDialog, &TrainModelFailureDialog::update);
-    //QObject::connect(this, &TrainModelGUI::GUIChanged, &moveDialog, &TrainModelMovementDialog::update);
-    //QObject::connect(this, &TrainModelGUI::GUIChanged, &beaconDialog, &TrainModelBeaconDialog::update);
+    //GUI listens to data
+    QObject::connect(data, &TrainModelData::dataChanged, &failureDialog, &TrainModelFailureDialog::update);
+    QObject::connect(data, &TrainModelData::dataChanged, &moveDialog, &TrainModelMovementDialog::update);
+    //QObject::connect(data, &TrainModelData::dataChanged, &beaconDialog, &TrainModelBeaconDialog::update);
+    QObject::connect(data, &TrainModelData::dataChanged, this, &TrainModelGUI::updateGUI);
 
-    //Dialogs update home
-    QObject::connect(&debugDialog, &TrainModelDebugDialog::dataChanged, this, &TrainModelGUI::updateGUI);
     ui->setupUi(this);
     drawTrain();
     updateGUI();
@@ -114,7 +116,7 @@ void TrainModelGUI::drawTrain()
 
 void TrainModelGUI::on_pushButton_clicked()
 {
-    //moveDialog.show();
+    moveDialog.show();
 }
 
 
@@ -146,7 +148,7 @@ void TrainModelGUI::updateGUI()
     ui->label_6->setText((data->getHeadlights()) ? "Headlights: On" : "Headlights: Off");
     QString s = "Cabin Temp: " + QString::number(data->getCabinTemp()) + " F";
     ui->label_12->setText(s);
-    ui->label_4->setText("Announcement: " + QString::fromStdString(data->getAnnouncement()));
+    ui->label_4->setText("Announcement: " + data->getAnnouncement());
     ui->label_7->setText("Length: " + QString::number(data->getLength()) + " ft");
     ui->label_8->setText("Height: " + QString::number(data->getHeight()) + " ft");
     ui->label_11->setText("Mass: " + QString::number(data->getMass()) + " lbs");

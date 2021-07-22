@@ -2,9 +2,11 @@
 #define TRAINMODELDATA_H
 
 #include <string>
+#include <QObject>
 
-class TrainModelData
+class TrainModelData : public QObject
 {
+    Q_OBJECT
 public:
     TrainModelData();
 
@@ -29,7 +31,7 @@ public:
     bool getLeftDoors();
     bool getRightDoors();
     unsigned int getCabinTemp();
-    std::string getAnnouncement();
+    QString getAnnouncement();
     unsigned int getLength();
     unsigned int getHeight();
     unsigned int getMass();
@@ -52,7 +54,7 @@ public:
     void setLeftDoors(const bool&);
     void setRightDoors(const bool&);
     void setCabinTemp(const unsigned int&);
-    void setAnnouncement(const std::string&);
+    void setAnnouncement(const QString&);
     void setLength(const unsigned int&);
     void setHeight(const unsigned int&);
     void setMass(const unsigned int&);
@@ -68,6 +70,9 @@ public:
     void setDecelLimit(const unsigned int&);
     void setActualSpeed(const float&);
     void setID(const int&);
+
+signals:
+    void dataChanged();
 
 private:
     //Brakes and fail states
@@ -87,7 +92,7 @@ private:
     bool left_doors, right_doors, lights, headlights, cabin_lights;
 
     //Misc
-    std::string current_announcement;
+    QString current_announcement;
 };
 
 #endif // TRAINMODELDATA_H

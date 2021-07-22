@@ -17,6 +17,8 @@ public:
     explicit TrainModelMovementDialog(QWidget *parent = nullptr, TrainModelData* d = nullptr);
     ~TrainModelMovementDialog();
 
+    void setTrain(TrainModelData*);
+
 public slots:
     void update();
 

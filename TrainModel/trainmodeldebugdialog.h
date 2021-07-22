@@ -16,6 +16,8 @@ public:
     explicit TrainModelDebugDialog(QWidget *parent = nullptr, TrainModelData* d = nullptr);
     ~TrainModelDebugDialog();
 
+    void setTrain(TrainModelData*);
+
 private:
     Ui::TrainModelDebugDialog *ui;
     TrainModelData* data;
