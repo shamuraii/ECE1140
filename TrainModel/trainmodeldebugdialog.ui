@@ -126,13 +126,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_14">
-       <property name="text">
-        <string>Toggle Door Side</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
         <widget class="QLineEdit" name="lineEdit_4"/>
@@ -154,35 +147,7 @@
        <item>
         <widget class="QPushButton" name="pushButton_11">
          <property name="text">
-          <string>Set Speed Limit</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
-       <item>
-        <widget class="QLineEdit" name="lineEdit_6"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_12">
-         <property name="text">
-          <string>Set Station Name</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QLineEdit" name="lineEdit_7"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_13">
-         <property name="text">
-          <string>Set Last Station Name</string>
+          <string>Set Beacon Info</string>
          </property>
         </widget>
        </item>
@@ -260,34 +225,6 @@
         <widget class="QPushButton" name="pushButton_19">
          <property name="text">
           <string>Set # of Crew</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_13">
-       <item>
-        <widget class="QLineEdit" name="lineEdit_13"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_20">
-         <property name="text">
-          <string>Set Accel Limit</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_14">
-       <item>
-        <widget class="QLineEdit" name="lineEdit_14"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_21">
-         <property name="text">
-          <string>Set Decel Limit</string>
          </property>
         </widget>
        </item>

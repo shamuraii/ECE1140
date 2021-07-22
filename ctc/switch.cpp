@@ -1,6 +1,8 @@
 #include "switch.h"
 #include "ctc_signal_handler.h"
 
+using namespace ctc;
+
 Switch::Switch(int lower, int upper)
     : QObject(nullptr),
       lower_(lower),

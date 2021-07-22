@@ -4,7 +4,9 @@
 #include <QDialog>
 
 #include "trackline.h"
-#include "train.h"
+#include "ctrain.h"
+
+using namespace ctc;
 
 namespace Ui {
 class CtcRouteDialog;
@@ -15,7 +17,7 @@ class CtcRouteDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CtcRouteDialog(Train *train, QWidget *parent = nullptr);
+    explicit CtcRouteDialog(CTrain *train, QWidget *parent = nullptr);
     ~CtcRouteDialog();
 
 private slots:
@@ -27,7 +29,7 @@ private slots:
 
 private:
     Ui::CtcRouteDialog *ui;
-    Train *train_;
+    CTrain *train_;
     TrackLine *line_;
 };
 

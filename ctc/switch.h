@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+namespace ctc {
+
 class Switch : public QObject
 {
     Q_OBJECT
@@ -30,5 +32,6 @@ signals:
     void StateChanged(int pointing_to, bool line);
     void MaintChanged(int switch_num, bool mode, bool line);
 };
+}
 
 #endif // SWITCH_H

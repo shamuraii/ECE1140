@@ -5,6 +5,8 @@
 #include <vector>
 #include <set>
 
+namespace ctc {
+
 class Block : public QObject
 {
     Q_OBJECT
@@ -42,11 +44,12 @@ public:
     void SetOccupied(bool occupied);
     void SetAuth(bool auth);
     void SetSpeed(int speed);
+    void SetInfo(int speed_limit, int length);
     void AddConnection(int conn_block_num);
 
 signals:
     void MaintChanged(int block_num, bool maint_mode, bool line);
 
 };
-
+}
 #endif // BLOCK_H

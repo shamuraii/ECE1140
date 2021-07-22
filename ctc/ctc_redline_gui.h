@@ -7,6 +7,8 @@
 #include "ctc_schedule_dialog.h"
 #include "trackline.h"
 
+using namespace ctc;
+
 namespace Ui {
 class CtcRedLineGui;
 }

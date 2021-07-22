@@ -4,6 +4,7 @@
 #include <QObject>
 #include <string>
 #include <iostream>
+#include <QDebug>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ public slots:
     //void ToggleServiceBrake(int,bool); // Might use for failure
     void NewAuthority(int,int);
     //void FailureMode(int,string);
-    void NewBeaconInfo(int,string); // Talk with group
+    void NewBeaconInfo(int,QString); // Talk with group
 
     // Internal signals from train controller
     void ServiceBrake(int,bool);
@@ -40,7 +41,7 @@ public slots:
     void Headlights(int,bool);
     void CabinLights(int,bool);
     void CabinTemp(int,double);
-    void Announcement(int,string);
+    void Announcement(int,QString);
     void LeftDoor(int,bool);
     void RightDoor(int,bool);
     void EmergencyBrake(int,bool);
@@ -52,7 +53,7 @@ signals:
     void NewHeadlights(int,bool);
     void NewCabinLights(int,bool);
     void NewCabinTemp(int,double);
-    void NewAnnouncement(int,string);
+    void NewAnnouncement(int,QString);
     void NewLeftDoor(int,bool); // True open false close
     void NewRightDoor(int,bool);
     void NewEmergencyBrake(int,bool);
@@ -64,7 +65,7 @@ signals:
     void TCEmergencyBrake(int,bool);
     // void ServiceBrake(int,bool); for failure mode
     void Authority(int,int);
-    void BeaconInfo(int,string);
+    void BeaconInfo(int,QString);
 
 };
 

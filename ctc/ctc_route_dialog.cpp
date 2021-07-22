@@ -3,10 +3,10 @@
 #include "ctc_route_dialog.h"
 #include "ui_ctc_route_dialog.h"
 #include "station.h"
-#include "train.h"
+#include "ctrain.h"
 #include "trackline.h"
 
-CtcRouteDialog::CtcRouteDialog(Train *train, QWidget *parent) :
+CtcRouteDialog::CtcRouteDialog(CTrain *train, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CtcRouteDialog)
 {

@@ -21,6 +21,7 @@ TrackSelect::~TrackSelect()
 void TrackSelect::on_pushButton_2_clicked()
 {
     simulation->show();
+    simulation->emitTrackInfo();
 }
 void TrackSelect::FillTable() {
     QTableWidget *table = ui->track_table;

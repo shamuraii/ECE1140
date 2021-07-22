@@ -26,7 +26,7 @@ public slots:
     void Headlights(int,bool);
     void CabinLights(int,bool);
     void CabinTemp(int,double);
-    void Announcement(int,string);
+    void Announcement(int,QString);
     void LeftDoor(int,bool);
     void RightDoor(int,bool);
     void UpdateTest(TrainController);
@@ -39,7 +39,7 @@ signals:
     void ToggleEmergencyBrake(int);
     void UpdateTestGui(int);
     void NewAuthority(int,int);
-    void FailureMode(int, string);
+    void FailureMode(int, QString);
 
 private slots:
     void on_new_train_button_clicked();

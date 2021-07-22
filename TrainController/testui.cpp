@@ -7,6 +7,7 @@ TestUi::TestUi(QWidget *parent) :
 {
     ui->setupUi(this);
     num_trains = 0;
+    on_new_train_button_clicked();
 }
 
 TestUi::~TestUi()
@@ -115,13 +116,13 @@ void TestUi::CabinTemp(int index, double temp)
         ui->cabin_temp_value->setText(QString::number(temp));
 }
 
-void TestUi::Announcement(int index, string station)
+void TestUi::Announcement(int index, QString station)
 {
     if (num_trains == 0)
         return;
 
     if (ui->train_index->currentIndex() == index)
-        ui->announcement_status->setText(QString::fromStdString("Arriving at " + station));
+        ui->announcement_status->setText("Arriving at " + station);
 }
 
 void TestUi::LeftDoor(int index, bool door_status)

@@ -11,6 +11,8 @@
 #include "ctc_debugger.h"
 #include "trainnetwork.h"
 
+using namespace ctc;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class CtcGUI; }
 QT_END_NAMESPACE

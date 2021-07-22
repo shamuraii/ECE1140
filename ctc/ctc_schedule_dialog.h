@@ -5,6 +5,8 @@
 
 #include "trackline.h"
 
+using namespace ctc;
+
 namespace Ui {
 class CtcScheduleDialog;
 }

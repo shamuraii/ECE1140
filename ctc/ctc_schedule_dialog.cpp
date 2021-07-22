@@ -8,7 +8,7 @@
 #include "block.h"
 #include "station.h"
 #include "trackline.h"
-#include "train.h"
+#include "ctrain.h"
 #include "trainnetwork.h"
 
 CtcScheduleDialog::CtcScheduleDialog(TrackLine *line, QWidget *parent) :
@@ -43,7 +43,7 @@ void CtcScheduleDialog::on_schedule_button_clicked()
 
     Station *destination = line_->GetStation(ui->dest_cbox->currentText());
 
-    Train *new_train = new Train(destination,
+    CTrain *new_train = new CTrain(destination,
                                  departure_time,
                                  line_);
     network->AddTrain(new_train);

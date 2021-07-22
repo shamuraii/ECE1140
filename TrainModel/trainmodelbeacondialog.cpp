@@ -17,7 +17,7 @@ TrainModelBeaconDialog::~TrainModelBeaconDialog()
 
 void TrainModelBeaconDialog::update()
 {
-    ui->label->setText("Current: " + QString::fromStdString(data->getCurrentStation()));
+    ui->label->setText("Current: " + data->getCurrentStation());
     ui->label_2->setText("Previous: " + QString::fromStdString(data->getLastStation()));
     ui->label_3->setText((data->getDoorSide()) ? "Door Side: Left" : "Door Side: Right");
 }

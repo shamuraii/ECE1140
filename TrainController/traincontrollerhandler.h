@@ -30,10 +30,10 @@ public slots:
     void ToggleEmergencyBrake(int);
     void UpdateTestGui(int);
     void NewAuthority(int,int);
-    void FailureMode(int, string);
-    void NewBeaconInfo(int,string);
+    void FailureMode(int, QString);
+    void NewBeaconInfo(int,QString);
     void ArrivedAtStation(int);
-    void ManualMode(int,string);
+    void ManualMode(int,QString);
 
 private:
     int current_gui_index;
@@ -41,6 +41,7 @@ private:
     vector<TrainController> trains;
 
     void SetUpSignals();
+    double ConvertKMPHToMS(double);
 
 signals:
     void GuiUpdate(TrainController);
@@ -50,7 +51,7 @@ signals:
     void Headlights(int,bool);
     void CabinLights(int,bool);
     void CabinTemp(int,double);
-    void Announcement(int,string);
+    void Announcement(int,QString);
     void LeftDoor(int,bool);
     void RightDoor(int,bool);
     void GuiTestUpdate(TrainController);
