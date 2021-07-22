@@ -31,7 +31,10 @@ signals:
     void trainStopped(int train_num);
 public:
     //Singleton functions
-    static TrackModelInterface& getInstance();
+    static TrackModelInterface& getInstance() {
+        static TrackModelInterface instance;
+        return instance;
+    };
     TrackModelInterface(const TrackModelInterface&) = delete;
     void operator=(const TrackModelInterface&) = delete;
 
