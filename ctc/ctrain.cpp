@@ -12,6 +12,7 @@ CTrain::CTrain(Station *destination, QTime departure_time, TrackLine *line)
       line_(line)
 {
     stops_ = line_->GetStopListFromDestination(destination_);
+    stopped_ = false;
 
     std::vector<int> stop_blocks;
     stop_blocks.push_back(Block::kYardNum);
@@ -100,19 +101,37 @@ int CTrain::GetSugAuth() const {
 }
 
 void CTrain::UpdateOutputs() {
-    GetLocation()->SetAuth(1);
-    GetNextBlock()->SetAuth(1);
-
+    if (stopped_) {
+        GetLocation()->SetAuth(1);
+    } else {
+        for (Station *s : line_->GetStations()) {
+            if (s->GetBlockNum() == GetLocation()->GetNum()) {
+                GetLocation()->SetAuth(0);
+            }
+        }
+    }
     GetLocation()->SetSpeed(GetLocation()->GetSpeedLimit());
     GetNextBlock()->SetSpeed(GetNextBlock()->GetSpeedLimit());
+
+    GetNextBlock()->SetAuth(1);
+    for (Station *s : line_->GetStations()) {
+        if (s->GetBlockNum() == GetNextBlock()->GetNum()) {
+            GetNextBlock()->SetAuth(0);
+        }
+    }
 }
 
 void CTrain::SetLocation(Block *new_location) {
     location_ = new_location;
+    stopped_ = false;
 }
 
 void CTrain::SetNum(int num) {
     num_ = num;
+}
+
+void CTrain::TrainStopped() {
+    stopped_ = true;
 }
 
 void CTrain::RecalculateRoute(int num) {

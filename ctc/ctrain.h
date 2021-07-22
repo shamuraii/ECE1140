@@ -24,6 +24,7 @@ private:
     std::vector<Station*> stops_;
     std::vector<Block*> route_;
     int route_index_;
+    bool stopped_;
 
     void CalculateEstimatedArrival();
 
@@ -46,6 +47,8 @@ public:
     int GetSugAuth() const;
 
     void SetNum(int num);
+    void TrainStopped();
+
 public slots:
     void SetLocation(Block *new_location);
     void UpdateOutputs();

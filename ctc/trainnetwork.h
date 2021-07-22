@@ -32,11 +32,15 @@ public:
 
 
 public slots:
+    // From debugger
     void TrainMoved(Block *old_loc, Block *new_loc);
-    void UpdateOutputs();
 
+    // From CtcSH
+    void UpdateOutputs();
     void SwitchMoved(int pointing_to, bool line);
     void UpdateOccupancy(std::vector<bool> occupancy, bool line);
+    void TrainStopped(int train_num);
+    void SetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
 
 signals:
     void OutputsUpdated(std::vector<bool> out_auth, std::vector<int> out_speed, bool line);

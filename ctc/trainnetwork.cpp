@@ -17,6 +17,7 @@ TrainNetwork::TrainNetwork() : QObject(nullptr)
     connect(&CtcSH::Get(), &CtcSH::UpdateOutputs, this, &TrainNetwork::UpdateOutputs);
     connect(&CtcSH::Get(), &CtcSH::NewSwitchPos, this, &TrainNetwork::SwitchMoved);
     connect(&CtcSH::Get(), &CtcSH::NewOccupancies, this, &TrainNetwork::UpdateOccupancy);
+    connect(&CtcSH::Get(), &CtcSH::NewTrackInfo, this, &TrainNetwork::SetTrackInfo);
 }
 
 std::vector<CTrain*> TrainNetwork::GetTrains() {
@@ -99,6 +100,7 @@ void TrainNetwork::SwitchMoved(int pointing_to, bool line) {
                 s->UpdateState(pointing_to, line);
         }
     }
+    // TODO: green line
 }
 
 void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
@@ -121,4 +123,20 @@ void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
             }
         }
     }
+}
+
+void TrainNetwork::TrainStopped(int train_num) {
+    CTrain *t = GetTrain(train_num);
+    t->TrainStopped();
+}
+
+void TrainNetwork::SetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {
+    if (line == kRedBool) {
+        TrackLine *l = GetTrackLine(kRedlineName);
+        std::vector<Block*> blocks = l->GetBlocks();
+        for (size_t i=0; i < speed_limits.size(); i++) {
+            blocks[i+1]->SetInfo(speed_limits[i], lengths[i]);
+        }
+    }
+    // TODO: green line
 }
