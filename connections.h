@@ -5,6 +5,7 @@
 #include <QTimer>
 
 #include "ctc/ctc_signal_handler.h"
+#include "TrackController/wssh.h"
 #include "TrackModel/trackmodelsh.h"
 #include "TrainModel/controllerinterface.h"
 #include "TrainModel/trackmodelinterface.h"
@@ -12,7 +13,7 @@
 
 void ConnectSystem() {
     CtcSH *ctc = &CtcSH::Get();
-    //wayside stuff
+    wssh *ws = &wssh::Get();
     TrackModelSH *tmsh = &TrackModelSH::Get();
     TrackModelInterface *tmi = &TrackModelInterface::getInstance();
     ControllerInterface *ci = &ControllerInterface::getInstance();
@@ -26,6 +27,14 @@ void ConnectSystem() {
     //QObject::connect(tmsh, &TrackModelSH::sendPtimerTicked, tcsh, &TrainControllerSignalHandler::);
 
     // CTC - Wayside
+    QObject::connect(ctc, &CtcSH::ShareSugAuthority, ws, &wssh::SetSugAuthority);
+    QObject::connect(ctc, &CtcSH::ShareSugSpeed, ws, &wssh::SetSugSpeed);
+    QObject::connect(ctc, &CtcSH::ShareBlockMaintenance, ws, &wssh::SetBlockMaintenance);
+    //QObject::connect(ctc, &CtcSH::ShareSwitchMaintenance, ws, &wssh::SetSwitchMaintenance);
+    //QObject::connect(ctc, &CtcSH::ShareSwitchPosition, ws, &wssh::SetSwitchPosition);
+
+    QObject::connect(ws, &wssh::ShareSwitchPosition, ctc, &CtcSH::GetSwitchPosition);
+    QObject::connect(ws, &wssh::ShareTrainPresence, ctc, &CtcSH::GetTrainLocation);
 
     // CTC - Track Model
     QObject::connect(tmsh, &TrackModelSH::sendTrackInfo, ctc, &CtcSH::GetTrackInfo);
@@ -35,6 +44,12 @@ void ConnectSystem() {
     QObject::connect(tmi, &TrackModelInterface::trainStopped, ctc, &CtcSH::GetTrainStopped);
 
     // Wayside - Track Model
+    QObject::connect(ws, &wssh::ShareAuthority, tmsh, &TrackModelSH::getAuthority);
+    QObject::connect(ws, &wssh::ShareCommSpeed, tmsh, &TrackModelSH::getCommandedSpeed);
+    //QObject::connect(ws, &wssh::ShareSwitchPosTM, tmsh, &TrackModelSH::getSwitchPosition);
+
+    QObject::connect(tmsh, &TrackModelSH::sendCurrentBlockNum, ws, &wssh::SetTrainPresence);
+    //QObject::connect(tmsh, &TrackModelSH::sendBrokenRail, ws, &wssh::SetBrokenRail);
 
     // Track Model - Train Model
     QObject::connect(tmsh, &TrackModelSH::sendAuthority, tmi, &TrackModelInterface::setAuthority);

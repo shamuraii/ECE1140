@@ -34,7 +34,7 @@ signals:
     //to Track Model
     void ShareCommSpeed(std::vector<int> commanded_speed);
     void ShareAuthority(std::vector<bool> authority);
-    void ShareSwitchPosition(int sw_base, int pointing_to);
+    void ShareSwitchPosTM(int sw_base, int pointing_to, bool line);
         //light state?
 };
 
