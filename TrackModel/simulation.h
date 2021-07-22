@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QObject>
 #include <memory>
+#include <vector>
 
 #include "failuremodeselector.h"
 #include "trackdetails.h"
@@ -31,15 +32,28 @@ public:
     std::shared_ptr<QTimer> timer;
     std::shared_ptr<QTimer> ptimer;
 
+    void setLength(int);
+    std::vector<int> getLength();
+    void setSpeed(int);
+    std::vector<int> getSpeed();
+    void setLine(bool line);
+    bool getLine();
+    void setGrade(double);
+    std::vector<double> getGrades();
+    void setElevation(double);
+    std::vector<double> getElevation();
+
 
     void station_clicked();
     void beacon_clicked();
     void block_clicked();
     void switch_clicked();
+    void emitTrackInfo();
 
 signals:
     void new_block(QString g, QString e, QString l, QString s, QString d);
     void new_station(QString s, QString t, QString tr, QString b, QString d);
+    void sendBlockInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
 
 private slots:
     void on_failSelectButton_clicked();
@@ -50,6 +64,11 @@ private slots:
 
 private:
     Ui::Simulation *ui;
+    std::vector<int> speed_limits;
+    std::vector<int> lengths;
+    bool line;
+    std::vector<double> grade;
+    std::vector<double> elevation;
 
 protected:
     void timerEvent(QTimerEvent *event);

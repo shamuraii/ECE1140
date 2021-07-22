@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <sstream>
 #include <QObject>
+#include <vector>
 
 
 Simulation::Simulation(QWidget *parent) :
@@ -29,6 +30,7 @@ Simulation::Simulation(QWidget *parent) :
     QObject::connect(timer.get(), &QTimer::timeout, &TrackModelSH::Get(), &TrackModelSH::getTimerTicked);
     QObject::connect(ptimer.get(), &QTimer::timeout, &TrackModelSH::Get(), &TrackModelSH::getPTimerTicked);
 
+
     QList<QPushButton*> buttons = ui->centralwidget->findChildren<QPushButton*>(QString(), Qt::FindDirectChildrenOnly);
     for (QPushButton* button : buttons) {
        QString button_name = button->objectName();
@@ -48,11 +50,46 @@ Simulation::Simulation(QWidget *parent) :
            //connect(button, &QPushButton::clicked, this, &Simulation::block_clicked);
        }
    }
+
+    QStringList blockData;
+    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
+
+    int lineCount = 76;
+
+    if(!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(0, "error", file.errorString());
+    }
+
+    QTextStream in(&file);
+
+    setLine(0);
+
+    while(!in.atEnd()) {
+        QString line = in.readLine();
+
+        blockData = line.split(",");
+
+        if(blockData.at(0).toInt() > 0 && blockData.at(0).toInt() <= lineCount){
+            setSpeed(blockData.at(3).toInt());
+            setLength(blockData.at(1).toInt());
+            setGrade(blockData.at(2).toInt());
+            setElevation(blockData.at(4).toInt());
+        }
+
+    }
+
+
+    file.close();
+    emitTrackInfo();
 }
 
 Simulation::~Simulation()
 {
     delete ui;
+}
+
+void Simulation::emitTrackInfo(){
+    emit sendBlockInfo(getSpeed(), getLength(), getLine());
 }
 
 void Simulation::on_failSelectButton_clicked()
@@ -150,6 +187,7 @@ void Simulation::block_clicked(){
             s = blockData.at(3);
             d = blockData.at(5);
         }
+
     }
 
 
@@ -163,3 +201,43 @@ void Simulation::switch_clicked(){
 
 }
 
+
+void Simulation::setLength(int l){
+    lengths.push_back(l);
+}
+
+std::vector<int> Simulation::getLength(){
+    return lengths;
+}
+
+void Simulation::setSpeed(int s){
+    speed_limits.push_back(s);
+}
+
+std::vector<int> Simulation::getSpeed(){
+    return speed_limits;
+}
+
+void Simulation::setLine(bool l){
+    line = l;
+}
+
+bool Simulation::getLine(){
+    return line;
+}
+
+void Simulation::setGrade(double g){
+    grade.push_back(g);
+}
+
+std::vector<double> Simulation::getGrades(){
+    return grade;
+}
+
+void Simulation::setElevation(double e){
+    elevation.push_back(e);
+}
+
+std::vector<double> Simulation::getElevation(){
+    return elevation;
+}
