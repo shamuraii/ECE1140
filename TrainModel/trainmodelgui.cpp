@@ -5,7 +5,7 @@
 #include <QGraphicsEllipseItem>
 
 #include <iostream>
-#include <trainmodeldatabase.h>
+#include "trainmodeldatabase.h"
 
 TrainModelGUI::TrainModelGUI(QWidget *parent)
     : QMainWindow(parent)

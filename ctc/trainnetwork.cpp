@@ -3,9 +3,11 @@
 #include "trainnetwork.h"
 #include "ctc_constants.h"
 #include "block.h"
-#include "train.h"
+#include "ctrain.h"
 #include "trackline.h"
 #include "ctc_signal_handler.h"
+
+using namespace ctc;
 
 TrainNetwork::TrainNetwork() : QObject(nullptr)
 {
@@ -17,12 +19,12 @@ TrainNetwork::TrainNetwork() : QObject(nullptr)
     connect(&CtcSH::Get(), &CtcSH::NewOccupancies, this, &TrainNetwork::UpdateOccupancy);
 }
 
-std::vector<Train*> TrainNetwork::GetTrains() {
+std::vector<CTrain*> TrainNetwork::GetTrains() {
     return trains_;
 }
 
-Train *TrainNetwork::GetTrain(int train_num) {
-    for (Train *t : trains_) {
+CTrain *TrainNetwork::GetTrain(int train_num) {
+    for (CTrain *t : trains_) {
         if (t->GetNum() == train_num)
             return t;
     }
@@ -49,16 +51,16 @@ void TrainNetwork::AddLine(TrackLine *new_line) {
     lines_.push_back(new_line);
 }
 
-void TrainNetwork::AddTrain(Train *new_train) {
+void TrainNetwork::AddTrain(CTrain *new_train) {
     new_train->SetNum(NextTrainNum());
     trains_.push_back(new_train);
-    connect(new_train, &Train::UpdatedLocation, this, &TrainNetwork::TrainMoved);
+    connect(new_train, &CTrain::UpdatedLocation, this, &TrainNetwork::TrainMoved);
     emit TrainAdded(new_train->GetNum());
 }
 
 int TrainNetwork::NextTrainNum() const {
     int next = 1;
-    for (Train *t : trains_) {
+    for (CTrain *t : trains_) {
         int temp = t->GetNum();
         if (temp >= next)
             next = temp + 1;
@@ -73,7 +75,7 @@ void TrainNetwork::TrainMoved(Block *old_loc, Block *new_loc) {
 }
 
 void TrainNetwork::UpdateOutputs() {
-    for (Train *t : trains_) {
+    for (CTrain *t : trains_) {
         t->UpdateOutputs();
     }
     TrackLine *line = GetTrackLine(kRedlineName);
@@ -111,7 +113,7 @@ void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
             blocks[i+1]->SetOccupied(now);
 
             if (prev && !now) {
-                for (Train *t : trains_) {
+                for (CTrain *t : trains_) {
                     if (t->GetLocation()->GetNum() == blocks[i+1]->GetNum()) {
                         t->SetLocation(t->GetNextBlock());
                     }

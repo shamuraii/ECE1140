@@ -8,6 +8,8 @@
 #include "station.h"
 #include "switch.h"
 
+namespace ctc {
+
 struct BlockPair {
     int priority;
     int blockNum;
@@ -59,5 +61,6 @@ signals:
     void ThroughputUpdated(int persons);
 
 };
+}
 
 #endif // TRACKLINE_H

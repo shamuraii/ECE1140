@@ -25,6 +25,8 @@ public slots:
     void GetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {};
     void GetLineSales(int sales, bool line) {};
 
+    void GetTrainStopped(int train_num) {};
+
     void TimedEvents();
 
     // Internal

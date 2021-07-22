@@ -1,21 +1,16 @@
 #include "trackmodelinterface.h"
 
-void TrackModelInterface::setAuthority(int, bool)
+void TrackModelInterface::setAuthority(int train_num, bool comm_auth)
 {
 
 }
 
-void TrackModelInterface::setCurrentStation(int, std::string)
+void TrackModelInterface::setBeaconInfo(QString info)
 {
 
 }
 
-void TrackModelInterface::setDoorSide(int, bool)
-{
-
-}
-
-void TrackModelInterface::setCommandedSpeed(int, int)
+void TrackModelInterface::setCommandedSpeed(int train_num, int comm_speed)
 {
 
 }

@@ -3,6 +3,8 @@
 #include "block.h"
 #include "ctc_signal_handler.h"
 
+using namespace ctc;
+
 const int Block::kInfiniteWeight = -1;
 const int Block::kYardNum = 0;
 
