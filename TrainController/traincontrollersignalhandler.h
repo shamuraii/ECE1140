@@ -4,6 +4,7 @@
 #include <QObject>
 #include <string>
 #include <iostream>
+#include <QDebug>
 
 using namespace std;
 

@@ -56,7 +56,7 @@ void TrainControllerHandler::NewCommandedSpeed(int index, double speed)
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
         return;
 
-    trains[index].commanded_speed = speed;
+    trains[index].commanded_speed = ConvertKMPHToMS(speed);
 
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
@@ -84,7 +84,7 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
         return;
 
-    trains[index].actual_speed = speed;
+    trains[index].actual_speed = ConvertKMPHToMS(speed);
     double power = trains[index].CalculatePower();
 
     // Handle train arriving at station
@@ -335,3 +335,7 @@ void TrainControllerHandler::ManualMode(int index, QString password)
     trains[index].manual_mode = !trains[index].manual_mode;
 }
 
+double TrainControllerHandler::ConvertKMPHToMS(double speed)
+{
+    return speed * (5.0/18.0);
+}

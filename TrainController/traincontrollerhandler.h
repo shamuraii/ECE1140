@@ -41,6 +41,7 @@ private:
     vector<TrainController> trains;
 
     void SetUpSignals();
+    double ConvertKMPHToMS(double);
 
 signals:
     void GuiUpdate(TrainController);

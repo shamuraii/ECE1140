@@ -14,8 +14,8 @@ TrainController::TrainController()
     right_door = false;
     cabin_temp = 70;
     actual_speed = 0;
-    kp = 35;
-    ki = 1;
+    kp = 35000;
+    ki = 1000;
     commanded_speed = 0;
     authority = 0;
     open_door = -1;
