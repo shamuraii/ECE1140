@@ -1,5 +1,7 @@
 #include "trainmodeldebugdialog.h"
 #include "ui_trainmodeldebugdialog.h"
+#include "controllerinterface.h"
+#include "trackmodelinterface.h"
 
 TrainModelDebugDialog::TrainModelDebugDialog(QWidget *parent, TrainModelData* d) :
     QDialog(parent),
@@ -34,7 +36,7 @@ void TrainModelDebugDialog::on_pushButton_6_clicked()
     int d = s.toInt(&worked);
     if(worked)
     {
-        data->setCommandedPower(d);
+        ControllerInterface::getInstance().setCommandedPower(data->getID(), d);
         update();
     }
 }
@@ -140,7 +142,7 @@ void TrainModelDebugDialog::on_pushButton_11_clicked()
 //Set current station name
 void TrainModelDebugDialog::on_pushButton_12_clicked()
 {
-    data->setCurrentStation(ui->lineEdit_6->text().toStdString());
+    data->setCurrentStation(ui->lineEdit_6->text());
     update();
 }
 
