@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+//TODO: fundamentally broken for green line, where stations are on 2 blocks
+
 namespace ctc {
 
 class Station : public QObject

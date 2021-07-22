@@ -32,7 +32,7 @@ void TrainControllerSignalHandler::NewAuthority(int index, int auth)
     emit Authority(index, auth);
 }
 
-void TrainControllerSignalHandler::NewBeaconInfo(int index, string info)
+void TrainControllerSignalHandler::NewBeaconInfo(int index, QString info)
 {
     emit BeaconInfo(index, info);
 }
@@ -63,7 +63,7 @@ void TrainControllerSignalHandler::CabinTemp(int index, double temp)
     emit NewCabinTemp(index, temp);
 }
 
-void TrainControllerSignalHandler::Announcement(int index, string info)
+void TrainControllerSignalHandler::Announcement(int index, QString info)
 {
     emit NewAnnouncement(index, info);
 }

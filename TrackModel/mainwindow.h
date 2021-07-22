@@ -7,6 +7,7 @@
 #include "helpmenu.h"
 #include "trackselect.h"
 #include "debugger.h"
+#include "trackmodelsh.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,6 +24,7 @@ public:
     HelpMenu *help;
     TrackSelect *track_select;
     Debugger *debugger;
+    TrackModelSH *tmsh;
 
 private slots:
     void on_pushButton_clicked();

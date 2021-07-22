@@ -85,3 +85,8 @@ void Block::SetSpeed(int speed) {
 void Block::AddConnection(int conn_block_num) {
     connections_.insert(conn_block_num);
 }
+
+void Block::SetInfo(int speed_limit, int length) {
+    speed_limit_ = speed_limit;
+    length_ = length;
+}
