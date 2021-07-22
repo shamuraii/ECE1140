@@ -145,7 +145,7 @@ void TrainModelGUI::keyPressEvent(QKeyEvent *event)
 
 void TrainModelGUI::updateGUI()
 {
-    ui->label->setText("Train #" + QString::number(data->getID()) +  " @ " + QString::fromStdString(data->getCurrentStation()));
+    ui->label->setText("Train #" + QString::number(data->getID()) +  " @ " + data->getCurrentStation());
     ui->label_5->setText((data->getLeftDoors()) ? "Left Doors: Open" : "Left Doors: Closed");
     ui->label_2->setText((data->getRightDoors()) ? "Right Doors: Open" : "Right Doors: Closed");
     ui->label_3->setText((data->getCabinLights()) ? "Cabin Lights: On" : "Cabin Lights: Off");
