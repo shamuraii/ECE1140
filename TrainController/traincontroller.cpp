@@ -22,6 +22,7 @@ TrainController::TrainController()
     power = 0;
     leave_station = false;
     made_announcement = false;
+    station_here = false;
 
     // Variables for Power Loop
     prev_error = 0;
