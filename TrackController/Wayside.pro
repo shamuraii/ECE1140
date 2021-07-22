@@ -15,9 +15,9 @@ SOURCES += \
     block_info3.cpp \
     debug.cpp \
     main.cpp \
-    mainwindow.cpp \
     plc.cpp \
     track_control.cpp \
+    wsmainwindow.cpp \
     wssh.cpp
 
 HEADERS += \
@@ -26,9 +26,9 @@ HEADERS += \
     block_info2.h \
     block_info3.h \
     debug.h \
-    mainwindow.h \
     plc.h \
     track_control.h \
+    wsmainwindow.h \
     wssh.h
 
 FORMS += \

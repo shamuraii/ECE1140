@@ -1,13 +1,13 @@
-#include "mainwindow.h"
+#include "wsmainwindow.h"
 #include "ui_mainwindow.h"
 #include "block_info.h"
 #include "track_control.h"
 #include <QPixmap>
 #include <string>
 
-MainWindow::MainWindow(QWidget *parent)
+WSMainWindow::WSMainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::WSMainWindow)
 {
     ui->setupUi(this);
 
@@ -52,24 +52,24 @@ MainWindow::MainWindow(QWidget *parent)
     ui->train_location->setText(location);
 }
 
-void MainWindow::blockWidgetPopup()
+void WSMainWindow::blockWidgetPopup()
 {
 
 }
 
-MainWindow::~MainWindow()
+WSMainWindow::~WSMainWindow()
 {
     delete ui;
 }
 
-void MainWindow::on_red_a_clicked()
+void WSMainWindow::on_red_a_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
     blockWidget->fillTable("red", 'A');
 }
 
-void MainWindow::on_red_b_clicked()
+void WSMainWindow::on_red_b_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -77,7 +77,7 @@ void MainWindow::on_red_b_clicked()
 }
 
 
-void MainWindow::on_red_c_clicked()
+void WSMainWindow::on_red_c_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -85,7 +85,7 @@ void MainWindow::on_red_c_clicked()
 }
 
 
-void MainWindow::on_red_d_clicked()
+void WSMainWindow::on_red_d_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -93,7 +93,7 @@ void MainWindow::on_red_d_clicked()
 }
 
 
-void MainWindow::on_red_e_clicked()
+void WSMainWindow::on_red_e_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -101,7 +101,7 @@ void MainWindow::on_red_e_clicked()
 }
 
 
-void MainWindow::on_red_f_clicked()
+void WSMainWindow::on_red_f_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -109,7 +109,7 @@ void MainWindow::on_red_f_clicked()
 }
 
 
-void MainWindow::on_red_g_clicked()
+void WSMainWindow::on_red_g_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -117,7 +117,7 @@ void MainWindow::on_red_g_clicked()
 }
 
 
-void MainWindow::on_red_h_clicked()
+void WSMainWindow::on_red_h_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -125,7 +125,7 @@ void MainWindow::on_red_h_clicked()
 }
 
 
-void MainWindow::on_red_i_clicked()
+void WSMainWindow::on_red_i_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -133,14 +133,14 @@ void MainWindow::on_red_i_clicked()
 }
 
 
-void MainWindow::on_red_j_clicked()
+void WSMainWindow::on_red_j_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
     blockWidget->fillTable("red", 'J');
 }
 
-void MainWindow::on_red_k_clicked()
+void WSMainWindow::on_red_k_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -148,7 +148,7 @@ void MainWindow::on_red_k_clicked()
 }
 
 
-void MainWindow::on_red_l_clicked()
+void WSMainWindow::on_red_l_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
@@ -156,28 +156,28 @@ void MainWindow::on_red_l_clicked()
 }
 
 
-void MainWindow::on_red_m_clicked()
+void WSMainWindow::on_red_m_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
     blockWidget->fillTable("red", 'M');
 }
 
-void MainWindow::on_green_b_clicked()
+void WSMainWindow::on_green_b_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
     blockWidget->fillTable("green", 'B');
 }
 
-void MainWindow::on_green_c_clicked()
+void WSMainWindow::on_green_c_clicked()
 {
     block_info *blockWidget = new block_info;
     blockWidget->show();
     blockWidget->fillTable("green", 'C');
 }
 
-void MainWindow::on_pushButton_clicked()
+void WSMainWindow::on_pushButton_clicked()
 {
     int arg1 = ui->comboBox->currentIndex();
 
