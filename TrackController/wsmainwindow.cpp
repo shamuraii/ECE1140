@@ -1,5 +1,5 @@
 #include "wsmainwindow.h"
-#include "ui_mainwindow.h"
+#include "ui_wsmainwindow.h"
 #include "block_info.h"
 #include "track_control.h"
 #include <QPixmap>
