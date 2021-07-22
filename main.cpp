@@ -5,7 +5,7 @@
 #include "connections.h"
 #include "ctc/ctc_home.h"
 #include "TrackController/wsmainwindow.h"
-#include "TrackModel/mainwindow.h"
+#include "TrackModel/tm_mainwindow.h"
 #include "TrainController/traincontrollerui.h"
 #include "TrainModel/trainmodelgui.h"
 
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     ctc.show();
     WSMainWindow ws;
     ws.show();
-    MainWindow trackm;
+    TM_MainWindow trackm;
     trackm.show();
     TrainControllerUi trc;
     trc.show();

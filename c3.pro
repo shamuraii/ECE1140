@@ -20,9 +20,9 @@ SOURCES += \
     TrackModel/failalert.cpp \
     TrackModel/failuremodeselector.cpp \
     TrackModel/helpmenu.cpp \
-    TrackModel/mainwindow.cpp \
     TrackModel/simulation.cpp \
     TrackModel/stationdetails.cpp \
+    TrackModel/tm_mainwindow.cpp \
     TrackModel/trackdetails.cpp \
     TrackModel/trackmodelsh.cpp \
     TrackModel/trackselect.cpp \
@@ -70,9 +70,9 @@ HEADERS += \
     TrackModel/failalert.h \
     TrackModel/failuremodeselector.h \
     TrackModel/helpmenu.h \
-    TrackModel/mainwindow.h \
     TrackModel/simulation.h \
     TrackModel/stationdetails.h \
+    TrackModel/tm_mainwindow.h \
     TrackModel/trackdetails.h \
     TrackModel/trackmodelsh.h \
     TrackModel/trackselect.h \
@@ -123,9 +123,9 @@ FORMS += \
     TrackModel/failalert.ui \
     TrackModel/failuremodeselector.ui \
     TrackModel/helpmenu.ui \
-    TrackModel/mainwindow.ui \
     TrackModel/simulation.ui \
     TrackModel/stationdetails.ui \
+    TrackModel/tm_mainwindow.ui \
     TrackModel/trackdetails.ui \
     TrackModel/trackselect.ui \
     TrackModel/uploadtrack.ui \
