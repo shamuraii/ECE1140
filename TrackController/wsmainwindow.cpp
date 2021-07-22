@@ -10,17 +10,18 @@ WSMainWindow::WSMainWindow(QWidget *parent)
     , ui(new Ui::WSMainWindow)
 {
     ui->setupUi(this);
+    track_control::Initialize();
 
-    QPixmap pm("C:/Users/Mahya/OneDrive/Desktop/School/jr/ECE1140/track_layout.png");
-    ui->track_image->setPixmap(pm);
+    //QPixmap pm("C:/Users/Mahya/OneDrive/Desktop/School/jr/ECE1140/track_layout.png");
+    //ui->track_image->setPixmap(pm);
     ui->track_image->setScaledContents(true);
 
-    QPixmap pm1("C:/Users/Mahya/OneDrive/Desktop/School/jr/ECE1140/red_track_layout.png");
-    ui->red_line->setPixmap(pm1);
+    //QPixmap pm1("C:/Users/Mahya/OneDrive/Desktop/School/jr/ECE1140/red_track_layout.png");
+    //ui->red_line->setPixmap(pm1);
     ui->red_line->setScaledContents(true);
 
-    QPixmap pm2("C:/Users/Mahya/OneDrive/Desktop/School/jr/ECE1140/green_track_layout.png");
-    ui->green_line->setPixmap(pm2);
+    //QPixmap pm2("C:/Users/Mahya/OneDrive/Desktop/School/jr/ECE1140/green_track_layout.png");
+    //ui->green_line->setPixmap(pm2);
     ui->green_line->setScaledContents(true);
 
     vector<track_control::Block> block_vector = track_control::getBlockVector("red");

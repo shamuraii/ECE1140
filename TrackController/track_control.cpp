@@ -6,7 +6,7 @@ vector<track_control::Block> track_control::red_block_vector;
 vector<bool> track_control::red_line_occupancy;
 vector<bool> track_control::green_line_occupancy;
 
-track_control::track_control()
+void track_control::Initialize()
 {
     int red_blocks[13] = {1,8,14,20,25,31,37,43,47,52,57,63,69};
     int green_blocks[19] = {1,7,14,20,27,34,42,50,59,66,74,82,90,99,107,116,124,133,142};

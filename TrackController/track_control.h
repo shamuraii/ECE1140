@@ -14,8 +14,6 @@ using namespace std;
 class track_control
 {
 public:
-    track_control();
-
     struct Switch {
         bool presence;
         int base;
@@ -41,6 +39,8 @@ public:
       Crossing rx;
     };
 
+    static void Initialize();
+
     static Block getBlock(int block_num, string l);
     static void setBlockAuthority(int block_num, int auth, string l);
     static void setBlockOccupancy(int block_num, bool occ, string l);
@@ -59,6 +59,7 @@ public:
     static int getBlockSpeed(int);
 
 private:
+    track_control() {};
     static vector<Block> green_block_vector;
     static vector<Block> red_block_vector;
     static vector<bool> red_line_occupancy;
