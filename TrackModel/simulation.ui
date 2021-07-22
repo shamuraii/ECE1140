@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1170</width>
-    <height>635</height>
+    <height>636</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1525,7 +1525,7 @@ color: rgb(0, 0, 0);</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_78">
+   <widget class="QPushButton" name="blueBlock">
     <property name="geometry">
      <rect>
       <x>970</x>
@@ -1541,7 +1541,7 @@ color: rgb(0, 0, 0);</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_79">
+   <widget class="QPushButton" name="yellowBlock">
     <property name="geometry">
      <rect>
       <x>970</x>
@@ -5336,7 +5336,7 @@ color: rgb(255, 255, 255);
      <x>0</x>
      <y>0</y>
      <width>1170</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

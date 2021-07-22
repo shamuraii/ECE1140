@@ -98,6 +98,35 @@ void Simulation::on_failSelectButton_clicked()
     fail_mode_selec->show();
 }
 
+void Simulation::calculateBlock(int trainNum, double distance){
+
+    setTotalDistance(distance + getTotalDistance());
+    int prevBlock;
+
+    double totalMeters = getTotalDistance();
+    int blockNum = 0;
+
+    //subtracting distance from the yard to block 9
+    totalMeters = totalMeters - 75;
+
+    if(totalMeters > 0){
+        for(blockNum = 9; totalMeters > 0; blockNum--){
+            totalMeters = totalMeters - getLength().at(blockNum);
+        }
+        setCurrentBlockNum(blockNum + 1);
+    }else{
+        setCurrentBlockNum(0);
+    }
+
+    if(blockNum == 7 || blockNum == 8){
+        prevBlock = blockNum + 1;
+    }else{
+        prevBlock = 0;
+    }
+
+    emit sendCurrentBlockNum(getCurrentBlockNum(), prevBlock);
+    setOccupied();
+}
 
 
 void Simulation::timerEvent(QTimerEvent *event)
@@ -240,4 +269,27 @@ void Simulation::setElevation(double e){
 
 std::vector<double> Simulation::getElevation(){
     return elevation;
+}
+
+int Simulation::getCurrentBlockNum(){
+    return currentBlockNum;
+}
+void Simulation::setCurrentBlockNum(int blockNum){
+    currentBlockNum = blockNum;
+}
+double Simulation::getTotalDistance(){
+    return totalDistance;
+}
+void Simulation::setTotalDistance(double d){
+    totalDistance = d;
+}
+
+void Simulation::setOccupied(){
+    QString block = "block" + QString::number(getCurrentBlockNum());
+
+    QLabel * lbl = this->findChild<QLabel *>(block);
+
+    lbl->setStyleSheet(ui->yellowBlock->styleSheet());
+
+
 }

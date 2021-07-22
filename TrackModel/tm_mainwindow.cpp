@@ -1,13 +1,13 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "tm_mainwindow.h"
+#include "ui_tm_mainwindow.h"
 #include "simulation.h"
 #include "debugger.h"
 #include "trackmodelsh.h"
 
 
-MainWindow::MainWindow(QWidget *parent)
+TM_MainWindow::TM_MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::TM_MainWindow)
 {
     ui->setupUi(this);
     debugger = new Debugger(this);
@@ -24,33 +24,37 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(track_select->simulation, &Simulation::sendBlockInfo, &TrackModelSH::Get(), &TrackModelSH::updateBlockInfo);
 
+    connect(&TrackModelSH::Get(), &TrackModelSH::sendDistanceTraveled, track_select->simulation, &Simulation::calculateBlock);
+
+    connect(track_select->simulation, &Simulation::sendCurrentBlockNum, &TrackModelSH::Get(), &TrackModelSH::getCurrentBlockNum);
+
 }
 
-MainWindow::~MainWindow()
+TM_MainWindow::~TM_MainWindow()
 {
     delete ui;
 }
 
 
-void MainWindow::on_pushButton_clicked()
+void TM_MainWindow::on_pushButton_clicked()
 {
     track_select->show();
 }
 
 
-void MainWindow::on_pushButton_2_clicked()
+void TM_MainWindow::on_pushButton_2_clicked()
 {
     upload_track -> show();
 }
 
 
-void MainWindow::on_pushButton_4_clicked()
+void TM_MainWindow::on_pushButton_4_clicked()
 {
     help -> show();
 }
 
 
-void MainWindow::on_debug_button_clicked()
+void TM_MainWindow::on_debug_button_clicked()
 {
     debugger -> show();
 }

@@ -1,8 +1,8 @@
 #include "trackmodelsh.h"
 
 
-void TrackModelSH::getDistanceTraveled(int a, double b){
-    emit sendDistanceTraveled(a);
+void TrackModelSH::getDistanceTraveled(int trainNum, double distance){
+    emit sendDistanceTraveled(trainNum, distance);
 }
 
 void TrackModelSH::getAuthority(std::vector<bool> auth){
