@@ -17,7 +17,7 @@ void TrackModelSH::getCommandedSpeed(std::vector<int> comSpeed){
     emit sendSpeedVector(comSpeed);
 }
 
-void TrackModelSH::getTimerTicked() {;
+void TrackModelSH::getTimerTicked() {
     emit sendTimerTicked();
 }
 

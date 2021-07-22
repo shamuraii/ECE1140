@@ -12,6 +12,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    ConnectSystem();
+
     CtcGUI ctc;
     ctc.show();
     WSMainWindow ws;
@@ -23,6 +26,5 @@ int main(int argc, char *argv[])
     TrainModelGUI trainm;
     trainm.show();
 
-    ConnectSystem();
     return a.exec();
 }

@@ -122,18 +122,18 @@ void track_control::Initialize()
 
 track_control::Block track_control::getBlock(int block_num, string l) {
     if(l == "red") {
-        return red_block_vector[block_num-1];
+        return red_block_vector[block_num];
     } else {
-        return green_block_vector[block_num-1];
+        return green_block_vector[block_num];
     }
 }
 
 void track_control::setBlockAuthority(int block_num, int auth, string l)
 {
     if(l == "red") {
-        red_block_vector[block_num-1].authority = auth;
+        red_block_vector[block_num].authority = auth;
     } else if(l == "green") {
-        green_block_vector[block_num-1].authority = auth;
+        green_block_vector[block_num].authority = auth;
     }
 }
 
@@ -146,53 +146,53 @@ bool track_control::getBlockMaintenanceMode(int block_num, string l) {
 
 void track_control::setBlockOccupancy(int block_num, bool occ, string l) {
     if(l == "red") {
-        red_block_vector[block_num-1].occupancy = occ;
-        red_line_occupancy[block_num-1] = occ;
+        red_block_vector[block_num].occupancy = occ;
+        red_line_occupancy[block_num] = occ;
         emit wssh::Get().ShareTrainPresence(red_line_occupancy, false);
     } else if(l == "green") {
-        green_block_vector[block_num-1].occupancy = occ;
-        green_line_occupancy[block_num-1] = occ;
+        green_block_vector[block_num].occupancy = occ;
+        green_line_occupancy[block_num] = occ;
         emit wssh::Get().ShareTrainPresence(green_line_occupancy, true);
     }
 }
 
 void track_control::setBlockFailure(int block_num, int fail_code, string l) {
     if(l == "red") {
-        red_block_vector[block_num-1].fail = fail_code;
+        red_block_vector[block_num].fail = fail_code;
     } else if(l == "green") {
-        green_block_vector[block_num-1].fail = fail_code;
+        green_block_vector[block_num].fail = fail_code;
     }
 }
 
 void track_control::setBlockSpeed(int block_num, int sp, string l) {
     if(l == "red") {
-        red_block_vector[block_num-1].speed = sp;
+        red_block_vector[block_num].speed = sp;
     } else if(l == "green") {
-        green_block_vector[block_num-1].speed = sp;
+        green_block_vector[block_num].speed = sp;
     }
 }
 
 void track_control::setBlockMaintenanceMode(int block_num, bool maint, string l) {
     if(l == "red") {
-        red_block_vector[block_num-1].maintenance_mode = maint;
+        red_block_vector[block_num].maintenance_mode = maint;
     } else if(l == "green") {
-        green_block_vector[block_num-1].maintenance_mode = maint;
+        green_block_vector[block_num].maintenance_mode = maint;
     }
 }
 
 bool track_control::getSwitchPresence(int block_num, string l) {
     if(l == "red") {
-        return red_block_vector[block_num-1].sw.presence;
+        return red_block_vector[block_num].sw.presence;
     } else {
-        return green_block_vector[block_num-1].sw.presence;
+        return green_block_vector[block_num].sw.presence;
     }
 }
 
 int track_control::getSwitchPositon(int block_num, string l) {
     if(l == "red") {
-        return red_block_vector[block_num-1].sw.connected_to;
+        return red_block_vector[block_num].sw.connected_to;
     } else {
-        return green_block_vector[block_num-1].sw.connected_to;
+        return green_block_vector[block_num].sw.connected_to;
     }
 }
 

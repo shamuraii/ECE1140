@@ -33,6 +33,7 @@ WSMainWindow::WSMainWindow(QWidget *parent)
     int sug_speed;
     QString location;
 
+    /*
     for (int i=0; i<76; i++) {
         if(block_vector[i].occupancy == 1) {
             block_num = track_control::getBlockID(i);
@@ -43,7 +44,7 @@ WSMainWindow::WSMainWindow(QWidget *parent)
             sug_speed = track_control::getBlockSpeed(block_num);
             location = QString::fromStdString("Red " + to_string(block_num));
         }
-    }
+    }*/
 
     ui->authority->setText(QString::number(auth));
     ui->commanded_speed->setText(QString::number(comm_speed));

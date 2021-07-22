@@ -132,10 +132,12 @@ void TrainNetwork::TrainStopped(int train_num) {
 
 void TrainNetwork::SetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {
     if (line == kRedBool) {
+        qDebug() << "CTC: Setting Track Info";
         TrackLine *l = GetTrackLine(kRedlineName);
         std::vector<Block*> blocks = l->GetBlocks();
         for (size_t i=0; i < speed_limits.size(); i++) {
             blocks[i+1]->SetInfo(speed_limits[i], lengths[i]);
+            qDebug() << blocks[i+1]->GetNum() << " " << blocks[i+1]->GetSpeedLimit();
         }
     }
     // TODO: green line

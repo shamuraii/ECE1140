@@ -107,9 +107,13 @@ void CTrain::UpdateOutputs() {
         for (Station *s : line_->GetStations()) {
             if (s->GetBlockNum() == GetLocation()->GetNum()) {
                 GetLocation()->SetAuth(0);
+                break;
             }
         }
+        GetLocation()->SetAuth(1);
     }
+    qDebug() << "CTC: Train at " << GetLocation()->GetNum();
+    qDebug() << "CTC: SpeedLimit = " << GetLocation()->GetSpeedLimit();
     GetLocation()->SetSpeed(GetLocation()->GetSpeedLimit());
     GetNextBlock()->SetSpeed(GetNextBlock()->GetSpeedLimit());
 
@@ -119,6 +123,8 @@ void CTrain::UpdateOutputs() {
             GetNextBlock()->SetAuth(0);
         }
     }
+    qDebug() << "CTC: Train sug_auth = " << GetLocation()->GetAuth();
+    qDebug() << "CTC: Train sug_speed = " << GetLocation()->GetSpeed();
 }
 
 void CTrain::SetLocation(Block *new_location) {

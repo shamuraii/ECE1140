@@ -12,8 +12,8 @@ Block::Block(int num) : QObject(nullptr), num_(num)
 {
     occupied_ = false;
     closed_ = false;
-    speed_limit_ = 1;
-    length_ = 1;
+    speed_limit_ = 40;
+    length_ = 75;
     sug_auth_ = 0;
     sug_speed_ = 0;
 

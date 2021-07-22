@@ -86,7 +86,6 @@ Simulation::Simulation(QWidget *parent) :
 
 
     file.close();
-    emitTrackInfo();
 }
 
 Simulation::~Simulation()
@@ -254,12 +253,11 @@ void Simulation::setOccupied(){
     QString block = "block" + QString::number(getCurrentBlockNum());
     QString prevBlock = "block" + QString::number(getPrevBlockNum());
 
-    QLabel * lbl = this->findChild<QLabel *>(block);
-    QLabel * lbl2 = this->findChild<QLabel *>(prevBlock);
+    QLabel * lbl = ui->centralwidget->findChild<QLabel*>(block);
+    QLabel * lbl2 = ui->centralwidget->findChild<QLabel *>(prevBlock);
 
-    lbl->setStyleSheet(ui->yellowBlock->styleSheet());
-    lbl2->setStyleSheet(ui->blueBlock->styleSheet());
-
+    if (lbl) lbl->setStyleSheet(ui->yellowBlock->styleSheet());
+    if (lbl2) lbl2->setStyleSheet(ui->blueBlock->styleSheet());
 }
 
 void Simulation::on_startButton_clicked()
