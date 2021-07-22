@@ -10,9 +10,10 @@ CONFIG += c++11
 
 SOURCES += \
     TrackController/block_info.cpp \
-    TrackController/mainwindow.cpp \
+    TrackController/debug.cpp \
     TrackController/plc.cpp \
     TrackController/track_control.cpp \
+    TrackController/wsmainwindow.cpp \
     TrackController/wssh.cpp \
     TrackModel/beacon.cpp \
     TrackModel/debugger.cpp \
@@ -59,9 +60,10 @@ SOURCES += \
 
 HEADERS += \
     TrackController/block_info.h \
-    TrackController/mainwindow.h \
+    TrackController/debug.h \
     TrackController/plc.h \
     TrackController/track_control.h \
+    TrackController/wsmainwindow.h \
     TrackController/wssh.h \
     TrackModel/beacon.h \
     TrackModel/debugger.h \
@@ -114,7 +116,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 FORMS += \
     TrackController/block_info.ui \
-    TrackController/mainwindow.ui \
+    TrackController/debug.ui \
+    TrackController/wsmainwindow.ui \
     TrackModel/beacon.ui \
     TrackModel/debugger.ui \
     TrackModel/failalert.ui \
