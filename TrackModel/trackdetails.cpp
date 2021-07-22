@@ -16,6 +16,9 @@ TrackDetails::TrackDetails(QWidget *parent) :
         label->setText("OFF");
     }
 
+
+
+
 }
 
 TrackDetails::~TrackDetails()
@@ -37,6 +40,7 @@ void TrackDetails::setHeaters(bool b){
 bool TrackDetails::getHeaters(){
     return heaters;
 }
+
 
 void TrackDetails::update_track(QString g, QString e, QString l, QString s, QString d){
     ui->grade_label->setText(g);

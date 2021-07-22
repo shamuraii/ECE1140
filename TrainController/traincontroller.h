@@ -3,6 +3,8 @@
 
 #include <string>
 #include <iostream>
+#include <QString>
+#include <QStringList>
 
 using namespace std;
 
@@ -11,9 +13,9 @@ class TrainController
 public:
     TrainController();
 
-    void ResolveFailure(string);
+    void ResolveFailure(QString);
     double CalculatePower();
-    void GrabBeaconInfo(string);
+    void GrabBeaconInfo(QString);
     void AtStation();
 
     bool service_brake;
@@ -21,7 +23,7 @@ public:
     bool manual_mode;
     bool failure_mode;
     double setpoint_speed;
-    string announcement;
+    QString announcement;
     bool headlights;
     bool cabin_lights;
     bool left_door;

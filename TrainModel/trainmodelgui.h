@@ -52,7 +52,7 @@ private:
     TrainModelFailureDialog failureDialog;
     TrainModelDebugDialog debugDialog;
 
-    QTimer timer;
+    QTimer timer, long_timer;
 
     void drawTrain();
     void keyPressEvent(QKeyEvent *event);

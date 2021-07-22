@@ -3,9 +3,11 @@
 #include "trainnetwork.h"
 #include "ctc_constants.h"
 #include "block.h"
-#include "train.h"
+#include "ctrain.h"
 #include "trackline.h"
 #include "ctc_signal_handler.h"
+
+using namespace ctc;
 
 TrainNetwork::TrainNetwork() : QObject(nullptr)
 {
@@ -15,14 +17,15 @@ TrainNetwork::TrainNetwork() : QObject(nullptr)
     connect(&CtcSH::Get(), &CtcSH::UpdateOutputs, this, &TrainNetwork::UpdateOutputs);
     connect(&CtcSH::Get(), &CtcSH::NewSwitchPos, this, &TrainNetwork::SwitchMoved);
     connect(&CtcSH::Get(), &CtcSH::NewOccupancies, this, &TrainNetwork::UpdateOccupancy);
+    connect(&CtcSH::Get(), &CtcSH::NewTrackInfo, this, &TrainNetwork::SetTrackInfo);
 }
 
-std::vector<Train*> TrainNetwork::GetTrains() {
+std::vector<CTrain*> TrainNetwork::GetTrains() {
     return trains_;
 }
 
-Train *TrainNetwork::GetTrain(int train_num) {
-    for (Train *t : trains_) {
+CTrain *TrainNetwork::GetTrain(int train_num) {
+    for (CTrain *t : trains_) {
         if (t->GetNum() == train_num)
             return t;
     }
@@ -49,16 +52,16 @@ void TrainNetwork::AddLine(TrackLine *new_line) {
     lines_.push_back(new_line);
 }
 
-void TrainNetwork::AddTrain(Train *new_train) {
+void TrainNetwork::AddTrain(CTrain *new_train) {
     new_train->SetNum(NextTrainNum());
     trains_.push_back(new_train);
-    connect(new_train, &Train::UpdatedLocation, this, &TrainNetwork::TrainMoved);
+    connect(new_train, &CTrain::UpdatedLocation, this, &TrainNetwork::TrainMoved);
     emit TrainAdded(new_train->GetNum());
 }
 
 int TrainNetwork::NextTrainNum() const {
     int next = 1;
-    for (Train *t : trains_) {
+    for (CTrain *t : trains_) {
         int temp = t->GetNum();
         if (temp >= next)
             next = temp + 1;
@@ -73,7 +76,7 @@ void TrainNetwork::TrainMoved(Block *old_loc, Block *new_loc) {
 }
 
 void TrainNetwork::UpdateOutputs() {
-    for (Train *t : trains_) {
+    for (CTrain *t : trains_) {
         t->UpdateOutputs();
     }
     TrackLine *line = GetTrackLine(kRedlineName);
@@ -97,6 +100,7 @@ void TrainNetwork::SwitchMoved(int pointing_to, bool line) {
                 s->UpdateState(pointing_to, line);
         }
     }
+    // TODO: green line
 }
 
 void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
@@ -104,19 +108,50 @@ void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
     if (line == kRedBool) {
         TrackLine *l = GetTrackLine(kRedlineName);
         std::vector<Block*> blocks = l->GetBlocks();
+
+        for (size_t i = 0; i < 11; i++) {
+            qDebug() << occupancy[i];
+        }
+
         for (size_t i = 0; i < occupancy.size(); i++) {
-            bool prev = blocks[i+1]->IsOccupied();
+
+            bool prev = blocks[i]->IsOccupied();
             bool now = occupancy[i];
 
-            blocks[i+1]->SetOccupied(now);
+            blocks[i]->SetOccupied(now);
+            if (now) {
+                qDebug() << "CTC: Block " << i << " occupied";
+            }
 
             if (prev && !now) {
-                for (Train *t : trains_) {
-                    if (t->GetLocation()->GetNum() == blocks[i+1]->GetNum()) {
+                qDebug() << "CTC: Block " << i << " lost a train";
+                for (CTrain *t : trains_) {
+                    if (t->GetLocation()->GetNum() == blocks[i]->GetNum()) {
+                        qDebug() << "CTC: Moved train from " << i << " to " << t->GetNextBlock()->GetNum();
                         t->SetLocation(t->GetNextBlock());
+                        t->IncrementRouteIndex();
                     }
                 }
             }
         }
     }
+    emit NetworkUpdated();
+}
+
+void TrainNetwork::TrainStopped(int train_num) {
+    CTrain *t = GetTrain(train_num);
+    t->TrainStopped();
+}
+
+void TrainNetwork::SetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {
+    if (line == kRedBool) {
+        qDebug() << "CTC: Setting Track Info";
+        TrackLine *l = GetTrackLine(kRedlineName);
+        std::vector<Block*> blocks = l->GetBlocks();
+        for (size_t i=0; i < speed_limits.size(); i++) {
+            blocks[i+1]->SetInfo(speed_limits[i], lengths[i]);
+            qDebug() << blocks[i+1]->GetNum() << " " << blocks[i+1]->GetSpeedLimit();
+        }
+    }
+    // TODO: green line
 }

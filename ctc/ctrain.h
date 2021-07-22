@@ -1,5 +1,5 @@
-#ifndef TRAIN_H
-#define TRAIN_H
+#ifndef CTRAIN_H
+#define CTRAIN_H
 
 #include <QObject>
 #include <QDateTime>
@@ -9,7 +9,9 @@
 #include "station.h"
 #include "trackline.h"
 
-class Train : public QObject
+namespace ctc {
+
+class CTrain : public QObject
 {
     Q_OBJECT
 private:
@@ -22,11 +24,12 @@ private:
     std::vector<Station*> stops_;
     std::vector<Block*> route_;
     int route_index_;
+    bool stopped_;
 
     void CalculateEstimatedArrival();
 
 public:
-    explicit Train(Station *destination, QTime departure_time, TrackLine *line);
+    explicit CTrain(Station *destination, QTime departure_time, TrackLine *line);
     int GetNum() const;
     std::vector<Station*> GetStops() const;
     std::vector<Block*> GetRoute() const;
@@ -44,6 +47,10 @@ public:
     int GetSugAuth() const;
 
     void SetNum(int num);
+    void TrainStopped();
+
+    void IncrementRouteIndex();
+
 public slots:
     void SetLocation(Block *new_location);
     void UpdateOutputs();
@@ -54,4 +61,6 @@ signals:
     void UpdatedLocation(Block *old_loc, Block *new_loc);
 };
 
-#endif // TRAIN_H
+}
+
+#endif // CTRAIN_H

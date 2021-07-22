@@ -15,10 +15,11 @@ SOURCES += \
     failuremodeselector.cpp \
     helpmenu.cpp \
     main.cpp \
-    mainwindow.cpp \
     simulation.cpp \
     stationdetails.cpp \
+    tm_mainwindow.cpp \
     trackdetails.cpp \
+    trackmodelsh.cpp \
     trackselect.cpp \
     train.cpp \
     uploadtrack.cpp
@@ -29,10 +30,11 @@ HEADERS += \
     failalert.h \
     failuremodeselector.h \
     helpmenu.h \
-    mainwindow.h \
     simulation.h \
     stationdetails.h \
+    tm_mainwindow.h \
     trackdetails.h \
+    trackmodelsh.h \
     trackselect.h \
     train.h \
     uploadtrack.h
@@ -43,9 +45,9 @@ FORMS += \
     failalert.ui \
     failuremodeselector.ui \
     helpmenu.ui \
-    mainwindow.ui \
     simulation.ui \
     stationdetails.ui \
+    tm_mainwindow.ui \
     trackdetails.ui \
     trackselect.ui \
     uploadtrack.ui

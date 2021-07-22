@@ -7,6 +7,7 @@ TrainControllerUi::TrainControllerUi(QWidget *parent)
 {
     ui->setupUi(this);
     SetUpSignals();
+    NewTrain(1);
 
 }
 
@@ -19,40 +20,40 @@ TrainControllerUi::~TrainControllerUi()
 void TrainControllerUi::SetUpSignals()
 {
     // Train gui and handler singal connection
-    QObject::connect(&train_handler, SIGNAL(GuiUpdate(TrainController)), this, SLOT(Update(TrainController)));
-    QObject::connect(&train_handler, SIGNAL(GuiNewTrain(int)), this, SLOT(NewTrain(int)));
-    QObject::connect(this, SIGNAL(ToggleServiceBrake(int)), &train_handler, SLOT(ToggleServiceBrake(int)));
-    QObject::connect(this, SIGNAL(ToggleEmergencyBrake(int)), &train_handler, SLOT(ToggleEmergencyBrake(int)));
-    QObject::connect(this, SIGNAL(ToggleHeadlights(int)), &train_handler, SLOT(ToggleHeadlights(int)));
-    QObject::connect(this, SIGNAL(ToggleCabinLights(int)), &train_handler, SLOT(ToggleCabinLights(int)));
-    QObject::connect(this, SIGNAL(SetCabinTemp(int,double)), &train_handler, SLOT(SetCabinTemp(int,double)));
-    QObject::connect(this, SIGNAL(ToggleLeftDoor(int)), &train_handler, SLOT(ToggleLeftDoor(int)));
-    QObject::connect(this, SIGNAL(ToggleRightDoor(int)), &train_handler, SLOT(ToggleRightDoor(int)));
-    QObject::connect(this, SIGNAL(SetKp(int,double)), &train_handler, SLOT(SetKp(int,double)));
-    QObject::connect(this, SIGNAL(SetKi(int,double)), &train_handler, SLOT(SetKi(int,double)));
-    QObject::connect(this, SIGNAL(UpdateGui(int)), &train_handler, SLOT(UpdateGui(int)));
-    QObject::connect(this, SIGNAL(StartAnnouncement(int)), &train_handler, SLOT(StartAnnouncement(int)));
-    QObject::connect(this, SIGNAL(NewSetpointSpeed(int,double)), &train_handler, SLOT(NewSetpointSpeed(int,double)));
+    QObject::connect(&train_handler, &TrainControllerHandler::GuiUpdate, this, &TrainControllerUi::Update);
+    QObject::connect(&train_handler, &TrainControllerHandler::GuiNewTrain, this, &TrainControllerUi::NewTrain);
+    QObject::connect(this, &TrainControllerUi::ToggleServiceBrake, &train_handler, &TrainControllerHandler::ToggleServiceBrake);
+    QObject::connect(this, &TrainControllerUi::ToggleEmergencyBrake, &train_handler, &TrainControllerHandler::ToggleEmergencyBrake);
+    QObject::connect(this, &TrainControllerUi::ToggleHeadlights, &train_handler, &TrainControllerHandler::ToggleHeadlights);
+    QObject::connect(this, &TrainControllerUi::ToggleCabinLights, &train_handler, &TrainControllerHandler::ToggleCabinLights);
+    QObject::connect(this, &TrainControllerUi::SetCabinTemp, &train_handler, &TrainControllerHandler::SetCabinTemp);
+    QObject::connect(this, &TrainControllerUi::ToggleLeftDoor, &train_handler, &TrainControllerHandler::ToggleLeftDoor);
+    QObject::connect(this, &TrainControllerUi::ToggleRightDoor, &train_handler, &TrainControllerHandler::ToggleRightDoor);
+    QObject::connect(this, &TrainControllerUi::SetKp, &train_handler, &TrainControllerHandler::SetKp);
+    QObject::connect(this, &TrainControllerUi::SetKi, &train_handler, &TrainControllerHandler::SetKi);
+    QObject::connect(this, &TrainControllerUi::UpdateGui, &train_handler, &TrainControllerHandler::UpdateGui);
+    QObject::connect(this, &TrainControllerUi::StartAnnouncement, &train_handler, &TrainControllerHandler::StartAnnouncement);
+    QObject::connect(this, &TrainControllerUi::NewSetpointSpeed, &train_handler, &TrainControllerHandler::NewSetpointSpeed);
 
 
     // Test gui and handler signal connection
-    QObject::connect(&test_ui, SIGNAL(NewTrain(int)), &train_handler, SLOT(NewTrainController(int)));
-    QObject::connect(&test_ui, SIGNAL(NewCommandedSpeed(int,double)), &train_handler, SLOT(NewCommandedSpeed(int,double)));
-    QObject::connect(&train_handler, SIGNAL(ServiceBrake(int,bool)), &test_ui, SLOT(ServiceBrake(int,bool)));
-    QObject::connect(&train_handler, SIGNAL(EmergencyBrake(int,bool)), &test_ui, SLOT(EmergencyBrake(int,bool)));
-    QObject::connect(&train_handler, SIGNAL(SendPower(int,double)), &test_ui, SLOT(NewPower(int,double)));
-    QObject::connect(&test_ui, SIGNAL(NewActualSpeed(int,double)), &train_handler, SLOT(NewActualSpeed(int,double)));
-    QObject::connect(&train_handler, SIGNAL(Headlights(int,bool)), &test_ui, SLOT(Headlights(int,bool)));
-    QObject::connect(&train_handler, SIGNAL(CabinLights(int,bool)), &test_ui, SLOT(CabinLights(int,bool)));
-    QObject::connect(&train_handler, SIGNAL(CabinTemp(int,double)), &test_ui, SLOT(CabinTemp(int,double)));
-    QObject::connect(&train_handler, SIGNAL(LeftDoor(int,bool)), &test_ui, SLOT(LeftDoor(int,bool)));
-    QObject::connect(&train_handler, SIGNAL(RightDoor(int,bool)), &test_ui, SLOT(RightDoor(int,bool)));\
-    QObject::connect(&test_ui, SIGNAL(ToggleEmergencyBrake(int)), &train_handler, SLOT(ToggleEmergencyBrake(int)));
-    QObject::connect(&train_handler, SIGNAL(Announcement(int,string)), &test_ui, SLOT(Announcement(int,string)));
-    QObject::connect(&train_handler, SIGNAL(GuiTestUpdate(TrainController)), &test_ui, SLOT(UpdateTest(TrainController)));
-    QObject::connect(&test_ui, SIGNAL(UpdateTestGui(int)), &train_handler, SLOT(UpdateTestGui(int)));
-    QObject::connect(&test_ui, SIGNAL(NewAuthority(int,int)), &train_handler, SLOT(NewAuthority(int,int)));
-    QObject::connect(&test_ui, SIGNAL(FailureMode(int,string)), &train_handler, SLOT(FailureMode(int,string)));
+    QObject::connect(&test_ui, &TestUi::NewTrain, &train_handler, &TrainControllerHandler::NewTrainController);
+    QObject::connect(&test_ui, &TestUi::NewCommandedSpeed, &train_handler, &TrainControllerHandler::NewCommandedSpeed);
+    QObject::connect(&train_handler, &TrainControllerHandler::ServiceBrake, &test_ui, &TestUi::ServiceBrake);
+    QObject::connect(&train_handler, &TrainControllerHandler::EmergencyBrake, &test_ui, &TestUi::EmergencyBrake);
+    QObject::connect(&train_handler, &TrainControllerHandler::SendPower, &test_ui, &TestUi::NewPower);
+    QObject::connect(&test_ui, &TestUi::NewActualSpeed, &train_handler, &TrainControllerHandler::NewActualSpeed);
+    QObject::connect(&train_handler, &TrainControllerHandler::Headlights, &test_ui, &TestUi::Headlights);
+    QObject::connect(&train_handler, &TrainControllerHandler::CabinLights, &test_ui, &TestUi::CabinLights);
+    QObject::connect(&train_handler, &TrainControllerHandler::CabinTemp, &test_ui, &TestUi::CabinTemp);
+    QObject::connect(&train_handler, &TrainControllerHandler::LeftDoor, &test_ui, &TestUi::LeftDoor);
+    QObject::connect(&train_handler, &TrainControllerHandler::RightDoor, &test_ui, &TestUi::RightDoor);
+    QObject::connect(&test_ui, &TestUi::ToggleEmergencyBrake, &train_handler, &TrainControllerHandler::ToggleEmergencyBrake);
+    QObject::connect(&train_handler, &TrainControllerHandler::Announcement, &test_ui, &TestUi::Announcement);
+    QObject::connect(&train_handler, &TrainControllerHandler::GuiTestUpdate, &test_ui, &TestUi::UpdateTest);
+    QObject::connect(&test_ui, &TestUi::UpdateTestGui, &train_handler, &TrainControllerHandler::UpdateTestGui);
+    QObject::connect(&test_ui, &TestUi::NewAuthority, &train_handler, &TrainControllerHandler::NewAuthority);
+    QObject::connect(&test_ui, &TestUi::FailureMode, &train_handler, &TrainControllerHandler::FailureMode);
 
 }
 

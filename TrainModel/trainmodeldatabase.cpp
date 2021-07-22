@@ -12,6 +12,11 @@ TrainModelData* TrainModelDatabase::getTrainByID(int id)
     return nullptr;
 }
 
+std::vector<TrainModelData*> TrainModelDatabase::getAllTrains()
+{
+    return trains;
+}
+
 int TrainModelDatabase::createTrain()
 {
     id_count++;

@@ -14,14 +14,15 @@ TrainController::TrainController()
     right_door = false;
     cabin_temp = 70;
     actual_speed = 0;
-    kp = 0;
-    ki = 0;
+    kp = 35000;
+    ki = 1000;
     commanded_speed = 0;
     authority = 0;
     open_door = -1;
     power = 0;
     leave_station = false;
     made_announcement = false;
+    station_here = false;
 
     // Variables for Power Loop
     prev_error = 0;
@@ -31,9 +32,9 @@ TrainController::TrainController()
 
 }
 
-void TrainController::ResolveFailure(string failure)
+void TrainController::ResolveFailure(QString failure)
 {
-    std::cout << "Resolving failure" << failure;
+    std::cout << "Resolving failure";
 }
 
 double TrainController::CalculatePower()
@@ -118,4 +119,12 @@ void TrainController::AtStation()
         at_station = false;
     }
 
+}
+
+void TrainController::GrabBeaconInfo(QString info)
+{
+    QStringList splitted = info.split(",");
+    announcement = splitted[0];
+    open_door = (splitted[1] == "Left");
+    station_here = !station_here;
 }

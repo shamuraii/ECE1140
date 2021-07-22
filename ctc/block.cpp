@@ -3,6 +3,8 @@
 #include "block.h"
 #include "ctc_signal_handler.h"
 
+using namespace ctc;
+
 const int Block::kInfiniteWeight = -1;
 const int Block::kYardNum = 0;
 
@@ -10,8 +12,8 @@ Block::Block(int num) : QObject(nullptr), num_(num)
 {
     occupied_ = false;
     closed_ = false;
-    speed_limit_ = 1;
-    length_ = 1;
+    speed_limit_ = 40;
+    length_ = 75;
     sug_auth_ = 0;
     sug_speed_ = 0;
 
@@ -82,4 +84,9 @@ void Block::SetSpeed(int speed) {
 
 void Block::AddConnection(int conn_block_num) {
     connections_.insert(conn_block_num);
+}
+
+void Block::SetInfo(int speed_limit, int length) {
+    speed_limit_ = speed_limit;
+    length_ = length;
 }

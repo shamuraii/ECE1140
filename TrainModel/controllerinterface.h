@@ -28,7 +28,7 @@ public slots:
     void setRightDoor(int, bool);
     void setCabinLights(int, bool);
     void setHeadlights(int, bool);
-    void setAnnouncement(int, std::string);
+    void setAnnouncement(int, QString);
     void setServiceBrake(int, bool);
     void setEBrake(int, bool);
     void setCabinTemp(int, int);
@@ -40,7 +40,7 @@ signals:
     void eBrakeChanged(int, bool);
     void authorityChanged(int, int);
     void commandedSpeedChanged(int, double);
-    void beaconInfoChanged(int, std::string);
+    void beaconInfoChanged(int, QString);
 public:
     static ControllerInterface& getInstance();
     ControllerInterface(const ControllerInterface&) = delete;

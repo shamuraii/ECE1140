@@ -2,7 +2,7 @@
 #define TRAINMODELDATABASE_H
 
 #include <vector>
-#include <trainmodeldata.h>
+#include "trainmodeldata.h"
 
 class TrainModelDatabase
 {
@@ -13,6 +13,7 @@ private:
     TrainModelDatabase() {}
 public:
     static TrainModelData* getTrainByID(int);
+    static std::vector<TrainModelData*> getAllTrains();
     static int createTrain();
 };
 
