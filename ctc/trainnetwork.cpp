@@ -113,12 +113,16 @@ void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
             bool now = occupancy[i];
 
             blocks[i]->SetOccupied(now);
+            if (now) {
+                qDebug() << "CTC: Block " << i << " occupied";
+            }
 
             if (prev && !now) {
                 for (CTrain *t : trains_) {
                     if (t->GetLocation()->GetNum() == blocks[i]->GetNum()) {
-                        qDebug() << "CTC: Moved train from " << i << " to " << t->GetNextBlock();
+                        qDebug() << "CTC: Moved train from " << i << " to " << t->GetNextBlock()->GetNum();
                         t->SetLocation(t->GetNextBlock());
+                        t->IncrementRouteIndex();
                     }
                 }
             }

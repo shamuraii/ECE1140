@@ -49,6 +49,8 @@ public:
     void SetNum(int num);
     void TrainStopped();
 
+    void IncrementRouteIndex();
+
 public slots:
     void SetLocation(Block *new_location);
     void UpdateOutputs();

@@ -100,18 +100,22 @@ int CTrain::GetSugAuth() const {
     return location_->GetAuth();
 }
 
+void CTrain::IncrementRouteIndex() {
+    route_index_++;
+}
 void CTrain::UpdateOutputs() {
-    if (stopped_) {
+    /*if (stopped_) {
         GetLocation()->SetAuth(1);
-    } else {
+    } else {*/
         for (Station *s : line_->GetStations()) {
             if (s->GetBlockNum() == GetLocation()->GetNum()) {
+                qDebug() << "CTC: Train in station block";
                 GetLocation()->SetAuth(0);
                 break;
             }
         }
         GetLocation()->SetAuth(1);
-    }
+    //}
     qDebug() << "CTC: Train at " << GetLocation()->GetNum();
     qDebug() << "CTC: SpeedLimit = " << GetLocation()->GetSpeedLimit();
     GetLocation()->SetSpeed(GetLocation()->GetSpeedLimit());
