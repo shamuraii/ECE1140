@@ -44,6 +44,8 @@ public:
     std::vector<double> getElevation();
     int getCurrentBlockNum();
     void setCurrentBlockNum(int);
+    int getPrevBlockNum();
+    void setPrevBlockNum(int);
     double getTotalDistance();
     void setTotalDistance(double);
     void setOccupied();
@@ -80,6 +82,11 @@ private:
     std::vector<double> elevation;
     double totalDistance;
     int currentBlockNum;
+    int prevBlockNum;
+    std::vector<QString> stationName;
+    std::vector<int> ticketSales;
+    std::vector<int> boarding;
+    std::vector<int> disembarking;
 
 protected:
     void timerEvent(QTimerEvent *event);

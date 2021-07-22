@@ -50,7 +50,7 @@ public slots:
     //From Track Controller
     void getAuthority(std::vector<bool>);
     void getCommandedSpeed(std::vector<int>);
-    //void getSwitchPosition(int switchBlock, int pointingTo);
+    //void getSwitchPosition(int switchBlock, int pointingTo, bool line);
     //void getLightStatus();
 
     //internal

@@ -54,7 +54,8 @@ Simulation::Simulation(QWidget *parent) :
     QStringList blockData;
     QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
 
-    int lineCount = 76;
+    int blockCount = 76;
+    int stationCount = 85;
 
     if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::information(0, "error", file.errorString());
@@ -69,11 +70,14 @@ Simulation::Simulation(QWidget *parent) :
 
         blockData = line.split(",");
 
-        if(blockData.at(0).toInt() > 0 && blockData.at(0).toInt() <= lineCount){
+        if(blockData.at(0).toInt() > 0 && blockData.at(0).toInt() <= blockCount){
             setSpeed(blockData.at(3).toInt());
             setLength(blockData.at(1).toInt());
-            setGrade(blockData.at(2).toInt());
-            setElevation(blockData.at(4).toInt());
+            setGrade(blockData.at(2).toDouble());
+            setElevation(blockData.at(4).toDouble());
+        }
+        if(blockData.at(0).toInt() > blockCount + 1 && blockData.at(0).toInt() <= stationCount){
+
         }
 
     }
@@ -101,7 +105,7 @@ void Simulation::on_failSelectButton_clicked()
 void Simulation::calculateBlock(int trainNum, double distance){
 
     setTotalDistance(distance + getTotalDistance());
-    int prevBlock;
+
 
     double totalMeters = getTotalDistance();
     int blockNum = 0;
@@ -119,12 +123,12 @@ void Simulation::calculateBlock(int trainNum, double distance){
     }
 
     if(blockNum == 7 || blockNum == 8){
-        prevBlock = blockNum + 1;
+        setPrevBlockNum(blockNum + 1);
     }else{
-        prevBlock = 0;
+        setPrevBlockNum(0);
     }
 
-    emit sendCurrentBlockNum(getCurrentBlockNum(), prevBlock);
+    emit sendCurrentBlockNum(getCurrentBlockNum(), getPrevBlockNum());
     setOccupied();
 }
 
@@ -147,38 +151,11 @@ void Simulation::on_tempEdit_textEdited(const QString &arg1)
 }
 
 void Simulation::station_clicked(){
-    QPushButton *button = qobject_cast<QPushButton*>(sender());
-    QString s, t, tr, b, d;
-    int station_num;
-    QStringList stationData;
-    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
-
-    station_num = button->text().toInt();
-
-    if(!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::information(0, "error", file.errorString());
-    }
-
-    QTextStream in(&file);
-
-    while(!in.atEnd()) {
-        QString line = in.readLine();
-
-        stationData = line.split(",");
-
-        if(stationData.at(0).toInt() == station_num){
-            s = stationData.at(1);
-            t = stationData.at(2);
-            b = stationData.at(3);
-            d = stationData.at(4);
-        }
-
-    }
+    //QPushButton *button = qobject_cast<QPushButton*>(sender());
+    //int station_num;
 
 
-    file.close();
-
-    emit new_station(s,t,"1",b,d);
+    //emit new_station(s,t,"1",b,d);
 
     station_details->show();
 }
@@ -191,38 +168,11 @@ void Simulation::beacon_clicked(){
 void Simulation::block_clicked(){
 
     QPushButton *button = qobject_cast<QPushButton*>(sender());
-    QString g, e, l, s, d;
     int block_num;
-    QStringList blockData;
-    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
 
-    block_num = button->text().toInt();
+    block_num = button->text().toInt() - 1;
 
-    if(!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::information(0, "error", file.errorString());
-    }
-
-    QTextStream in(&file);
-
-    while(!in.atEnd()) {
-        QString line = in.readLine();
-
-        blockData = line.split(",");
-
-        if(blockData.at(0).toInt()==block_num){
-            g = blockData.at(2);
-            e = blockData.at(4);
-            l = blockData.at(1);
-            s = blockData.at(3);
-            d = blockData.at(5);
-        }
-
-    }
-
-
-    file.close();
-
-    emit new_block(g,e,l,s,d);
+    emit new_block(QString::number(getGrades().at(block_num)),QString::number(getElevation().at(block_num)),QString::number(getLength().at(block_num)),QString::number(getSpeed().at(block_num)),"Two-Way");
     track_details ->show();
 }
 
@@ -277,6 +227,15 @@ int Simulation::getCurrentBlockNum(){
 void Simulation::setCurrentBlockNum(int blockNum){
     currentBlockNum = blockNum;
 }
+
+int Simulation::getPrevBlockNum(){
+    return prevBlockNum;
+}
+
+void Simulation::setPrevBlockNum(int p){
+    prevBlockNum = p;
+}
+
 double Simulation::getTotalDistance(){
     return totalDistance;
 }
@@ -286,10 +245,12 @@ void Simulation::setTotalDistance(double d){
 
 void Simulation::setOccupied(){
     QString block = "block" + QString::number(getCurrentBlockNum());
+    QString prevBlock = "block" + QString::number(getPrevBlockNum());
 
     QLabel * lbl = this->findChild<QLabel *>(block);
+    QLabel * lbl2 = this->findChild<QLabel *>(prevBlock);
 
     lbl->setStyleSheet(ui->yellowBlock->styleSheet());
-
+    lbl2->setStyleSheet(ui->blueBlock->styleSheet());
 
 }
