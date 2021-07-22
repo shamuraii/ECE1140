@@ -28,6 +28,11 @@ TM_MainWindow::TM_MainWindow(QWidget *parent)
 
     connect(track_select->simulation, &Simulation::sendCurrentBlockNum, &TrackModelSH::Get(), &TrackModelSH::getCurrentBlockNum);
 
+    connect(track_select->simulation, &Simulation::sendTrainAuthority, &TrackModelSH::Get(), &TrackModelSH::getTrainAuthority);
+    connect(track_select->simulation, &Simulation::sendTrainSpeed, &TrackModelSH::Get(), &TrackModelSH::getTrainSpeed);
+
+    connect(&TrackModelSH::Get(), &TrackModelSH::sendAuthVector, track_select->simulation, &Simulation::getAuthVector);
+    connect(&TrackModelSH::Get(), &TrackModelSH::sendSpeedVector, track_select->simulation, &Simulation::getSpeedVector);
 }
 
 TM_MainWindow::~TM_MainWindow()

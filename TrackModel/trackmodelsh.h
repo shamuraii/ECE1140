@@ -42,8 +42,10 @@ signals:
 
     //internal
     void sendDistanceTraveled(int, double);
+    void sendAuthVector(std::vector<bool>);
+    void sendSpeedVector(std::vector<int>);
 
-public slots:
+ public slots:
     //From Train Model
     void getDistanceTraveled(int trainNum, double distance);//meters
 
@@ -60,6 +62,8 @@ public slots:
 
     void getTimerTicked();
     void getPTimerTicked();
+    void getTrainAuthority(bool auth);
+    void getTrainSpeed(int speed);
 
 };
 
