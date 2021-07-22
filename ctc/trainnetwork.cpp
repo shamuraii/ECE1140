@@ -108,7 +108,13 @@ void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
     if (line == kRedBool) {
         TrackLine *l = GetTrackLine(kRedlineName);
         std::vector<Block*> blocks = l->GetBlocks();
+
+        for (size_t i = 0; i < 11; i++) {
+            qDebug() << occupancy[i];
+        }
+
         for (size_t i = 0; i < occupancy.size(); i++) {
+
             bool prev = blocks[i]->IsOccupied();
             bool now = occupancy[i];
 
@@ -118,6 +124,7 @@ void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
             }
 
             if (prev && !now) {
+                qDebug() << "CTC: Block " << i << " lost a train";
                 for (CTrain *t : trains_) {
                     if (t->GetLocation()->GetNum() == blocks[i]->GetNum()) {
                         qDebug() << "CTC: Moved train from " << i << " to " << t->GetNextBlock()->GetNum();
