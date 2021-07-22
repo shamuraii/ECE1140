@@ -109,20 +109,22 @@ void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
         TrackLine *l = GetTrackLine(kRedlineName);
         std::vector<Block*> blocks = l->GetBlocks();
         for (size_t i = 0; i < occupancy.size(); i++) {
-            bool prev = blocks[i+1]->IsOccupied();
+            bool prev = blocks[i]->IsOccupied();
             bool now = occupancy[i];
 
-            blocks[i+1]->SetOccupied(now);
+            blocks[i]->SetOccupied(now);
 
             if (prev && !now) {
                 for (CTrain *t : trains_) {
-                    if (t->GetLocation()->GetNum() == blocks[i+1]->GetNum()) {
+                    if (t->GetLocation()->GetNum() == blocks[i]->GetNum()) {
+                        qDebug() << "CTC: Moved train from " << i << " to " << t->GetNextBlock();
                         t->SetLocation(t->GetNextBlock());
                     }
                 }
             }
         }
     }
+    emit NetworkUpdated();
 }
 
 void TrainNetwork::TrainStopped(int train_num) {
