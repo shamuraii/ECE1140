@@ -22,6 +22,7 @@ TrainModelData::TrainModelData()
     speed_limit = 20;
     id = 1;
     distance = 0;
+    cabin_temp = 70;
 
     brakes_on = ebrakes_on = engine_failure = signal_failure = brake_failure = false;
     left_doors = right_doors = door_side = false;
