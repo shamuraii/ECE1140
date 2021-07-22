@@ -54,7 +54,7 @@ Simulation::Simulation(QWidget *parent) :
    }
 
     QStringList blockData;
-    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
+    QFile file("C:\\Users\\Jeff\\Documents\\ECE 1140\\Project Repo\\c3\\TrackModel\\redline_TrackDetails.csv");
 
     int blockCount = 76;
     int stationCount = 85;
@@ -115,28 +115,25 @@ void Simulation::on_failSelectButton_clicked()
 void Simulation::calculateBlock(int trainNum, double distance){
 
     setTotalDistance(distance + getTotalDistance());
+    qDebug() << "Total Distance: " << getTotalDistance();
 
 
     double totalMeters = getTotalDistance();
     int blockNum = 0;
 
-    //subtracting distance from the yard to block 9
-    totalMeters = totalMeters - 75;
-
-    if(totalMeters > 0){
-        for(blockNum = 9; totalMeters > 0; blockNum--){
-            totalMeters = totalMeters - getLength().at(blockNum);
-        }
-        setCurrentBlockNum(blockNum + 1);
-    }else{
-        setCurrentBlockNum(0);
+    if (totalMeters < 75) {
+        blockNum = 0;
+    } else if (totalMeters < 150) {
+        blockNum = 9;
+    } else if (totalMeters < 225) {
+        blockNum = 8;
+    } else if (totalMeters < 300) {
+        blockNum = 7;
+    } else {
+        blockNum = 6;
     }
-
-    if(blockNum == 7 || blockNum == 8){
-        setPrevBlockNum(blockNum + 1);
-    }else{
-        setPrevBlockNum(0);
-    }
+    setPrevBlockNum(getCurrentBlockNum());
+    setCurrentBlockNum(blockNum);
 
     emit sendCurrentBlockNum(getCurrentBlockNum(), getPrevBlockNum());
     setOccupied();
