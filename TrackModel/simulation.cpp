@@ -92,7 +92,13 @@ Simulation::~Simulation()
     delete ui;
 }
 
+void Simulation::getAuthVector(std::vector<bool> auth){
+    emit sendTrainAuthority(auth[getCurrentBlockNum()]);
+}
 
+void Simulation::getSpeedVector(std::vector<int> speed){
+    emit sendTrainSpeed(speed[getCurrentBlockNum()]);
+}
 
 void Simulation::emitTrackInfo(){
     emit sendBlockInfo(getSpeed(), getLength(), getLine());

@@ -70,6 +70,9 @@ signals:
     void new_station(QString s, QString t, QString tr, QString b, QString d);
     void sendBlockInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
     void sendCurrentBlockNum(int curr, int prev);
+    void sendTrainAuthority(bool);
+    void sendTrainSpeed(int);
+
 
 public slots:
     void on_failSelectButton_clicked();
@@ -77,6 +80,8 @@ public slots:
     void on_tempEdit_textEdited(const QString &arg1);
 
     void calculateBlock(int trainNum, double distance);
+    void getAuthVector(std::vector<bool>);
+    void getSpeedVector(std::vector<int>);
 
 
 

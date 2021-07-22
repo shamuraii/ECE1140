@@ -6,12 +6,11 @@ void TrackModelSH::getDistanceTraveled(int trainNum, double distance){
 }
 
 void TrackModelSH::getAuthority(std::vector<bool> auth){
-    //get the authority at block
-    //emit sendAuthority(1, auth);
+    emit sendAuthVector(auth);
 }
 
 void TrackModelSH::getCommandedSpeed(std::vector<int> comSpeed){
-    //get where train is
+    emit sendSpeedVector(comSpeed);
    // emit sendCommandedSpeed();
 }
 
@@ -27,5 +26,14 @@ void TrackModelSH::updateBlockInfo(std::vector<int> speed_limits, std::vector<in
 }
 
 void TrackModelSH::getCurrentBlockNum(int curr, int prev){
+
     emit sendCurrentBlockNum(curr, prev);
+}
+
+void TrackModelSH::getTrainAuthority(bool auth){
+    emit sendAuthority(1, auth);
+}
+
+void TrackModelSH::getTrainSpeed(int speed){
+    emit sendCommandedSpeed(1, speed);
 }
