@@ -1,9 +1,12 @@
 #include "simulation.h"
 #include "ui_simulation.h"
+#include "trackmodelsh.h"
 
 #include <QTime>
 #include <QFile>
 #include <QMessageBox>
+#include <sstream>
+#include <QObject>
 
 
 Simulation::Simulation(QWidget *parent) :
@@ -17,6 +20,14 @@ Simulation::Simulation(QWidget *parent) :
     station_details = new StationDetails(this);
     track_details = new TrackDetails(this);
     beacon = new Beacon(this);
+    timer = std::make_shared<QTimer>(new QTimer());
+    ptimer = std::make_shared<QTimer>(new QTimer());
+
+    timer->setInterval(1000);
+    ptimer->setInterval(400);
+
+    QObject::connect(timer.get(), &QTimer::timeout, &TrackModelSH::Get(), &TrackModelSH::getTimerTicked);
+    QObject::connect(ptimer.get(), &QTimer::timeout, &TrackModelSH::Get(), &TrackModelSH::getPTimerTicked);
 
     QList<QPushButton*> buttons = ui->centralwidget->findChildren<QPushButton*>(QString(), Qt::FindDirectChildrenOnly);
     for (QPushButton* button : buttons) {
@@ -25,16 +36,12 @@ Simulation::Simulation(QWidget *parent) :
            // Yard button has no effects
            continue;
        } else if (button_name.startsWith("station")) {
-           // Add the switch handler
            connect(button, &QPushButton::clicked, this, &Simulation::station_clicked);
        } else if (button_name.startsWith("beacon")) {
-           // Add the switch handler
            connect(button, &QPushButton::clicked, this, &Simulation::beacon_clicked);
        } else if (button_name.startsWith("block")) {
-           // Add the switch handler
            connect(button, &QPushButton::clicked, this, &Simulation::block_clicked);
        } else if (button_name.startsWith("switch")) {
-           // Add the switch handler
            connect(button, &QPushButton::clicked, this, &Simulation::switch_clicked);
        } else {
            // Add the block closed/opened handler
@@ -74,6 +81,39 @@ void Simulation::on_tempEdit_textEdited(const QString &arg1)
 }
 
 void Simulation::station_clicked(){
+    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    QString s, t, tr, b, d;
+    int station_num;
+    QStringList stationData;
+    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
+
+    station_num = button->text().toInt();
+
+    if(!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(0, "error", file.errorString());
+    }
+
+    QTextStream in(&file);
+
+    while(!in.atEnd()) {
+        QString line = in.readLine();
+
+        stationData = line.split(",");
+
+        if(stationData.at(0).toInt() == station_num){
+            s = stationData.at(1);
+            t = stationData.at(2);
+            b = stationData.at(3);
+            d = stationData.at(4);
+        }
+
+    }
+
+
+    file.close();
+
+    emit new_station(s,t,"1",b,d);
+
     station_details->show();
 }
 
@@ -86,13 +126,11 @@ void Simulation::block_clicked(){
 
     QPushButton *button = qobject_cast<QPushButton*>(sender());
     QString g, e, l, s, d;
-    QFile file("redline_TrackDetails.xlsx");
+    int block_num;
+    QStringList blockData;
+    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
 
-    if (button) {
-        int block_num = button->text().toInt();
-    } else {
-        QMessageBox::warning(this, "Error", "Invalid block_clicked signal sent.");
-    }
+    block_num = button->text().toInt();
 
     if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::information(0, "error", file.errorString());
@@ -103,8 +141,15 @@ void Simulation::block_clicked(){
     while(!in.atEnd()) {
         QString line = in.readLine();
 
-        QMessageBox msgbox;
-        msgbox.setText(line);
+        blockData = line.split(",");
+
+        if(blockData.at(0).toInt()==block_num){
+            g = blockData.at(2);
+            e = blockData.at(4);
+            l = blockData.at(1);
+            s = blockData.at(3);
+            d = blockData.at(5);
+        }
     }
 
 

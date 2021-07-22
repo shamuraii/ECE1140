@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 #include <QTimerEvent>
+#include <QTimer>
+#include <QObject>
+#include <memory>
+
 #include "failuremodeselector.h"
 #include "trackdetails.h"
 #include "stationdetails.h"
@@ -24,6 +28,8 @@ public:
     TrackDetails *track_details;
     StationDetails *station_details;
     Beacon *beacon;
+    std::shared_ptr<QTimer> timer;
+    std::shared_ptr<QTimer> ptimer;
 
 
     void station_clicked();
@@ -33,6 +39,7 @@ public:
 
 signals:
     void new_block(QString g, QString e, QString l, QString s, QString d);
+    void new_station(QString s, QString t, QString tr, QString b, QString d);
 
 private slots:
     void on_failSelectButton_clicked();

@@ -19,6 +19,7 @@ SOURCES += \
     simulation.cpp \
     stationdetails.cpp \
     trackdetails.cpp \
+    trackmodelsh.cpp \
     trackselect.cpp \
     train.cpp \
     uploadtrack.cpp
@@ -33,6 +34,7 @@ HEADERS += \
     simulation.h \
     stationdetails.h \
     trackdetails.h \
+    trackmodelsh.h \
     trackselect.h \
     train.h \
     uploadtrack.h

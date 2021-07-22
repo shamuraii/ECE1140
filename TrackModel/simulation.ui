@@ -2080,7 +2080,7 @@ color: rgb(255, 255, 255);
      <string>Beacon</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="station7">
+   <widget class="QPushButton" name="station78">
     <property name="geometry">
      <rect>
       <x>950</x>
@@ -2956,7 +2956,7 @@ color: rgb(0, 0, 0);</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="station16">
+   <widget class="QPushButton" name="station79">
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -2972,7 +2972,7 @@ color: rgb(0, 0, 0);</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="station21">
+   <widget class="QPushButton" name="station80">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -2988,7 +2988,7 @@ color: rgb(0, 0, 0);</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="station25">
+   <widget class="QPushButton" name="station81">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -3004,7 +3004,7 @@ color: rgb(0, 0, 0);</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="station48">
+   <widget class="QPushButton" name="station84">
     <property name="geometry">
      <rect>
       <x>660</x>
@@ -3020,7 +3020,7 @@ color: rgb(0, 0, 0);</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="station45">
+   <widget class="QPushButton" name="station83">
     <property name="geometry">
      <rect>
       <x>870</x>
@@ -3036,7 +3036,7 @@ color: rgb(0, 0, 0);</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="station35">
+   <widget class="QPushButton" name="station82">
     <property name="geometry">
      <rect>
       <x>720</x>
@@ -3052,7 +3052,7 @@ color: rgb(0, 0, 0);</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="station60">
+   <widget class="QPushButton" name="station85">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -5336,7 +5336,7 @@ color: rgb(255, 255, 255);
      <x>0</x>
      <y>0</y>
      <width>1170</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
