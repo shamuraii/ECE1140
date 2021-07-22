@@ -28,7 +28,7 @@ TrainController::TrainController()
     prev_error = 0;
     prev_u = 0;
     T = 0.4;
-    max_power = 120;
+    max_power = 120000;
 
 }
 
