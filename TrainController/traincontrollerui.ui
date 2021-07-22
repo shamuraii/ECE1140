@@ -201,7 +201,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Mph</string>
+       <string>m/s</string>
       </property>
      </widget>
      <widget class="QLabel" name="mph_label_2">
@@ -214,7 +214,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Mph</string>
+       <string>m/s</string>
       </property>
      </widget>
      <widget class="QLabel" name="mph_label_3">
@@ -227,7 +227,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Mph</string>
+       <string>m/s</string>
       </property>
      </widget>
     </widget>
