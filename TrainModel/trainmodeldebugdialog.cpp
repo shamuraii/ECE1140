@@ -44,7 +44,7 @@ void TrainModelDebugDialog::on_pushButton_6_clicked()
 //Send Announcement
 void TrainModelDebugDialog::on_pushButton_7_clicked()
 {
-    data->setAnnouncement(ui->lineEdit_3->text());
+    ControllerInterface::getInstance().setAnnouncement(data->getID(), ui->lineEdit_3->text());
     update();
 }
 
@@ -56,7 +56,7 @@ void TrainModelDebugDialog::on_pushButton_5_clicked()
     int d = s.toInt(&worked);
     if(worked)
     {
-        data->setCabinTemp(d);
+        ControllerInterface::getInstance().setCabinTemp(data->getID(), d);
         update();
     }
 }
@@ -64,35 +64,35 @@ void TrainModelDebugDialog::on_pushButton_5_clicked()
 //Toggle service brakes
 void TrainModelDebugDialog::on_pushButton_8_clicked()
 {
-    data->setBrakesOn(!data->getBrakesOn());
+    ControllerInterface::getInstance().setServiceBrake(data->getID(), !data->getBrakesOn());
     update();
 }
 
 //Toggle headlights
 void TrainModelDebugDialog::on_pushButton_4_clicked()
 {
-    data->setHeadlights(!data->getHeadlights());
+    ControllerInterface::getInstance().setHeadlights(data->getID(), !data->getHeadlights());
     update();
 }
 
 //Toggle cabin lights
 void TrainModelDebugDialog::on_pushButton_3_clicked()
 {
-    data->setCabinLights(!data->getCabinLights());
+    ControllerInterface::getInstance().setCabinLights(data->getID(), !data->getCabinLights());
     update();
 }
 
 //Toggle right door
 void TrainModelDebugDialog::on_pushButton_2_clicked()
 {
-    data->setRightDoors(!data->getRightDoors());
+    ControllerInterface::getInstance().setRightDoor(data->getID(), !data->getRightDoors());
     update();
 }
 
 //Toggle left door
 void TrainModelDebugDialog::on_pushButton_clicked()
 {
-    data->setLeftDoors(!data->getLeftDoors());
+    ControllerInterface::getInstance().setLeftDoor(data->getID(), !data->getLeftDoors());
     update();
 }
 
@@ -101,15 +101,8 @@ void TrainModelDebugDialog::on_pushButton_clicked()
 //Toggle Authority
 void TrainModelDebugDialog::on_pushButton_9_clicked()
 {
-    if (data->getAuthority()) data->setAuthority(0);
-    else data->setAuthority(1);
-    update();
-}
-
-//Toggle door side
-void TrainModelDebugDialog::on_pushButton_14_clicked()
-{
-    data->setDoorSide(!data->getDoorSide());
+    if (data->getAuthority()) TrackModelInterface::getInstance().setAuthority(data->getID(), 0);
+    else TrackModelInterface::getInstance().setAuthority(data->getID(), 1);
     update();
 }
 
@@ -121,36 +114,15 @@ void TrainModelDebugDialog::on_pushButton_10_clicked()
     int d = s.toInt(&worked);
     if(worked)
     {
-        data->setCommandedSpeed(d);
+        TrackModelInterface::getInstance().setCommandedSpeed(data->getID(), d);
         update();
     }
 }
 
-//Set speed limit
+//Set beacon info
 void TrainModelDebugDialog::on_pushButton_11_clicked()
 {
-    QString s = ui->lineEdit_5->text();
-    bool worked;
-    int d = s.toInt(&worked);
-    if(worked)
-    {
-        data->setSpeedLimit(d);
-        update();
-    }
-}
-
-//Set current station name
-void TrainModelDebugDialog::on_pushButton_12_clicked()
-{
-    data->setCurrentStation(ui->lineEdit_6->text());
-    update();
-}
-
-//Set last station name
-void TrainModelDebugDialog::on_pushButton_13_clicked()
-{
-    data->setLastStation(ui->lineEdit_7->text().toStdString());
-    update();
+    TrackModelInterface::getInstance().setBeaconInfo(data->getID(), ui->lineEdit_5->text());
 }
 
 /***Misc***/
@@ -216,32 +188,6 @@ void TrainModelDebugDialog::on_pushButton_19_clicked()
     if(worked)
     {
         data->setCrew(d);
-        update();
-    }
-}
-
-//Set accel limit
-void TrainModelDebugDialog::on_pushButton_20_clicked()
-{
-    QString s = ui->lineEdit_13->text();
-    bool worked;
-    int d = s.toInt(&worked);
-    if(worked)
-    {
-        data->setAccelLimit(d);
-        update();
-    }
-}
-
-//Set decel limit
-void TrainModelDebugDialog::on_pushButton_21_clicked()
-{
-    QString s = ui->lineEdit_14->text();
-    bool worked;
-    int d = s.toInt(&worked);
-    if(worked)
-    {
-        data->setDecelLimit(d);
         update();
     }
 }

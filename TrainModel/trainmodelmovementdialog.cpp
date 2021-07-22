@@ -21,6 +21,7 @@ TrainModelMovementDialog::~TrainModelMovementDialog()
 void TrainModelMovementDialog::setTrain(TrainModelData* d)
 {
     data = d;
+    update();
 }
 
 void TrainModelMovementDialog::update()
@@ -29,11 +30,10 @@ void TrainModelMovementDialog::update()
     ui->label->setText(QString::fromStdString(s1));
     std::string s2 = "Actual Power: " + std::to_string(data->getActualPower()) + " W";
     ui->label_2->setText(QString::fromStdString(s2));
-    std::string s3 = "Commanded Speed: " + std::to_string(data->getCommandedSpeed()) + " Mph";
+    std::string s3 = "Commanded Speed: " + std::to_string(0.621*data->getCommandedSpeed()) + " Mph";
     ui->label_3->setText(QString::fromStdString(s3));
     std::string s4 = "Actual Speed: " + std::to_string(2.237*data->getActualSpeed()) + " Mph";
     ui->label_4->setText(QString::fromStdString(s4));
     std::string s5 = "Authority: " + std::to_string(data->getAuthority());
     ui->label_5->setText(QString::fromStdString(s5));
-    std::string s6 = "Acceleration Limit: " + std::to_string(data->getAccelLimit()) + " Mph/s";
 }
