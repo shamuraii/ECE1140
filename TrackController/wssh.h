@@ -26,6 +26,7 @@ public slots:
     //from Track Model
     void SetTrainPresence(int curr_block_num, int prev_block_num);
     void SetBrokenRail(int block_num, bool failure);
+    void TimerTicked();
 
 signals:
     //to CTC

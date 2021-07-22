@@ -60,3 +60,7 @@ void wssh::SetTrainPresence(int curr_block_num, int prev_block_num) {
 void wssh::SetBrokenRail(int block_num, bool failure) {
     track_control::setBlockFailure(block_num, failure);
 }
+
+void wssh::TimerTicked() {
+    //TODO something has to happen here idk :Os
+}
