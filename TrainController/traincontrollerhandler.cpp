@@ -281,6 +281,12 @@ void TrainControllerHandler::NewAuthority(int index, int a)
         return;
 
     trains[index].authority = a;
+    if (a == 0)
+    {
+        trains[index].service_brake = true;
+        emit ServiceBrake(index, true);
+    }
+
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
     if (current_test_gui_index == index)
