@@ -58,6 +58,7 @@ Simulation::Simulation(QWidget *parent) :
 
     int blockCount = 76;
     int stationCount = 85;
+    int beaconCount = 101;
 
     if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::information(0, "error", file.errorString());
@@ -79,6 +80,9 @@ Simulation::Simulation(QWidget *parent) :
             setElevation(blockData.at(4).toDouble());
         }
         if(blockData.at(0).toInt() > blockCount + 1 && blockData.at(0).toInt() <= stationCount){
+
+        }
+        if(blockData.at(0).toInt() > stationCount && blockData.at(0).toInt() <= beaconCount){
 
         }
 
@@ -167,7 +171,12 @@ void Simulation::station_clicked(){
 }
 
 void Simulation::beacon_clicked(){
+    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    int beacon_num;
 
+    beacon_num = button->text().toInt() - 1;
+
+    emit new_beacon(getBeaconStation().at(beacon_num),getBeaconSide().at(beacon_num));
     beacon->show();
 }
 
@@ -249,6 +258,19 @@ void Simulation::setTotalDistance(double d){
     totalDistance = d;
 }
 
+std::vector<QString> Simulation::getBeaconStation(){
+    return beaconStation;
+}
+void Simulation::setBeaconStation(QString s){
+    beaconStation.push_back(s);
+}
+std::vector<QString> Simulation::getBeaconSide(){
+    return beaconSide;
+}
+void Simulation::setBeaconSide(QString s){
+    beaconSide.push_back(s);
+}
+
 void Simulation::setOccupied(){
     QString block = "block" + QString::number(getCurrentBlockNum());
     QString prevBlock = "block" + QString::number(getPrevBlockNum());
@@ -257,9 +279,9 @@ void Simulation::setOccupied(){
     QLabel * lbl = ui->centralwidget->findChild<QLabel*>(block);
     QLabel * lbl2 = ui->centralwidget->findChild<QLabel *>(prevBlock);
 
-    if (lbl2) {
-        lbl2->setStyleSheet(ui->blueBlock->styleSheet());
-    }
+    //if (lbl2) {
+    //    lbl2->setStyleSheet(ui->blueBlock->styleSheet());
+    //}
     if (lbl) {
         qDebug() << "TM: found lbl!!!";
         lbl->setStyleSheet(ui->yellowBlock->styleSheet());

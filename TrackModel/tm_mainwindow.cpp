@@ -22,7 +22,10 @@ TM_MainWindow::TM_MainWindow(QWidget *parent)
 
     connect(track_select->simulation, &Simulation::new_station, track_select->simulation->station_details, &StationDetails::update_station);
 
+    connect(track_select->simulation, &Simulation::new_beacon, track_select->simulation->beacon, &Beacon::update_beacon);
+
     connect(track_select->simulation, &Simulation::sendBlockInfo, &TrackModelSH::Get(), &TrackModelSH::updateBlockInfo);
+    connect(track_select->simulation, &Simulation::sendBeaconInfo, &TrackModelSH::Get(), &TrackModelSH::updateBeaconInfo);
 
     connect(&TrackModelSH::Get(), &TrackModelSH::sendDistanceTraveled, track_select->simulation, &Simulation::calculateBlock);
 
