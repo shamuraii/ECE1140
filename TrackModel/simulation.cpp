@@ -276,12 +276,13 @@ void Simulation::setOccupied(){
     QString prevBlock = "block" + QString::number(getPrevBlockNum());
     qDebug() << "TM: block = " << block;
 
-    QLabel * lbl = ui->centralwidget->findChild<QLabel*>(block);
-    QLabel * lbl2 = ui->centralwidget->findChild<QLabel *>(prevBlock);
+    QLabel * lbl = ui->centralwidget->findChild<QLabel*>(block, Qt::FindChildrenRecursively);
+    QLabel * lbl2 = ui->centralwidget->findChild<QLabel *>(prevBlock, Qt::FindChildrenRecursively);
 
-    //if (lbl2) {
-    //    lbl2->setStyleSheet(ui->blueBlock->styleSheet());
-    //}
+    if (lbl2) {
+        qDebug() << "TM: found lbl2!!!";
+        lbl2->setStyleSheet(ui->blueBlock->styleSheet());
+    }
     if (lbl) {
         qDebug() << "TM: found lbl!!!";
         lbl->setStyleSheet(ui->yellowBlock->styleSheet());
