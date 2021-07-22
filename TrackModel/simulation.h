@@ -57,6 +57,13 @@ public:
     void switch_clicked();
     void emitTrackInfo();
 
+    std::vector<QString> getStationName();
+    //void setStation
+    std::vector<int> getTicketSales();
+    std::vector<int> getBoarding();
+    std::vector<int> getDisembarking;
+
+
 
 signals:
     void new_block(QString g, QString e, QString l, QString s, QString d);
@@ -90,6 +97,9 @@ private:
 
 protected:
     void timerEvent(QTimerEvent *event);
+private slots:
+    void on_startButton_clicked();
+    void on_stopButton_clicked();
 };
 
 #endif // SIMULATION_H
