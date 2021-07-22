@@ -9,6 +9,11 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    TrackController/block_info.cpp \
+    TrackController/mainwindow.cpp \
+    TrackController/plc.cpp \
+    TrackController/track_control.cpp \
+    TrackController/wssh.cpp \
     TrackModel/beacon.cpp \
     TrackModel/debugger.cpp \
     TrackModel/failalert.cpp \
@@ -53,6 +58,11 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    TrackController/block_info.h \
+    TrackController/mainwindow.h \
+    TrackController/plc.h \
+    TrackController/track_control.h \
+    TrackController/wssh.h \
     TrackModel/beacon.h \
     TrackModel/debugger.h \
     TrackModel/failalert.h \
@@ -103,6 +113,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 FORMS += \
+    TrackController/block_info.ui \
+    TrackController/mainwindow.ui \
     TrackModel/beacon.ui \
     TrackModel/debugger.ui \
     TrackModel/failalert.ui \
@@ -128,3 +140,6 @@ FORMS += \
     ctc/ctc_schedule_dialog.ui \
     ctc/ctc_trains_dialog.ui \
     ctc/ctc_upload_dialog.ui
+
+SUBDIRS += \
+    TrackController/Wayside.pro
