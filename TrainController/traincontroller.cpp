@@ -30,6 +30,10 @@ TrainController::TrainController()
     T = 0.4;
     max_power = 120000;
 
+    // Variable for stopping at station
+    wait_counter = 0;
+    leave_station = false;
+
 }
 
 void TrainController::ResolveFailure(QString failure)
@@ -104,19 +108,27 @@ void TrainController::AtStation()
     if (station_here && actual_speed == 0 && !at_station)
     {
         at_station = true;
+        made_announcement = false;
         // Start time to wait for 60 seconds
     }
 
     //Checks if train has waited enough at station
-    else if (station_here && at_station && actual_speed == 0)
+    else if (station_here && at_station && actual_speed == 0 && !leaving_station)
     {
         //Check if 60 seconds went by
-        //at_station = false;
-        leave_station = true;
+        if (wait_counter > 60)
+        {
+            // flag to close doors and start power command again
+            leave_station = true;
+            // flag saying leaving is in progress
+            leaving_station = true;
+        }
     }
+    // Train left the station
     else if (station_here && at_station && actual_speed != 0)
     {
         at_station = false;
+        leaving_station = false;
     }
 
 }
@@ -124,7 +136,18 @@ void TrainController::AtStation()
 void TrainController::GrabBeaconInfo(QString info)
 {
     QStringList splitted = info.split(",");
-    announcement = splitted[0];
-    open_door = (splitted[1] == "Left");
+    announcement = "Arriving at " + splitted[0];
+    if (splitted[1] == "Right")
+        open_door = 0;
+    else if (splitted[1] == "Left")
+        open_door = 1;
+    else
+        open_door = 2;
     station_here = !station_here;
+}
+
+void TrainController::Timer()
+{
+    if (at_station)
+        wait_counter += 1;
 }

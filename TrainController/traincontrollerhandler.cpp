@@ -4,7 +4,7 @@ TrainControllerHandler::TrainControllerHandler(QObject *parent) : QObject(parent
 {
     current_gui_index = -1;
     SetUpSignals();
-    NewTrainController(1);
+    NewTrainController(0);
 }
 
 void TrainControllerHandler::SetUpSignals()
@@ -32,17 +32,21 @@ void TrainControllerHandler::SetUpSignals()
     QObject::connect(this, &TrainControllerHandler::LeftDoor, tcsh, &TrainControllerSignalHandler::LeftDoor);
     QObject::connect(this, &TrainControllerHandler::RightDoor, tcsh, &TrainControllerSignalHandler::RightDoor);
     QObject::connect(this, &TrainControllerHandler::Announcement, tcsh, &TrainControllerSignalHandler::Announcement);
+
+    // Signal for timer
+    QObject::connect(tcsh, &TrainControllerSignalHandler::Timer, this, &TrainControllerHandler::TimerTicked);
 }
 
-void TrainControllerHandler::NewTrainController(int id)
+void TrainControllerHandler::NewTrainController(int index)
 {
     TrainController newTrain;
     trains.push_back(newTrain);
-    cout << "\nNew Train. Id = " << id << "\n";
 
-    emit GuiNewTrain(id);
+    qDebug() << "Emitted Gui new: " << index;
+    emit GuiNewTrain(index);
+    emit GuiTestNewTrain(index);
 
-    if (id ==1)
+    if (index == 0)
     {
         current_gui_index = 0;
         current_test_gui_index = 0;
@@ -53,7 +57,7 @@ void TrainControllerHandler::NewTrainController(int id)
 
 void TrainControllerHandler::NewCommandedSpeed(int index, double speed)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
     trains[index].commanded_speed = ConvertKMPHToMS(speed);
@@ -63,37 +67,50 @@ void TrainControllerHandler::NewCommandedSpeed(int index, double speed)
 
 }
 
+// Toggle service brake
 void TrainControllerHandler::ToggleServiceBrake(int index)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
+    // Toggles service brake
     trains[index].service_brake = !trains[index].service_brake;
-    trains[index].power = 0;
 
+    // If braking set commanded power to 0
+    if (!trains[index].service_brake)
+    {
+         trains[index].power = 0;
+         emit SendPower(index, trains[index].power);
+    }
+
+    // Send signal to train model
     emit ServiceBrake(index, trains[index].service_brake);
-    emit SendPower(index, 0);
 
+    // Update gui if needed
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
 
 }
 
+// New actual speed received, calculate power
 void TrainControllerHandler::NewActualSpeed(int index, double speed)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
+    // Converts the speed to m/s
     trains[index].actual_speed = ConvertKMPHToMS(speed);
+    //Calculates power
     double power = trains[index].CalculatePower();
 
     // Handle train arriving at station
+    //TODO: check if made_announcement is false
     if (trains[index].at_station)
         ArrivedAtStation(index);
 
 
     // Release brakes and close doors to leave station
-    if (trains[index].leave_station && trains[index].actual_speed == 0)
+    if (trains[index].leave_station)
     {
         // Close doors to train
         trains[index].left_door = false;
@@ -108,8 +125,10 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
         trains[index].leave_station = false;
     }
 
+    // Send new commanded power to train model
     emit SendPower(index, power);
 
+    // Update Guis if needed
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
     if (current_test_gui_index == index)
@@ -118,9 +137,10 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
 
 void TrainControllerHandler::ToggleHeadlights(int index)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
-
+    qDebug() << "Current index in headlights " << index;
+    qDebug() << "Current gui index " << current_gui_index;
     // Toggles the headlights
     trains[index].headlights = !trains[index].headlights;
 
@@ -131,9 +151,10 @@ void TrainControllerHandler::ToggleHeadlights(int index)
         emit GuiUpdate(trains[index]);
 }
 
+// Toggle cabin lights
 void TrainControllerHandler::ToggleCabinLights(int index)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
     // Toggles the cabin lights
@@ -142,13 +163,15 @@ void TrainControllerHandler::ToggleCabinLights(int index)
     // Sends cabin light status to train
     emit CabinLights(index, trains[index].cabin_lights);
 
+    // Update gui
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
 }
 
+// Set the cabin temperature
 void TrainControllerHandler::SetCabinTemp(int index, double temp)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
     // Sets the cabin temp
@@ -157,25 +180,29 @@ void TrainControllerHandler::SetCabinTemp(int index, double temp)
     // Sends cabin temp to train
     emit CabinTemp(index, temp);
 
+    // Update gui
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
 }
 
+// Send the announcements to train
 void TrainControllerHandler::StartAnnouncement(int index)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
     // Train should be stopped before announcements start
-    if (trains[index].actual_speed != 0)
-        return;
+//    if (trains[index].actual_speed != 0)
+//        return;
 
+    trains[index].made_announcement = true;
     emit Announcement(index, trains[index].announcement);
 }
 
+// Driver sets new setpoint speed
 void TrainControllerHandler::NewSetpointSpeed(int index, double speed)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
     // Checks that the speed is valid
@@ -184,51 +211,57 @@ void TrainControllerHandler::NewSetpointSpeed(int index, double speed)
 
     // Sets the new setpoint speed
     trains[index].setpoint_speed = speed;
+    // Updates gui
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
 
 }
 
+// Toggle left door
 void TrainControllerHandler::ToggleLeftDoor(int index)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
-    trains[index].left_door = !trains[index].left_door;
-
     // Toggle door on train
+    trains[index].left_door = !trains[index].left_door;
     emit LeftDoor(index, trains[index].left_door);
 
+    // Update gui
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
 }
 
+// Toggle right door
 void TrainControllerHandler::ToggleRightDoor(int index)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
-    trains[index].right_door = !trains[index].right_door;
-
     // Toggle door on train
+    trains[index].right_door = !trains[index].right_door;
     emit RightDoor(index, trains[index].right_door);
 
+    // Update gui
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
 }
 
+// Set Kp value
 void TrainControllerHandler::SetKp(int index, double kp)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
     // Sets Kp value
     trains[index].kp = kp;
 
+    // Update gui
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
 }
 
+// Set Ki value
 void TrainControllerHandler::SetKi(int index, double ki)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
@@ -237,6 +270,7 @@ void TrainControllerHandler::SetKi(int index, double ki)
     // Sets Ki value
     trains[index].ki = ki;
 
+    // Update gui
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
 }
@@ -244,7 +278,7 @@ void TrainControllerHandler::SetKi(int index, double ki)
 // Emits signal to update gui to currently viewed train
 void TrainControllerHandler::UpdateGui(int index)
 {
-    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
 
     emit GuiUpdate(trains[index]);
@@ -321,27 +355,49 @@ void TrainControllerHandler::ArrivedAtStation(int index)
 {
     if (!trains[index].made_announcement)
     {
-        if (trains[index].open_door)
+        // Open doors
+        if (trains[index].open_door == 1)
         {
             trains[index].left_door = true;
             emit LeftDoor(index, true);
         }
-        else
+        else if (trains[index].open_door == 0)
         {
             trains[index].right_door = true;
-            emit RightDoor(index, false);
+            emit RightDoor(index, true);
         }
+        else
+        {
+            trains[index].left_door = true;
+            emit LeftDoor(index, true);
+            trains[index].right_door = true;
+            emit RightDoor(index, true);
+
+        }
+        // Make announcement
         StartAnnouncement(index);
     }
 }
 
-void TrainControllerHandler::ManualMode(int index, QString password)
+void TrainControllerHandler::ManualMode(int index)
 {
     //cout << index << password;
     trains[index].manual_mode = !trains[index].manual_mode;
+    if (current_gui_index == index)
+        emit GuiUpdate(trains[index]);
 }
 
 double TrainControllerHandler::ConvertKMPHToMS(double speed)
 {
     return speed * (5.0/18.0);
+}
+
+// Simulation timer for 1 second
+void TrainControllerHandler::TimerTicked()
+{
+    for (int i = 0; i < trains.size(); i++)
+    {
+        trains[i].Timer();
+    }
+
 }

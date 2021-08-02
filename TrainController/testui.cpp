@@ -7,7 +7,7 @@ TestUi::TestUi(QWidget *parent) :
 {
     ui->setupUi(this);
     num_trains = 0;
-    on_new_train_button_clicked();
+    AddNewTrain(0);
 }
 
 TestUi::~TestUi()
@@ -27,9 +27,15 @@ void TestUi::on_new_train_button_clicked()
 {
     num_trains += 1;
     ui->train_index->addItem(QString::number(num_trains));
-    emit NewTrain(num_trains);
+    emit NewTrain(num_trains - 1);
 }
 
+void TestUi::AddNewTrain(int index)
+{
+    qDebug() << "In Test Ui Add new train: " << index;
+    num_trains += 1;
+    ui->train_index->addItem(QString::number(index+1));
+}
 
 void TestUi::on_commanded_speed_button_clicked()
 {
@@ -43,7 +49,7 @@ void TestUi::on_commanded_speed_button_clicked()
         return;
     }
 
-    emit NewCommandedSpeed(ui->train_index->currentIndex(),stod(speed));
+    emit NewCommandedSpeed(ui->train_index->currentText().toInt() - 1,stod(speed));
 }
 
 void TestUi::ServiceBrake(int index, bool brake_state)
@@ -51,7 +57,7 @@ void TestUi::ServiceBrake(int index, bool brake_state)
     if (num_trains == 0)
         return;
 
-    if (ui->train_index->currentIndex() == index)
+    if (ui->train_index->currentText().toInt() - 1 == index)
         ui->service_brake_status->setText((brake_state) ? "On" : "Off");
 }
 
@@ -60,7 +66,7 @@ void TestUi::EmergencyBrake(int index, bool brake_state)
     if (num_trains == 0)
         return;
 
-    if (ui->train_index->currentIndex() == index)
+    if (ui->train_index->currentText().toInt() - 1 == index)
         ui->emergency_brake_status->setText((brake_state) ? "On" : "Off");
 }
 
@@ -69,7 +75,7 @@ void TestUi::NewPower(int index, double power)
     if (num_trains == 0)
         return;
 
-    if (ui->train_index->currentIndex() == index)
+    if (ui->train_index->currentText().toInt() - 1 == index)
         ui->power_value->setText(QString::number(power));
 }
 
@@ -86,7 +92,7 @@ void TestUi::on_actual_speed_button_clicked()
     }
 
 
-    emit NewActualSpeed(ui->train_index->currentIndex(),stod(speed));
+    emit NewActualSpeed(ui->train_index->currentText().toInt() - 1,stod(speed));
 }
 
 void TestUi::Headlights(int index, bool lights_status)
@@ -94,7 +100,7 @@ void TestUi::Headlights(int index, bool lights_status)
     if (num_trains == 0)
         return;
 
-    if (ui->train_index->currentIndex() == index)
+    if (ui->train_index->currentText().toInt() - 1 == index)
         ui->headlight_status->setText((lights_status) ? "On" : "Off");
 }
 
@@ -103,7 +109,7 @@ void TestUi::CabinLights(int index, bool lights_status)
     if (num_trains == 0)
         return;
 
-    if (ui->train_index->currentIndex() == index)
+    if (ui->train_index->currentText().toInt() - 1 == index)
         ui->cabin_lights_status->setText((lights_status) ? "On" : "Off");
 }
 
@@ -112,7 +118,7 @@ void TestUi::CabinTemp(int index, double temp)
     if (num_trains == 0)
         return;
 
-    if (ui->train_index->currentIndex() == index)
+    if (ui->train_index->currentText().toInt() - 1 == index)
         ui->cabin_temp_value->setText(QString::number(temp));
 }
 
@@ -121,7 +127,7 @@ void TestUi::Announcement(int index, QString station)
     if (num_trains == 0)
         return;
 
-    if (ui->train_index->currentIndex() == index)
+    if (ui->train_index->currentText().toInt() - 1 == index)
         ui->announcement_status->setText("Arriving at " + station);
 }
 
@@ -130,7 +136,7 @@ void TestUi::LeftDoor(int index, bool door_status)
     if (num_trains == 0)
         return;
 
-    if (ui->train_index->currentIndex() == index)
+    if (ui->train_index->currentText().toInt() - 1 == index)
         ui->left_door_status->setText((door_status) ? "Open" : "Closed");
 }
 
@@ -139,7 +145,7 @@ void TestUi::RightDoor(int index, bool door_status)
     if (num_trains == 0)
         return;
 
-    if (ui->train_index->currentIndex() == index)
+    if (ui->train_index->currentText().toInt() - 1 == index)
         ui->right_door_status->setText((door_status) ? "Open" : "Closed");
 }
 
@@ -148,7 +154,7 @@ void TestUi::on_emergency_brake_button_clicked()
     if (num_trains == 0)
         return;
 
-    emit ToggleEmergencyBrake(ui->train_index->currentIndex());
+    emit ToggleEmergencyBrake(ui->train_index->currentText().toInt() - 1);
 
 }
 
@@ -181,16 +187,6 @@ void TestUi::UpdateTest(TrainController train)
 
 }
 
-// Changed to other train, update info
-void TestUi::on_train_index_currentIndexChanged(int index)
-{
-    if (num_trains == 0)
-        return;
-
-    if (num_trains !=1)
-        emit UpdateTestGui(index);
-}
-
 
 void TestUi::on_authority_button_clicked()
 {
@@ -205,7 +201,7 @@ void TestUi::on_authority_button_clicked()
     }
 
 
-    emit NewAuthority(ui->train_index->currentIndex(),stoi(a));
+    emit NewAuthority(ui->train_index->currentText().toInt() - 1,stoi(a));
 }
 
 
@@ -214,6 +210,15 @@ void TestUi::on_failure_mode_button_clicked()
     if (num_trains == 0)
         return;
 
-    emit FailureMode(ui->train_index->currentIndex(), "brake");
+    emit FailureMode(ui->train_index->currentText().toInt() - 1, "brake");
+}
+
+void TestUi::on_train_index_currentIndexChanged(int index)
+{
+    if (num_trains == 0)
+            return;
+
+    if (num_trains !=1)
+        emit UpdateTestGui(ui->train_index->currentText().toInt() - 1);
 }
 

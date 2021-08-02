@@ -95,3 +95,8 @@ void TrainControllerSignalHandler::EmergencyBrake(int index, bool status)
     emit NewEmergencyBrake(index+1, status);
     qDebug() << "TC tell train to toggle ebrake " << status;
 }
+
+void TrainControllerSignalHandler::TimerTicked()
+{
+    emit Timer();
+}

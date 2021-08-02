@@ -17,6 +17,7 @@ public:
     double CalculatePower();
     void GrabBeaconInfo(QString);
     void AtStation();
+    void Timer();
 
     bool service_brake;
     bool emergency_brake;
@@ -46,6 +47,8 @@ private:
     double T;
     double max_power;
     bool station_here;
+    int wait_counter;
+    bool leaving_station;
 
     double CheckPowerCalculation(double,double);
 

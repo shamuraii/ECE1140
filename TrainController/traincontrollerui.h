@@ -37,6 +37,7 @@ signals:
     void SetKi(int,double);
     void UpdateGui(int);
     void ToggleEmergencyBrake(int);
+    void ToggleManualMode(int);
 
 
 private slots:
@@ -66,6 +67,8 @@ private slots:
     void on_emergency_brake_button_clicked();
 
     void on_debugger_clicked();
+
+    void on_manual_mode_button_clicked();
 
 private:
     Ui::TrainControllerUi *ui;

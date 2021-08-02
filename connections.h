@@ -24,7 +24,7 @@ void ConnectSystem() {
     QObject::connect(tmsh, &TrackModelSH::sendTimerTicked, ws, &wssh::TimerTicked);
     QObject::connect(tmsh, &TrackModelSH::sendTimerTicked, tmi, &TrackModelInterface::timerTicked);
     QObject::connect(tmsh, &TrackModelSH::sendPtimerTicked, tmi, &TrackModelInterface::ptimerTicked);
-    //QObject::connect(tmsh, &TrackModelSH::sendPtimerTicked, tcsh, &TrainControllerSignalHandler::);
+    QObject::connect(tmsh, &TrackModelSH::sendTimerTicked, tcsh, &TrainControllerSignalHandler::TimerTicked);
 
     // CTC - Wayside
     QObject::connect(ctc, &CtcSH::ShareSugAuthority, ws, &wssh::SetSugAuthority);

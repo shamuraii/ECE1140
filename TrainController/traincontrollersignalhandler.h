@@ -46,6 +46,9 @@ public slots:
     void RightDoor(int,bool);
     void EmergencyBrake(int,bool);
 
+    // Timer signal
+    void TimerTicked();
+
 signals:
     // External signals to train model
     void NewServiceBrake(int,bool);
@@ -66,6 +69,9 @@ signals:
     // void ServiceBrake(int,bool); for failure mode
     void Authority(int,int);
     void BeaconInfo(int,QString);
+
+    // Timer signal to train controller
+    void Timer();
 
 };
 

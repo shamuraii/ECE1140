@@ -31,6 +31,7 @@ public slots:
     void RightDoor(int,bool);
     void UpdateTest(TrainController);
     void EmergencyBrake(int,bool);
+    void AddNewTrain(int);
 
 signals:
     void NewTrain(int);
@@ -49,11 +50,11 @@ private slots:
 
     void on_emergency_brake_button_clicked();
 
-    void on_train_index_currentIndexChanged(int index);
-
     void on_authority_button_clicked();
 
     void on_failure_mode_button_clicked();
+
+    void on_train_index_currentIndexChanged(int index);
 
 private:
     Ui::TestUi *ui;
