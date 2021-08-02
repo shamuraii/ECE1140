@@ -204,7 +204,7 @@ void TrainControllerHandler::NewSetpointSpeed(int index, double speed)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
-
+    speed = ConvertKMPHToMS(speed);
     // Checks that the speed is valid
     if (speed < 0 || speed > 100 || speed > trains[index].commanded_speed)
         return;
