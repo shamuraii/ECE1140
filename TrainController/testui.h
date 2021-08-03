@@ -61,6 +61,8 @@ private:
     int num_trains;
 
     bool IsNumber(string);
+    double MSToMPH(double);
+    double MPHToKMPH(double);
 };
 
 #endif // TESTUI_H

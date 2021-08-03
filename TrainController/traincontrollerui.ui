@@ -201,7 +201,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>m/s</string>
+       <string>mph</string>
       </property>
      </widget>
      <widget class="QLabel" name="mph_label_2">
@@ -214,7 +214,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>m/s</string>
+       <string>mph</string>
       </property>
      </widget>
      <widget class="QLabel" name="mph_label_3">
@@ -227,7 +227,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>m/s</string>
+       <string>mph</string>
       </property>
      </widget>
     </widget>
@@ -367,7 +367,7 @@
        <x>420</x>
        <y>80</y>
        <width>281</width>
-       <height>291</height>
+       <height>321</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -560,8 +560,8 @@
      <widget class="QPushButton" name="cabin_temp_button">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>250</y>
+        <x>210</x>
+        <y>280</y>
         <width>51</width>
         <height>23</height>
        </rect>
@@ -592,19 +592,22 @@
      <widget class="QLineEdit" name="cabin_temp_value">
       <property name="geometry">
        <rect>
-        <x>120</x>
-        <y>250</y>
-        <width>41</width>
+        <x>160</x>
+        <y>280</y>
+        <width>21</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="text">
+       <string>70</string>
       </property>
      </widget>
      <widget class="QLabel" name="temp_units_label">
       <property name="geometry">
        <rect>
-        <x>170</x>
-        <y>250</y>
-        <width>31</width>
+        <x>190</x>
+        <y>280</y>
+        <width>16</width>
         <height>21</height>
        </rect>
       </property>
@@ -612,12 +615,57 @@
        <string>F</string>
       </property>
      </widget>
+     <widget class="QLabel" name="cabin_temp">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>250</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="temp_units_label_2">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>250</y>
+        <width>16</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>F</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="cabin_temp_label_2">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>280</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Change Temp</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QFrame" name="manual_mode_frame">
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>390</y>
+       <y>430</y>
        <width>281</width>
        <height>161</height>
       </rect>

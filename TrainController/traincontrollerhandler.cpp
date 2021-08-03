@@ -204,7 +204,7 @@ void TrainControllerHandler::NewSetpointSpeed(int index, double speed)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
-    speed = ConvertKMPHToMS(speed);
+    speed = ConvertMPHToMS(speed);
     // Checks that the speed is valid
     if (speed < 0 || speed > 100 || speed > trains[index].commanded_speed)
         return;
@@ -387,9 +387,16 @@ void TrainControllerHandler::ManualMode(int index)
         emit GuiUpdate(trains[index]);
 }
 
+// Utility function to convert kmph to m/s
 double TrainControllerHandler::ConvertKMPHToMS(double speed)
 {
     return speed * (5.0/18.0);
+}
+
+// Utility function to convert mph to m/s
+double TrainControllerHandler::ConvertMPHToMS(double speed)
+{
+    return speed * 0.44704;
 }
 
 // Simulation timer for 1 second

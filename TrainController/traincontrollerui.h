@@ -75,6 +75,7 @@ private:
 
     bool IsNumber(string);
     void SetUpSignals();
+    double MSToMPH(double);
 
     TrainControllerHandler train_handler;
     TestUi test_ui;
