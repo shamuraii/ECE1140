@@ -49,7 +49,7 @@ void TestUi::on_commanded_speed_button_clicked()
         return;
     }
 
-    emit NewCommandedSpeed(ui->train_index->currentText().toInt() - 1,stod(speed));
+    emit NewCommandedSpeed(ui->train_index->currentText().toInt() - 1,MPHToKMPH(stod(speed)));
 }
 
 void TestUi::ServiceBrake(int index, bool brake_state)
@@ -92,7 +92,7 @@ void TestUi::on_actual_speed_button_clicked()
     }
 
 
-    emit NewActualSpeed(ui->train_index->currentText().toInt() - 1,stod(speed));
+    emit NewActualSpeed(ui->train_index->currentText().toInt() - 1,MPHToKMPH(stod(speed)));
 }
 
 void TestUi::Headlights(int index, bool lights_status)
@@ -162,8 +162,8 @@ void TestUi::on_emergency_brake_button_clicked()
 void TestUi::UpdateTest(TrainController train)
 {
     // Speed info
-    ui->actual_speed_value->setText(QString::number(train.actual_speed));
-    ui->commanded_speed_value->setText((QString::number(train.commanded_speed)));
+    ui->actual_speed_value->setText(QString::number(MSToMPH(train.actual_speed)));
+    ui->commanded_speed_value->setText(QString::number(MSToMPH(train.commanded_speed)));
 
     // Authority info
     ui->authority_status->setText(QString::number(train.authority));
@@ -222,3 +222,12 @@ void TestUi::on_train_index_currentIndexChanged(int index)
         emit UpdateTestGui(ui->train_index->currentText().toInt() - 1);
 }
 
+double TestUi::MSToMPH(double speed)
+{
+    return speed*2.23694;
+}
+
+double TestUi::MPHToKMPH(double speed)
+{
+    return speed*1.60934;
+}

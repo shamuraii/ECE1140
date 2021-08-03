@@ -78,9 +78,9 @@ void TrainControllerUi::NewTrain(int num)
 void TrainControllerUi::Update(TrainController train)
 {
     // Speed info
-    ui->actual_speed->setText(QString::number(train.actual_speed));
-    ui->commanded_speed->setText((QString::number(train.commanded_speed)));
-    ui->setpoint_speed->setText(QString::number(train.setpoint_speed));
+    ui->actual_speed->setText(QString::number(MSToMPH(train.actual_speed)));
+    ui->commanded_speed->setText((QString::number(MSToMPH(train.commanded_speed))));
+    ui->setpoint_speed->setText(QString::number(MSToMPH(train.setpoint_speed)));
 
     // Authority info
     ui->authority_status->setText(QString::number(train.authority));
@@ -94,7 +94,7 @@ void TrainControllerUi::Update(TrainController train)
     ui->cabin_lights_button->setText((train.cabin_lights) ? "On" : "Off");
     ui->left_door_button->setText((train.left_door) ? "Open" : "Closed");
     ui->right_door_button->setText((train.right_door) ? "Open" : "Closed");
-    ui->cabin_temp_value->setText((QString::number(train.cabin_temp)));
+    ui->cabin_temp->setText((QString::number(train.cabin_temp)));
 
     // Manual mode
     ui->setpoint_speed_edit->setValue(train.setpoint_speed);
@@ -248,3 +248,8 @@ void TrainControllerUi::on_manual_mode_button_clicked()
     emit ToggleManualMode(ui->train_index->currentText().toInt() - 1);
 }
 
+// Utility function to convert m/s to mph
+double TrainControllerUi::MSToMPH(double speed)
+{
+    return speed*2.23694;
+}

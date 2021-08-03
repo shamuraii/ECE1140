@@ -43,6 +43,7 @@ private:
 
     void SetUpSignals();
     double ConvertKMPHToMS(double);
+    double ConvertMPHToMS(double);
 
 signals:
     void GuiUpdate(TrainController);
