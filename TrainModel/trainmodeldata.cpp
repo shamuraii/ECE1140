@@ -66,9 +66,7 @@ void TrainModelData::tick(int time)
     //Tell controller our speed changed in kmh
     emit ControllerInterface::getInstance().speedChanged(getID(), 3.6*actual_speed);
 
-    //Tell track model our speed changed (TODO) (Moved to long tick)
-
-    //If speed dropped to 0, tell CTC we've arrived at a station (TODO)
+    //If speed dropped to 0, tell CTC we've arrived at a station
     if (wasMoving && actual_speed == 0)
     {
         qDebug() << "Train Model stopped...telling CTC";

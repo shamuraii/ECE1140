@@ -16,7 +16,7 @@
 //distance traveled
 
 //CTC should receive the following data:
-//train stop events
+//train stop events, stopping distance
 
 //All slots and signals take the ID of the recipient train along with the data
 
@@ -46,6 +46,7 @@ signals:
 	void newTrain(int);
     //For CTC
     void trainStopped(int train_num);
+	void stoppingDistance(int, long);
 public:
     //Singleton functions
     static TrackModelInterface& getInstance()

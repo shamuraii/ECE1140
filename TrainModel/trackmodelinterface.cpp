@@ -28,7 +28,7 @@ void TrackModelInterface::setCommandedSpeed(int id, int comm_speed)
 }
 
 //long timer tick
-//send distance traveled here
+//send distance traveled and stopping distance here
 void TrackModelInterface::timerTicked()
 {
     std::vector<TrainModelData*> trains = TrainModelDatabase::getAllTrains();
@@ -36,6 +36,7 @@ void TrackModelInterface::timerTicked()
     {
         qDebug() << "Train #" << train->getID() << " sending distance: " << train->getDistance();
         emit distanceTraveled(train->getID(), train->getDistance());
+		emit stoppingDistance(train->getID(), train->getActualSpeed()*train->getActualSpeed()*0.5*(1/1.2));
         train->setDistance(0);
     }
 }
