@@ -8,11 +8,11 @@
 
 //Train Controller should be able to send a train the following data:
 //commanded power, left door, right door, cabin lights, headlights
-//announcement, service brake, ebrake, cabin temp
+//announcement, service brake, ebrake, cabin temp, repair event
 
 //Train Controller should receive the following data:
 //speed, service brake, ebrake, commanded authority
-//commanded speed, beacon info
+//commanded speed, beacon info, failure states
 
 //All data receiving slots take the ID of the recipient train along with the data
 
@@ -32,17 +32,24 @@ public slots:
     void setServiceBrake(int, bool);
     void setEBrake(int, bool);
     void setCabinTemp(int, int);
+	void fixTrain(int);
 signals:
     //Outgoing data signals
-    void newTrain(int);
     void speedChanged(int, double);
     void serviceBrakeChanged(int, bool);
     void eBrakeChanged(int, bool);
     void authorityChanged(int, int);
     void commandedSpeedChanged(int, double);
     void beaconInfoChanged(int, QString);
+	void failureChanged(int, int);
 public:
-    static ControllerInterface& getInstance();
+	//Singleton functions
+    static ControllerInterface& getInstance()
+	{
+		static ControllerInterface c;
+		return c;
+	}
+	
     ControllerInterface(const ControllerInterface&) = delete;
     void operator=(const ControllerInterface&) = delete;
 };
