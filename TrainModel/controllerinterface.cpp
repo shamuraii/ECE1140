@@ -70,3 +70,15 @@ void ControllerInterface::setCabinTemp(int id, int temp)
     TrainModelData* data = TrainModelDatabase::getTrainByID(id);
     if (data != nullptr) data->setCabinTemp(temp);
 }
+
+void ControllerInterface::fixTrain(int id)
+{
+	qDebug() << "Train #" << id << " has been repaired";
+	TrainModelData* data = TrainModelDatabase::getTrainByID(id);
+    if (data != nullptr)
+	{
+		data->setBrakeFail(false);
+		data->setSignalFail(false);
+		data->setEngineFail(false);
+	}
+}

@@ -8,7 +8,7 @@
 
 //Train Controller should be able to send a train the following data:
 //commanded power, left door, right door, cabin lights, headlights
-//announcement, service brake, ebrake, cabin temp
+//announcement, service brake, ebrake, cabin temp, repair event
 
 //Train Controller should receive the following data:
 //speed, service brake, ebrake, commanded authority
@@ -32,6 +32,7 @@ public slots:
     void setServiceBrake(int, bool);
     void setEBrake(int, bool);
     void setCabinTemp(int, int);
+	void fixTrain(int);
 signals:
     //Outgoing data signals
     void speedChanged(int, double);
