@@ -12,8 +12,8 @@ TrainModelGUI::TrainModelGUI(QWidget *parent)
     , ui(new Ui::TrainModelGUI)
 {
     //Create a train
-    int id = TrainModelDatabase::createTrain();
-    data = TrainModelDatabase::getTrainByID(id);
+    TrainModelDatabase::createTrain(1);
+    data = TrainModelDatabase::getTrainByID(1);
 
     //TODO add setTrain to movement and beacon dialogs
     failureDialog.setTrain(data);
