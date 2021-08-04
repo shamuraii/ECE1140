@@ -61,11 +61,7 @@ void ControllerInterface::setEBrake(int id, bool b)
 {
     qDebug() << "Train #" << id << " received e brake: " << b;
     TrainModelData* data = TrainModelDatabase::getTrainByID(id);
-    if (data != nullptr)
-    {
-        data->setEbrakesOn(b);
-        emit eBrakeChanged(id, data->getEbrakesOn());
-    }
+    if (data != nullptr) data->setEbrakesOn(b);
 }
 
 void ControllerInterface::setCabinTemp(int id, int temp)
