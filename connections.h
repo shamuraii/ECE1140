@@ -59,13 +59,15 @@ void ConnectSystem() {
     QObject::connect(tmi, &TrackModelInterface::distanceTraveled, tmsh, &TrackModelSH::getDistanceTraveled);
 
     // Train Model - Train Controller
-    QObject::connect(ci, &ControllerInterface::newTrain, tcsh, &TrainControllerSignalHandler::NewTrainController);
+    QObject::connect(tmi, &TrackModelInterface::newTrain, tcsh, &TrainControllerSignalHandler::NewTrainController);
     QObject::connect(ci, &ControllerInterface::speedChanged, tcsh, &TrainControllerSignalHandler::NewActualSpeed);
     //QObject::connect(ci, &ControllerInterface::serviceBrakeChanged, tcsh, &TrainControllerSignalHandler::);
     QObject::connect(ci, &ControllerInterface::eBrakeChanged, tcsh, &TrainControllerSignalHandler::ToggleEmergencyBrake);
     QObject::connect(ci, &ControllerInterface::authorityChanged, tcsh, &TrainControllerSignalHandler::NewAuthority);
     QObject::connect(ci, &ControllerInterface::commandedSpeedChanged, tcsh, &TrainControllerSignalHandler::NewCommandedSpeed);
     QObject::connect(ci, &ControllerInterface::beaconInfoChanged, tcsh, &TrainControllerSignalHandler::NewBeaconInfo);
+    QObject::connect(ci, &ControllerInterface::failureChanged, tcsh, &TrainControllerSignalHandler::FailureMode);
+    QObject::connect(ci, &ControllerInterface::failureFixed, tcsh, &TrainControllerSignalHandler::EndFailure);
 
     QObject::connect(tcsh, &TrainControllerSignalHandler::NewServiceBrake, ci, &ControllerInterface::setServiceBrake);
     QObject::connect(tcsh, &TrainControllerSignalHandler::NewSendPower, ci, &ControllerInterface::setCommandedPower);

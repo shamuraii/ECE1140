@@ -40,7 +40,7 @@ signals:
     void ToggleEmergencyBrake(int);
     void UpdateTestGui(int);
     void NewAuthority(int,int);
-    void FailureMode(int, QString);
+    void FailureMode(int, int);
 
 private slots:
     void on_new_train_button_clicked();

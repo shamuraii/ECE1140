@@ -210,7 +210,7 @@ void TestUi::on_failure_mode_button_clicked()
     if (num_trains == 0)
         return;
 
-    emit FailureMode(ui->train_index->currentText().toInt() - 1, "brake");
+    emit FailureMode(ui->train_index->currentText().toInt() - 1, 0);
 }
 
 void TestUi::on_train_index_currentIndexChanged(int index)
