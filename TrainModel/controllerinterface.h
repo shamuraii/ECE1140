@@ -32,7 +32,6 @@ public slots:
     void setServiceBrake(int, bool);
     void setEBrake(int, bool);
     void setCabinTemp(int, int);
-	void fixTrain(int);
 signals:
     //Outgoing data signals
     void speedChanged(int, double);
@@ -42,6 +41,7 @@ signals:
     void commandedSpeedChanged(int, double);
     void beaconInfoChanged(int, QString);
 	void failureChanged(int, int);
+	void failureFixed(int, int);
 public:
 	//Singleton functions
     static ControllerInterface& getInstance()
