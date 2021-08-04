@@ -56,6 +56,9 @@ void TrackModelInterface::ptimerTicked()
 void TrackModelInterface::createTrain(int id)
 {
 	//Who creates train id???
-	int newID = TrainModelDatabase::createTrain(id);
-	emit newTrain(id);
+	if (id != 1)
+	{
+		TrainModelDatabase::createTrain(id);
+		emit newTrain(id);
+	}
 }
