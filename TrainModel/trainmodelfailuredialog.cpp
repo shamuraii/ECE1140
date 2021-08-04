@@ -34,7 +34,7 @@ void TrainModelFailureDialog::on_pushButton_clicked()
 {
     //data->setBrakesOn(!data->getBrakesOn());
     emit brakeToggled(data->getID(), !data->getBrakesOn());
-	if (data->getEBrakesOn()) emit ControllerInterface::getInstance().eBrakeChanged(data->getID(), data->getBrakesOn());
+	if (data->getEbrakesOn()) emit ControllerInterface::getInstance().eBrakeChanged(data->getID(), data->getBrakesOn());
     update();
 }
 
