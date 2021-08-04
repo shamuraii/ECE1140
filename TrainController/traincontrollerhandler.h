@@ -33,6 +33,7 @@ public slots:
     void UpdateTestGui(int);
     void NewAuthority(int,int);
     void FailureMode(int, int);
+    void EndFailure(int);
     void NewBeaconInfo(int,QString);
     void ArrivedAtStation(int);
     void ManualMode(int);
