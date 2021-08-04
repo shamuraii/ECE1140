@@ -17,11 +17,9 @@ std::vector<TrainModelData*> TrainModelDatabase::getAllTrains()
     return trains;
 }
 
-int TrainModelDatabase::createTrain()
+int TrainModelDatabase::createTrain(int id)
 {
-    id_count++;
     TrainModelData* d = new TrainModelData;
-    d->setID(id_count);
+    d->setID(id);
     trains.push_back(d);
-    return id_count;
 }
