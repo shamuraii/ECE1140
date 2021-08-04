@@ -63,7 +63,7 @@ void CtcGreenLineGui::block_clicked()
     if (button) {
         int block_num = button->text().toInt();
         Block *b = GetGreenLine()->GetBlock(block_num);
-        b->SetClosed(!b->IsClosed(), kRedBool);
+        b->SetClosed(!b->IsClosed(), kGreenBool);
     } else {
         QMessageBox::warning(this, "Error", "Invalid block_clicked signal sent.");
     }
@@ -79,14 +79,14 @@ void CtcGreenLineGui::switch_clicked() {
             int result = QMessageBox::question(this, "Maintenance Mode", "Currently, switch in maintenance mode. Would you like to disable maintenance mode?",
                                  QMessageBox::No | QMessageBox::Yes);
             if (result == QMessageBox::Yes) {
-                sw->SetMaintenance(false, kRedBool);
+                sw->SetMaintenance(false, kGreenBool);
                 return;
             }
         } else {
             int result = QMessageBox::question(this, "Maintenance Mode", "Currently, switch is NOT in maintenance mode. Would you like to enable maintenance mode?",
                                  QMessageBox::No | QMessageBox::Yes);
             if (result == QMessageBox::Yes) {
-                sw->SetMaintenance(true, kRedBool);
+                sw->SetMaintenance(true, kGreenBool);
             } else {
                 return;
             }
@@ -96,9 +96,9 @@ void CtcGreenLineGui::switch_clicked() {
                                             QMessageBox::No | QMessageBox::Yes);
         if (result == QMessageBox::Yes) {
             if (sw->PointingTo() == sw->LowerBlock()) {
-                sw->UpdateState(sw->UpperBlock(), kRedBool);
+                sw->UpdateState(sw->UpperBlock(), kGreenBool);
             } else {
-                sw->UpdateState(sw->LowerBlock(), kRedBool);
+                sw->UpdateState(sw->LowerBlock(), kGreenBool);
             }
         }
     } else {
