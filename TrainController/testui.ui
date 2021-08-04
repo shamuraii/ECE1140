@@ -526,7 +526,7 @@
      <enum>QFrame::Plain</enum>
     </property>
     <property name="text">
-     <string>234.2345</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="commanded_speed_value">
@@ -542,7 +542,7 @@
      <enum>QFrame::Box</enum>
     </property>
     <property name="text">
-     <string>53.3455</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="mph_label">

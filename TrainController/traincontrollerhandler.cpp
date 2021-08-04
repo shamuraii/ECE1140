@@ -16,10 +16,10 @@ void TrainControllerHandler::SetUpSignals()
     QObject::connect(tcsh, &TrainControllerSignalHandler::TrainController, this, &TrainControllerHandler::NewTrainController);
     QObject::connect(tcsh, &TrainControllerSignalHandler::CommandedSpeed, this, &TrainControllerHandler::NewCommandedSpeed);
     QObject::connect(tcsh, &TrainControllerSignalHandler::ActualSpeed, this, &TrainControllerHandler::NewActualSpeed);
-    //QObject::connect(tcsh, &TrainControllerSignalHandler::TCEmergencyBrake, this, &TrainControllerHandler::ToggleEmergencyBrake); Emergency brake pull from user
+    //QObject::connect(tcsh, &TrainControllerSignalHandler::TCEmergencyBrake, this, &TrainControllerHandler::PassengerEmergencyBrake);
     QObject::connect(tcsh, &TrainControllerSignalHandler::Authority, this, &TrainControllerHandler::NewAuthority);
     QObject::connect(tcsh, &TrainControllerSignalHandler::BeaconInfo, this, &TrainControllerHandler::NewBeaconInfo);
-//    QObject::connect(tcsh, &TrainControllerSignalHandler::FailureMode, this, &TrainControllerHandler::FailureMode);
+    QObject::connect(tcsh, &TrainControllerSignalHandler::TCFailureMode, this, &TrainControllerHandler::FailureMode);
     // Future might have service brake to check for failure mode
 
     // Signals to train model
@@ -300,6 +300,23 @@ void TrainControllerHandler::ToggleEmergencyBrake(int index)
         emit GuiUpdate(trains[index]);
 }
 
+// Passenger pulls the emergency brake
+void TrainControllerHandler::PassengerEmergencyBrake(int index)
+{
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+        return;
+
+    // Turn ebrake on
+    trains[index].emergency_brake = true;
+
+    // Tell train model to turn ebrake on
+    emit EmergencyBrake(index, trains[index].emergency_brake);
+
+    // Update gui if necessary
+    if (current_gui_index == index)
+        emit GuiUpdate(trains[index]);
+}
+
 // Emits signal to update gui to currently viewed train
 void TrainControllerHandler::UpdateTestGui(int index)
 {
@@ -327,7 +344,7 @@ void TrainControllerHandler::NewAuthority(int index, int a)
         emit GuiTestUpdate(trains[index]);
 }
 
-void TrainControllerHandler::FailureMode(int index, QString failure)
+void TrainControllerHandler::FailureMode(int index, int failure)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
         return;
@@ -337,7 +354,25 @@ void TrainControllerHandler::FailureMode(int index, QString failure)
 
 //    NewAuthority(index,0);
 
-    trains[index].ResolveFailure(failure);
+    //trains[index].ResolveFailure(failure);
+
+    switch(failure) {
+        case 0: // brake failure
+            // Activate ebrakes just for safety
+            // Also results in power command of 0 being sent
+            trains[index].emergency_brake = true;
+            emit EmergencyBrake(index, true);
+            break;
+        case 1: //engine failure
+            // Activate ebrakes
+            // Also results in power command of 0 being sent
+            trains[index].emergency_brake = true;
+            emit EmergencyBrake(index, true);
+            break;
+        case 2: //Signal pickup failure
+            NewAuthority(index, 0);
+            break;
+    }
 
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
