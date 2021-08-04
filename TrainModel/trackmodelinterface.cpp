@@ -34,7 +34,7 @@ void TrackModelInterface::timerTicked()
     std::vector<TrainModelData*> trains = TrainModelDatabase::getAllTrains();
     for (auto train : trains)
     {
-        qDebug() << "Train Model sending distance: " << train->getDistance();
+        qDebug() << "Train #" << train->getID() << " sending distance: " << train->getDistance();
         emit distanceTraveled(train->getID(), train->getDistance());
         train->setDistance(0);
     }
@@ -50,4 +50,11 @@ void TrackModelInterface::ptimerTicked()
         //Assuming short timer ticks every 200ms
         train->tick(200);
     }
+}
+
+void TrackModelInterface::createTrain(int id)
+{
+	//Who creates train id???
+	int newID = TrainModelDatabase::createTrain();
+	emit newTrain(newID);
 }

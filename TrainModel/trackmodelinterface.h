@@ -4,10 +4,13 @@
 #include <QObject>
 #include <string>
 
-//Singleton interface class containing slots for the Track Model
+//Singleton interface class containing slots for the Track Model and others
 
 //Track Model should be able to send a train the following data:
-//commanded authority, current station, door side, commanded speed
+//commanded authority, beacon info, commanded speed
+
+//CTC should be able to send the module the following data:
+//train creation events (TODO)
 
 //Track Model should receive the following data:
 //distance traveled
@@ -25,16 +28,22 @@ private:
     TrackModelInterface() {}
 public slots:
     //Slots for incoming data
+	//Track Model
     void setAuthority(int, bool);
     void setBeaconInfo(int, QString);
     void setCommandedSpeed(int, int);
-
+	
+	//CTC
+	void createTrain(int);
+	
+	//Timers
     void timerTicked();
     void ptimerTicked();
 
 signals:
     //Signals for outgoing data
     void distanceTraveled(int train_num, double distance_m);
+	void newTrain(int);
     //For CTC
     void trainStopped(int train_num);
 public:
