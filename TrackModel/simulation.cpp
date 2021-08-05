@@ -55,7 +55,7 @@ Simulation::Simulation(QWidget *parent) :
    }
 
     QStringList blockData;
-    QFile file("C:\\Users\\Jeff\\Documents\\ECE 1140\\Project Repo\\c3\\TrackModel\\redline_TrackDetails.csv");
+    QFile file("redline_TrackDetails.csv");
 
     int blockCount = 76;
     int stationCount = 85;

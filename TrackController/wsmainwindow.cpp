@@ -12,15 +12,15 @@ WSMainWindow::WSMainWindow(QWidget *parent)
     ui->setupUi(this);
     track_control::Initialize();
 
-    QPixmap pm("C:\\Users\\Jeff\\Documents\\ECE 1140\\Project Repo\\track_layout.png");
+    QPixmap pm("track_layout.png");
     ui->track_image->setPixmap(pm);
     ui->track_image->setScaledContents(true);
 
-    QPixmap pm1("C:\\Users\\Jeff\\Documents\\ECE 1140\\Project Repo\\red_track_layout.png");
+    QPixmap pm1("red_track_layout.png");
     ui->red_line->setPixmap(pm1);
     ui->red_line->setScaledContents(true);
 
-    QPixmap pm2("C:\\Users\\Jeff\\Documents\\ECE 1140\\Project Repo\\green_track_layout.png");
+    QPixmap pm2("green_track_layout.png");
     ui->green_line->setPixmap(pm2);
     ui->green_line->setScaledContents(true);
 
