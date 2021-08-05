@@ -34,7 +34,22 @@ CTrain::CTrain(Station *destination, QTime departure_time, TrackLine *line)
 }
 
 void CTrain::CalculateEstimatedArrival() {
-    estimated_arrival_ = departure_time_.addSecs(60*60);// Add 1 hour... todo
+    estimated_arrival_ = departure_time_;
+    // Add time based on length/speed limit of block
+    for (Block *b : route_) {
+        int v = b->GetSpeedLimit();
+        int len = b->GetLength();
+        int min_sec = ((double) len / (v * 1000)) * 60 * 60;
+        qDebug() << min_sec;
+        estimated_arrival_ = estimated_arrival_.addSecs(min_sec);
+
+        // Stop tracking after destination
+        if (b->GetNum() == destination_->GetBlockNum() || b->GetNum() == destination_->GetBlockNum2())
+            break;
+    }
+    // Add 2 minutes per stop (1 minute stop, 1 minute slow down/speed up)
+    estimated_arrival_ = estimated_arrival_.addSecs(60 * stops_.size() * 2);
+    qDebug() << 60 * stops_.size() * 2;
 }
 
 int CTrain::GetNum() const {
