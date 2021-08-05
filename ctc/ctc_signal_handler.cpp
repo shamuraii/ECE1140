@@ -12,10 +12,10 @@ void CtcSH::TimedEvents(QTime sim_time) {
     emit RecalculateRoutes();
 
     qDebug() << "CheckTrainDepartures";
-    emit CheckTrainDepartures(sim_time);
+    emit CheckTrainDepartures(&sim_time);
 
     qDebug() << "RecalculateThroughput";
-    emit RecalculateThroughput(sim_time);
+    emit RecalculateThroughput(&sim_time);
 }
 
 void CtcSH::GetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {

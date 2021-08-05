@@ -51,8 +51,8 @@ signals:
     // Internal
     void UpdateOutputs();
     void RecalculateRoutes();
-    void CheckTrainDepartures(QTime sim_time);
-    void RecalculateThroughput(QTime sim_time);
+    void CheckTrainDepartures(QTime *sim_time);
+    void RecalculateThroughput(QTime *sim_time);
     void NewSwitchPos(int pointing_to, bool line);
     void NewOccupancies(std::vector<bool> occupancy, bool line);
     void NewTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);

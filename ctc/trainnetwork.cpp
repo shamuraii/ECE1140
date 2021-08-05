@@ -224,10 +224,10 @@ void TrainNetwork::SetTrackInfo(std::vector<int> speed_limits, std::vector<int> 
     }
 }
 
-void TrainNetwork::CheckDepartures(QTime sim_time) {
+void TrainNetwork::CheckDepartures(QTime *sim_time) {
     for(CTrain *t : trains_) {
-        qDebug() << "Depart time: " << t->GetDepartTime().toString("HH:mm") << " SimTime: " << sim_time.toString("HH:mm");
-        if (t->GetDepartTime() <= sim_time) {
+        qDebug() << "Depart time: " << t->GetDepartTime().toString("HH:mm") << " SimTime: " << sim_time->toString("HH:mm");
+        if (t->GetDepartTime() <= *sim_time) {
             if (t->DispatchTrain()) {
                 bool line_bool = (t->GetLine()->GetName() == kRedlineName) ? kRedBool : kGreenBool;
                 emit TrainDispatched(t->GetNum(), line_bool);
@@ -252,7 +252,7 @@ void TrainNetwork::AddLineSales(int sales, bool line) {
     }
 }
 
-void TrainNetwork::CalculateThroughputs(QTime sim_time) {
+void TrainNetwork::CalculateThroughputs(QTime *sim_time) {
     for (TrackLine *l : lines_) {
         l->CalculateThroughputs(sim_time);
     }

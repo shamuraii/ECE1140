@@ -42,10 +42,10 @@ public slots:
     void UpdateOccupancy(std::vector<bool> occupancy, bool line);
     void TrainStopped(int train_num);
     void SetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
-    void CheckDepartures(QTime sim_time);
+    void CheckDepartures(QTime *sim_time);
     void DebugDispatchTrain(CTrain *t);
     void AddLineSales(int sales, bool line);
-    void CalculateThroughputs(QTime sim_time);
+    void CalculateThroughputs(QTime *sim_time);
 
 signals:
     void OutputsUpdated(std::vector<bool> out_auth, std::vector<int> out_speed, bool line);
