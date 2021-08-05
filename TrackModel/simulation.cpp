@@ -344,15 +344,22 @@ void Simulation::setOccupied(){
 
 void Simulation::on_startButton_clicked()
 {
+    timer->setInterval(1000);
+    ptimer->setInterval(400);
     timer->start();
     ptimer->start();
 }
 
-
+void Simulation::on_startButton_2_clicked()
+{
+    timer->setInterval(100);
+    ptimer->setInterval(40);
+    timer->start();
+    ptimer->start();
+}
 
 void Simulation::on_stopButton_clicked()
 {
     timer->stop();
     ptimer->stop();
 }
-

@@ -2,6 +2,7 @@
 #define TRACKMODELSH_H
 
 #include <QObject>
+#include <QTime>
 #include <vector>
 
 
@@ -16,6 +17,7 @@ public:
         static TrackModelSH instance;
         return instance;
     }
+    QTime sim_time_ = QTime::fromMSecsSinceStartOfDay(0);
 
 private:
     explicit TrackModelSH() {}
@@ -37,7 +39,7 @@ signals:
     void sendLineSales(int sales, bool line); //eventually
 
     //Time
-    void sendTimerTicked();
+    void sendTimerTicked(QTime sim_time);
     void sendPtimerTicked();
 
     //internal
