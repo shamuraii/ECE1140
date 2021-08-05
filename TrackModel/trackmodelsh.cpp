@@ -18,7 +18,8 @@ void TrackModelSH::getCommandedSpeed(std::vector<int> comSpeed){
 }
 
 void TrackModelSH::getTimerTicked() {
-    emit sendTimerTicked();
+    sim_time_ = sim_time_.addSecs(1);
+    emit sendTimerTicked(sim_time_);
 }
 
 void TrackModelSH::getPTimerTicked() {
@@ -45,6 +46,6 @@ void TrackModelSH::getTrainSpeed(int speed){
 }
 
 
-void TrackModelSH::updateBeaconInfo(std::vector<QString> station, std::vector<QString> side){
-    //emit sendBeaconInfo(1, s + "," + side);
+void TrackModelSH::updateBeaconInfo(int trainNum, QString station){
+    emit sendBeaconInfo(trainNum, station);
 }
