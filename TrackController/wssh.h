@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include "track_control.h"
-#include "wsmainwindow.h"
 
 class wssh : public QObject
 {
@@ -16,12 +15,8 @@ public:
         return instance;
     }
 
-
 private:
     explicit wssh() {}
-    vector<int> red_switch_blocks = {9, 16, 27, 32, 38, 43, 52};
-    vector<int> green_switch_blocks = {13, 28, 0, 77, 85};
-
 
 public slots:
     //from CTC
@@ -31,17 +26,16 @@ public slots:
     //from Track Model
     void SetTrainPresence(int curr_block_num, int prev_block_num);
     void SetBrokenRail(int block_num, bool failure);
+    void TimerTicked();
 
 signals:
-    //internal
-    void UpdateGUI();
     //to CTC
     void ShareSwitchPosition(int pointing_to, bool line);
     void ShareTrainPresence(std::vector<bool> occupied, bool line);
     //to Track Model
     void ShareCommSpeed(std::vector<int> commanded_speed);
     void ShareAuthority(std::vector<bool> authority);
-    void ShareSwitchPosition(int sw_base, int pointing_to);
+    void ShareSwitchPosTM(int sw_base, int pointing_to, bool line);
         //light state?
 };
 

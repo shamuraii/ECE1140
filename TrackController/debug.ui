@@ -6,64 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>370</width>
-    <height>200</height>
+    <width>400</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>120</y>
-     <width>108</width>
-     <height>22</height>
+     <x>100</x>
+     <y>20</y>
+     <width>160</width>
+     <height>211</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Block number</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>120</y>
-     <width>133</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Toggle occupancy</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>90</y>
-     <width>80</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Send to Penn</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_3">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>60</y>
-     <width>97</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Send to Shadyside</string>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Move train</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
