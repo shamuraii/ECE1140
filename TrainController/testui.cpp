@@ -125,7 +125,7 @@ void TestUi::Announcement(int index, QString station)
         return;
 
     if (ui->train_index->currentText().toInt() - 1 == index)
-        ui->announcement_status->setText("Arriving at " + station);
+        ui->announcement_status->setText(station);
 }
 
 void TestUi::LeftDoor(int index, bool door_status)
