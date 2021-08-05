@@ -8,7 +8,11 @@
 void wssh::SetSugAuthority(std::vector<bool> sug_authority, bool l) {
     qDebug() << "WC entered SetSugAuth";
 
-    emit ShareAuthority(sug_authority);
+    if (l == 0)
+        emit ShareAuthority(sug_authority);
+    //Don't share green line.............
+    //emit ShareAuthority(sug_authority);
+
     int size = sug_authority.size();
     for(int i=0; i<size; i++) {
         if(l == 0) {
@@ -28,7 +32,11 @@ void wssh::SetSugAuthority(std::vector<bool> sug_authority, bool l) {
 void wssh::SetSugSpeed(std::vector<int> suggested_speed, bool l) {
     qDebug() << "WC entered SetSugSpeed";
 
-    emit ShareCommSpeed(suggested_speed);
+    if (l==0)
+        emit ShareCommSpeed(suggested_speed);
+    //Don't share green line.............
+    //emit ShareCommSpeed(suggested_speed);
+
     int size = suggested_speed.size();
     for(int i=0; i<size; i++) {
         if(l == 0) {
@@ -41,6 +49,7 @@ void wssh::SetSugSpeed(std::vector<int> suggested_speed, bool l) {
             for(int k=1; k<150; k++) {
                 track_control::setBlockSpeed(i, suggested_speed[k], "green");
             }
+
         }
     }
 }
@@ -51,7 +60,9 @@ void wssh::SetBlockMaintenance(int block_num, bool maintenance_mode) {
 }
 
 void wssh::SetTrainPresence(int curr_block_num, int prev_block_num) {
-    track_control::setBlockOccupancy(prev_block_num, false, "red");
+    if (prev_block_num != curr_block_num) {
+        track_control::setBlockOccupancy(prev_block_num, false, "red");
+    }
     track_control::setBlockOccupancy(curr_block_num, true, "red");
 
     //TODO emit ShareTrainPresence to CTC
