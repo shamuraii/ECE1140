@@ -58,10 +58,13 @@ public:
     void emitTrackInfo();
 
     std::vector<QString> getStationName();
-    //void setStation
+    void setStationName(QString);
     std::vector<int> getTicketSales();
+    void setTicketSales(int);
     std::vector<int> getBoarding();
-    std::vector<int> getDisembarking;
+    void setBoarding(int);
+    std::vector<int> getDisembarking();
+    void setDisembarking(int);
 
     std::vector<QString> getBeaconStation();
     void setBeaconStation(QString);
@@ -77,6 +80,7 @@ signals:
     void sendCurrentBlockNum(int curr, int prev);
     void sendTrainAuthority(bool);
     void sendTrainSpeed(int);
+    void sendBeacon(int, QString);
 
 
 public slots:
@@ -87,6 +91,7 @@ public slots:
     void calculateBlock(int trainNum, double distance);
     void getAuthVector(std::vector<bool>);
     void getSpeedVector(std::vector<int>);
+    void getBeaconVector(std::vector<QString>,std::vector<QString>);
 
 
 
