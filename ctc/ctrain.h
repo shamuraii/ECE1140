@@ -57,7 +57,7 @@ public slots:
     void DebugAdvanceTrain();
 
 signals:
-    void UpdatedLocation(Block *old_loc, Block *new_loc);
+    void DebugMovedTrain(Block *old_loc, Block *new_loc);
 };
 
 }

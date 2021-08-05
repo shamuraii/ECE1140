@@ -14,6 +14,7 @@ TrainNetwork::TrainNetwork() : QObject(nullptr)
     automatic_mode_ = true;
 
     connect(this, &TrainNetwork::OutputsUpdated, &CtcSH::Get(), &CtcSH::OutputsUpdated);
+    connect(this, &TrainNetwork::TrainAdded, &CtcSH::Get(), &CtcSH::TrainScheduled);
     connect(&CtcSH::Get(), &CtcSH::UpdateOutputs, this, &TrainNetwork::UpdateOutputs);
     connect(&CtcSH::Get(), &CtcSH::NewSwitchPos, this, &TrainNetwork::SwitchMoved);
     connect(&CtcSH::Get(), &CtcSH::NewOccupancies, this, &TrainNetwork::UpdateOccupancy);
@@ -55,8 +56,10 @@ void TrainNetwork::AddLine(TrackLine *new_line) {
 void TrainNetwork::AddTrain(CTrain *new_train) {
     new_train->SetNum(NextTrainNum());
     trains_.push_back(new_train);
-    connect(new_train, &CTrain::UpdatedLocation, this, &TrainNetwork::TrainMoved);
-    emit TrainAdded(new_train->GetNum());
+    connect(new_train, &CTrain::DebugMovedTrain, this, &TrainNetwork::TrainMoved);
+
+    bool l_bool = (new_train->GetLine()->GetName() == kRedlineName ? kRedBool : kGreenBool);
+    emit TrainAdded(new_train->GetNum(), l_bool);
 }
 
 int TrainNetwork::NextTrainNum() const {

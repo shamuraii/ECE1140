@@ -45,7 +45,7 @@ public slots:
 signals:
     void OutputsUpdated(std::vector<bool> out_auth, std::vector<int> out_speed, bool line);
     void NetworkUpdated();
-    void TrainAdded(int num);
+    void TrainAdded(int num, bool line);
 };
 }
 

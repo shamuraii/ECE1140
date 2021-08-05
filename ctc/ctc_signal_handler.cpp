@@ -43,3 +43,8 @@ void CtcSH::SwitchPos(int pointing_to, bool line) {
     qDebug() << "ShareSwitchPosition " << pointing_to << " " << line;
     emit ShareSwitchPosition(pointing_to, line);
 }
+
+void CtcSH::TrainScheduled(int trainNum, bool line) {
+    qDebug() << "CTC: emitting New Train " << trainNum << " " << line;
+    emit NewTrain(trainNum, line);
+}

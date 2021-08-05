@@ -34,6 +34,7 @@ public slots:
     void BlockMaint(int block_num, bool maint_mode, bool line);
     void SwitchMaint(int switch_num, bool maint_mode, bool line);
     void SwitchPos(int pointing_to, bool line);
+    void TrainScheduled(int trainNum, bool line);
 
 signals:
     // External
@@ -42,6 +43,8 @@ signals:
     void ShareBlockMaintenance(int block_num, bool maint_mode, bool line);
     void ShareSwitchMaintenance(int switch_num, bool maint_mode, bool line);
     void ShareSwitchPosition(int pointing_to, bool line);
+
+    void NewTrain(int trainNum, bool line);
 
     // Internal
     void UpdateOutputs();

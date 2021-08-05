@@ -40,7 +40,6 @@ void CTrain::CalculateEstimatedArrival() {
         int v = b->GetSpeedLimit();
         int len = b->GetLength();
         int min_sec = ((double) len / (v * 1000)) * 60 * 60;
-        qDebug() << min_sec;
         estimated_arrival_ = estimated_arrival_.addSecs(min_sec);
 
         // Stop tracking after destination
@@ -49,7 +48,6 @@ void CTrain::CalculateEstimatedArrival() {
     }
     // Add 2 minutes per stop (1 minute stop, 1 minute slow down/speed up)
     estimated_arrival_ = estimated_arrival_.addSecs(60 * stops_.size() * 2);
-    qDebug() << 60 * stops_.size() * 2;
 }
 
 int CTrain::GetNum() const {
@@ -183,7 +181,7 @@ void CTrain::DebugAdvanceTrain() {
 
     location_ = next;
 
-    emit UpdatedLocation(old, location_);    
+    emit DebugMovedTrain(old, location_);
 }
 
 }
