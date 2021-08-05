@@ -24,12 +24,6 @@ void TrainControllerSignalHandler::ToggleEmergencyBrake(int index, bool state)
     qDebug() << "Passenger pulled ebrake " << state;
 }
 
-// checking failure mode
-//void TrainControllerSignalHandler::ToggleServiceBrake(int index, bool state)
-//{
-//    emit ServiceBrake(index, state);
-//}
-
 // Failure mode
 void TrainControllerSignalHandler::FailureMode(int index, int failure)
 {

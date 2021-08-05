@@ -7,7 +7,7 @@ TrainControllerUi::TrainControllerUi(QWidget *parent)
 {
     ui->setupUi(this);
     SetUpSignals();
-    NewTrain(0);
+    train_handler.NewTrainController(0);
 
 }
 
@@ -20,7 +20,6 @@ TrainControllerUi::~TrainControllerUi()
 void TrainControllerUi::SetUpSignals()
 {
     // Train gui and handler singal connection
-    qDebug() << "Setting up Signals";
     QObject::connect(&train_handler, &TrainControllerHandler::GuiUpdate, this, &TrainControllerUi::Update);
     QObject::connect(&train_handler, &TrainControllerHandler::GuiNewTrain, this, &TrainControllerUi::NewTrain);
     QObject::connect(this, &TrainControllerUi::ToggleServiceBrake, &train_handler, &TrainControllerHandler::ToggleServiceBrake);
@@ -71,8 +70,7 @@ bool TrainControllerUi::IsNumber(string s)
 
 void TrainControllerUi::NewTrain(int num)
 {
-    qDebug() << "In Ui Add new train: " << num;
-    ui->train_index->addItem(QString::number(num+1));
+    ui->train_index->addItem(QString::number(num));
 }
 
 // Updates the gui with the info from the currently viewed train

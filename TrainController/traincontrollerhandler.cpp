@@ -4,7 +4,6 @@ TrainControllerHandler::TrainControllerHandler(QObject *parent) : QObject(parent
 {
     current_gui_index = -1;
     SetUpSignals();
-    NewTrainController(0);
 }
 
 void TrainControllerHandler::SetUpSignals()
@@ -45,8 +44,8 @@ void TrainControllerHandler::NewTrainController(int index)
     redundancy_trains.push_back(newTrain);
 
     qDebug() << "Emitted Gui new: " << index;
-    emit GuiNewTrain(index);
-    emit GuiTestNewTrain(index);
+    emit GuiNewTrain(trains.size());
+    emit GuiTestNewTrain(redundancy_trains.size());
 
     if (index == 0)
     {
@@ -78,7 +77,7 @@ void TrainControllerHandler::ToggleServiceBrake(int index)
 
     // Toggles service brake
     trains[index].service_brake = !trains[index].service_brake;
-    redundancy_trains[index].service_brake = !trains[index].service_brake;
+    redundancy_trains[index].service_brake = !redundancy_trains[index].service_brake;
 
     // If braking set commanded power to 0
     if (!trains[index].service_brake)
@@ -316,7 +315,7 @@ void TrainControllerHandler::ToggleEmergencyBrake(int index)
         return;
 
     trains[index].emergency_brake = !trains[index].emergency_brake;
-    redundancy_trains[index].emergency_brake = !trains[index].emergency_brake;
+    redundancy_trains[index].emergency_brake = !redundancy_trains[index].emergency_brake;
 
     emit EmergencyBrake(index, trains[index].emergency_brake);
 
@@ -474,7 +473,7 @@ void TrainControllerHandler::ManualMode(int index)
 
     //cout << index << password;
     trains[index].manual_mode = !trains[index].manual_mode;
-    redundancy_trains[index].manual_mode = !trains[index].manual_mode;
+    redundancy_trains[index].manual_mode = !redundancy_trains[index].manual_mode;
 
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
@@ -498,6 +497,7 @@ void TrainControllerHandler::TimerTicked()
     for (int i = 0; i < trains.size(); i++)
     {
         trains[i].Timer();
+        redundancy_trains[i].Timer();
     }
 
 }

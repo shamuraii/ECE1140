@@ -23,6 +23,8 @@ private slots:
     void headlights_test();
     void power_test();
     void authority_test();
+    void train_info_buttons_test();
+    void beacon_test();
 
 
 };
@@ -75,9 +77,9 @@ void TrainControllerTest::manual_mode_test()
     QVERIFY(tc.trains[0].manual_mode);
     tc.NewCommandedSpeed(0, 50); // Setpoint speed cannot be greater than commanded speed
     // When comparing, speeds need to be converted to m/s
-    QCOMPARE(tc.trains[0].commanded_speed, 50 * (5.0/18.0));
-    tc.NewSetpointSpeed(0,25);
-    QCOMPARE(tc.trains[0].setpoint_speed, 25 * (5.0/18.0));
+    QCOMPARE(tc.trains[0].commanded_speed, 50 * (5.0/18.0)); // 50 is kmph
+    tc.NewSetpointSpeed(0,10);
+    QCOMPARE(tc.trains[0].setpoint_speed, 10 * 0.44704); // 20 is mph
 }
 
 void TrainControllerTest::kp_ki_test()
@@ -121,6 +123,34 @@ void TrainControllerTest::authority_test()
     QVERIFY(!tc.trains[0].authority);
 }
 
+void TrainControllerTest::train_info_buttons_test()
+{
+    TrainControllerHandler tc;
+    tc.NewTrainController(0);
+    tc.ToggleHeadlights(0);
+    tc.ToggleCabinLights(0);
+    tc.SetCabinTemp(0, 80);
+    tc.ToggleLeftDoor(0);
+    tc.ToggleRightDoor(0);
+
+    QVERIFY(tc.trains[0].headlights);
+    QVERIFY(tc.trains[0].cabin_lights);
+    QVERIFY(tc.trains[0].cabin_temp);
+    QVERIFY(tc.trains[0].left_door);
+    QVERIFY(tc.trains[0].right_door);
+
+}
+
+void TrainControllerTest::beacon_test()
+{
+    TrainControllerHandler tc;
+    tc.NewTrainController(0);
+    tc.NewBeaconInfo(0,"Penn,Left");
+
+    QCOMPARE(tc.trains[0].announcement, "Arriving at Penn");
+    QCOMPARE(tc.trains[0].open_door, 1);
+
+}
 
 
 QTEST_APPLESS_MAIN(TrainControllerTest)
