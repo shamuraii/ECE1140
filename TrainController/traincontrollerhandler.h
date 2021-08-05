@@ -46,7 +46,7 @@ private:
     void SetUpSignals();
     double ConvertKMPHToMS(double);
     double ConvertMPHToMS(double);
-    vector<TrainController> redundancy_trains;
+    TrainController redundancy_train;
 
 signals:
     void GuiUpdate(TrainController);
