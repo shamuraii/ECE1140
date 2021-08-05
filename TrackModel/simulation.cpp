@@ -82,6 +82,10 @@ Simulation::Simulation(QWidget *parent) :
         }
         if(blockData.at(0).toInt() > blockCount + 1 && blockData.at(0).toInt() <= stationCount){
             setStationName(blockData.at(1));
+            setTicketSales(blockData.at(2).toInt());
+            setBoarding(blockData.at(3).toInt());
+            setDisembarking(blockData.at(4).toInt());
+
         }
         if(blockData.at(0).toInt() > stationCount && blockData.at(0).toInt() <= beaconCount){
             setBeaconStation(blockData.at(1));
@@ -140,9 +144,22 @@ void Simulation::calculateBlock(int trainNum, double distance){
         blockNum = 8;
     } else if (totalMeters < 300) {
         blockNum = 7;
-    } else {
+    } else if (totalMeters < 350){
         blockNum = 6;
+    } else if (totalMeters < 400){
+        blockNum = 5;
+    } else if (totalMeters < 450){
+        blockNum = 4;
+    } else if (totalMeters < 500){
+        blockNum = 3;
+    } else if (totalMeters < 550){
+        blockNum = 2;
+    } else if (totalMeters < 600){
+        blockNum = 1;
+    } else if (totalMeters < 650){
+        blockNum = 16;
     }
+
     setPrevBlockNum(getCurrentBlockNum());
     setCurrentBlockNum(blockNum);
 
