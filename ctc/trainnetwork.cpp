@@ -79,17 +79,25 @@ void TrainNetwork::UpdateOutputs() {
     for (CTrain *t : trains_) {
         t->UpdateOutputs();
     }
-    TrackLine *line = GetTrackLine(kRedlineName);
-    std::vector<bool> out_auth;
-    std::vector<int> out_speed;
+    TrackLine *rline = GetTrackLine(kRedlineName);
+    std::vector<bool> r_out_auth;
+    std::vector<int> r_out_speed;
 
-    for (Block *b : line->GetBlocks()) {
-        out_auth.push_back(b->GetAuth());
-        out_speed.push_back(b->GetSpeed());
+    for (Block *b : rline->GetBlocks()) {
+        r_out_auth.push_back(b->GetAuth());
+        r_out_speed.push_back(b->GetSpeed());
     }
-    emit OutputsUpdated(out_auth, out_speed, kRedBool);
+    emit OutputsUpdated(r_out_auth, r_out_speed, kRedBool);
 
-    // TODO: green line
+    TrackLine *gline = GetTrackLine(kGreenlineName);
+    std::vector<bool> g_out_auth;
+    std::vector<int> g_out_speed;
+
+    for (Block *b : gline->GetBlocks()) {
+        g_out_auth.push_back(b->GetAuth());
+        g_out_speed.push_back(b->GetSpeed());
+    }
+    emit OutputsUpdated(g_out_auth, g_out_speed, kGreenBool);
 }
 
 void TrainNetwork::SwitchMoved(int pointing_to, bool line) {
@@ -100,18 +108,25 @@ void TrainNetwork::SwitchMoved(int pointing_to, bool line) {
                 s->UpdateState(pointing_to, line);
         }
     }
-    // TODO: green line
+    if (line == kGreenBool) {
+        TrackLine *l = GetTrackLine(kGreenlineName);
+        for (Switch *s : l->GetSwitches()) {
+            if (s->HasBlock(pointing_to))
+                s->UpdateState(pointing_to, line);
+        }
+    }
 }
 
 void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
-    //TODO: this is BROKEN for 2 lines
     if (line == kRedBool) {
         TrackLine *l = GetTrackLine(kRedlineName);
         std::vector<Block*> blocks = l->GetBlocks();
 
+        /*
         for (size_t i = 0; i < 11; i++) {
             qDebug() << occupancy[i];
         }
+        */
 
         for (size_t i = 0; i < occupancy.size(); i++) {
 
@@ -120,14 +135,45 @@ void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
 
             blocks[i]->SetOccupied(now);
             if (now) {
-                qDebug() << "CTC: Block " << i << " occupied";
+                qDebug() << "CTC: Redline Block " << i << " occupied";
             }
 
             if (prev && !now) {
-                qDebug() << "CTC: Block " << i << " lost a train";
+                qDebug() << "CTC: Redline Block " << i << " lost a train";
                 for (CTrain *t : trains_) {
-                    if (t->GetLocation()->GetNum() == blocks[i]->GetNum()) {
-                        qDebug() << "CTC: Moved train from " << i << " to " << t->GetNextBlock()->GetNum();
+                    if (t->GetLine()->GetName() == kRedlineName && t->GetLocation()->GetNum() == blocks[i]->GetNum()) {
+                        qDebug() << "CTC: Redline train from " << i << " to " << t->GetNextBlock()->GetNum();
+                        t->SetLocation(t->GetNextBlock());
+                        t->IncrementRouteIndex();
+                    }
+                }
+            }
+        }
+    } else {
+        TrackLine *l = GetTrackLine(kGreenlineName);
+        std::vector<Block*> blocks = l->GetBlocks();
+
+        /*
+        for (size_t i = 0; i < 11; i++) {
+            qDebug() << occupancy[i];
+        }
+        */
+
+        for (size_t i = 0; i < occupancy.size(); i++) {
+
+            bool prev = blocks[i]->IsOccupied();
+            bool now = occupancy[i];
+
+            blocks[i]->SetOccupied(now);
+            if (now) {
+                qDebug() << "CTC: Greenline Block " << i << " occupied";
+            }
+
+            if (prev && !now) {
+                qDebug() << "CTC: Greenline Block " << i << " lost a train";
+                for (CTrain *t : trains_) {
+                    if (t->GetLine()->GetName() == kGreenlineName && t->GetLocation()->GetNum() == blocks[i]->GetNum()) {
+                        qDebug() << "CTC: Greenline train from " << i << " to " << t->GetNextBlock()->GetNum();
                         t->SetLocation(t->GetNextBlock());
                         t->IncrementRouteIndex();
                     }
@@ -145,13 +191,20 @@ void TrainNetwork::TrainStopped(int train_num) {
 
 void TrainNetwork::SetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {
     if (line == kRedBool) {
-        qDebug() << "CTC: Setting Track Info";
+        qDebug() << "CTC: Setting RedLine Info";
         TrackLine *l = GetTrackLine(kRedlineName);
         std::vector<Block*> blocks = l->GetBlocks();
         for (size_t i=0; i < speed_limits.size(); i++) {
             blocks[i+1]->SetInfo(speed_limits[i], lengths[i]);
             qDebug() << blocks[i+1]->GetNum() << " " << blocks[i+1]->GetSpeedLimit();
         }
+    } else {
+        qDebug() << "CTC: Setting GreenLine Info";
+        TrackLine *l = GetTrackLine(kGreenlineName);
+        std::vector<Block*> blocks = l->GetBlocks();
+        for (size_t i=0; i < speed_limits.size(); i++) {
+            blocks[i+1]->SetInfo(speed_limits[i], lengths[i]);
+            qDebug() << blocks[i+1]->GetNum() << " " << blocks[i+1]->GetSpeedLimit();
+        }
     }
-    // TODO: green line
 }

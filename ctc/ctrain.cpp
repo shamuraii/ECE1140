@@ -16,8 +16,13 @@ CTrain::CTrain(Station *destination, QTime departure_time, TrackLine *line)
 
     std::vector<int> stop_blocks;
     stop_blocks.push_back(Block::kYardNum);
+    // Try adding the station's block number to stop_blocks vector
     for (Station *s : stops_) {
-        stop_blocks.push_back(s->GetBlockNum());
+        // If block is already a stopping place, add the blocknum2 of the station
+        if (std::find(stop_blocks.begin(), stop_blocks.end(), s->GetBlockNum()) != stop_blocks.end())
+            stop_blocks.push_back(s->GetBlockNum2());
+        else
+            stop_blocks.push_back(s->GetBlockNum());
     }
     stop_blocks.push_back(Block::kYardNum);
     route_ = line_->GetFullRoute(stop_blocks);
@@ -34,10 +39,6 @@ void CTrain::CalculateEstimatedArrival() {
 
 int CTrain::GetNum() const {
     return num_;
-}
-
-std::vector<Station*> CTrain::GetStops() const {
-    return stops_;
 }
 
 std::vector<Block*> CTrain::GetRoute() const {

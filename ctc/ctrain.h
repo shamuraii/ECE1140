@@ -31,7 +31,6 @@ private:
 public:
     explicit CTrain(Station *destination, QTime departure_time, TrackLine *line);
     int GetNum() const;
-    std::vector<Station*> GetStops() const;
     std::vector<Block*> GetRoute() const;
     TrackLine *GetLine() const;
     Station *GetDestination() const;
