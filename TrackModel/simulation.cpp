@@ -8,6 +8,7 @@
 #include <sstream>
 #include <QObject>
 #include <vector>
+#include <QDebug>
 
 
 Simulation::Simulation(QWidget *parent) :
@@ -54,7 +55,7 @@ Simulation::Simulation(QWidget *parent) :
    }
 
     QStringList blockData;
-    QFile file("C:\\Users\\Jeff\\Documents\\ECE 1140\\Project Repo\\c3\\TrackModel\\redline_TrackDetails.csv");
+    QFile file("C:\\Users\\Amy\\Documents\\GitHub\\ECE1140\\TrackModel\\redline_TrackDetails.csv");
 
     int blockCount = 76;
     int stationCount = 85;
@@ -80,10 +81,11 @@ Simulation::Simulation(QWidget *parent) :
             setElevation(blockData.at(4).toDouble());
         }
         if(blockData.at(0).toInt() > blockCount + 1 && blockData.at(0).toInt() <= stationCount){
-
+            setStationName(blockData.at(1));
         }
         if(blockData.at(0).toInt() > stationCount && blockData.at(0).toInt() <= beaconCount){
-
+            setBeaconStation(blockData.at(1));
+            setBeaconSide(blockData.at(2));
         }
 
     }
@@ -97,12 +99,18 @@ Simulation::~Simulation()
     delete ui;
 }
 
+
 void Simulation::getAuthVector(std::vector<bool> auth){
     emit sendTrainAuthority(auth[getCurrentBlockNum()]);
 }
 
 void Simulation::getSpeedVector(std::vector<int> speed){
     emit sendTrainSpeed(speed[getCurrentBlockNum()]);
+}
+
+void Simulation::getBeaconVector(std::vector<QString>,std::vector<QString>){
+
+    emit sendBeacon(1, beaconStation[getCurrentBlockNum()] + "," + beaconSide[getCurrentBlockNum()]);
 }
 
 void Simulation::emitTrackInfo(){
@@ -161,11 +169,12 @@ void Simulation::on_tempEdit_textEdited(const QString &arg1)
 }
 
 void Simulation::station_clicked(){
-    //QPushButton *button = qobject_cast<QPushButton*>(sender());
-    //int station_num;
+    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    int station_num;
 
+    station_num = button->text().toInt() - 1;
 
-    //emit new_station(s,t,"1",b,d);
+    emit new_station(getStationName().at(station_num),QString::number(getTicketSales().at(station_num)),"1",QString::number(getBoarding().at(station_num)),QString::number(getDisembarking().at(station_num)));
 
     station_details->show();
 }
@@ -195,6 +204,8 @@ void Simulation::switch_clicked(){
 
 }
 
+
+//BLOCK DETAILS SETTERS AND GETTERS
 
 void Simulation::setLength(int l){
     lengths.push_back(l);
@@ -258,6 +269,9 @@ void Simulation::setTotalDistance(double d){
     totalDistance = d;
 }
 
+
+//BEACON DETAILS SETTERS AND GETTERS
+
 std::vector<QString> Simulation::getBeaconStation(){
     return beaconStation;
 }
@@ -271,18 +285,57 @@ void Simulation::setBeaconSide(QString s){
     beaconSide.push_back(s);
 }
 
+//STATION DETAIL SETTERS AND GETTERS
+
+std::vector<QString> Simulation::getStationName(){
+    return stationName;
+}
+
+void Simulation::setStationName(QString n){
+    stationName.push_back(n);
+}
+
+std::vector<int> Simulation::getTicketSales(){
+    return ticketSales;
+}
+
+void Simulation::setTicketSales(int t){
+
+
+    ticketSales.push_back(t);
+}
+
+std::vector<int> Simulation::getBoarding(){
+    return boarding;
+}
+
+void Simulation::setBoarding(int b){
+    boarding.push_back(b);
+}
+
+std::vector<int> Simulation::getDisembarking(){
+    return disembarking;
+}
+
+void Simulation::setDisembarking(int d){
+    disembarking.push_back(d);
+}
+
+
+//MOVING TRAIN
+
+
 void Simulation::setOccupied(){
     QString block = "block" + QString::number(getCurrentBlockNum());
     QString prevBlock = "block" + QString::number(getPrevBlockNum());
     qDebug() << "TM: block = " << block;
 
-    QLabel * lbl = ui->centralwidget->findChild<QLabel*>(block, Qt::FindChildrenRecursively);
-    QLabel * lbl2 = ui->centralwidget->findChild<QLabel *>(prevBlock, Qt::FindChildrenRecursively);
+    QLabel * lbl = ui->centralwidget->findChild<QLabel*>(block);
+    QLabel * lbl2 = ui->centralwidget->findChild<QLabel *>(prevBlock);
 
-    if (lbl2) {
-        qDebug() << "TM: found lbl2!!!";
-        lbl2->setStyleSheet(ui->blueBlock->styleSheet());
-    }
+    //if (lbl2) {
+    //    lbl2->setStyleSheet(ui->blueBlock->styleSheet());
+    //}
     if (lbl) {
         qDebug() << "TM: found lbl!!!";
         lbl->setStyleSheet(ui->yellowBlock->styleSheet());
