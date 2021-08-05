@@ -25,13 +25,14 @@ private:
     std::vector<Block*> route_;
     int route_index_;
     bool stopped_;
+    bool dispatched_;
+    bool manually_routed_;
 
     void CalculateEstimatedArrival();
 
 public:
     explicit CTrain(Station *destination, QTime departure_time, TrackLine *line);
     int GetNum() const;
-    std::vector<Station*> GetStops() const;
     std::vector<Block*> GetRoute() const;
     TrackLine *GetLine() const;
     Station *GetDestination() const;
@@ -51,14 +52,17 @@ public:
 
     void IncrementRouteIndex();
 
+    int LengthToNextStop();
+
 public slots:
     void SetLocation(Block *new_location);
     void UpdateOutputs();
-    void RecalculateRoute(int force_num = -1);
+    void RecalculateRoute(int force_num = -1, Station *new_destination = nullptr);
     void DebugAdvanceTrain();
+    bool DispatchTrain();
 
 signals:
-    void UpdatedLocation(Block *old_loc, Block *new_loc);
+    void DebugMovedTrain(Block *old_loc, Block *new_loc);
 };
 
 }

@@ -2,9 +2,20 @@
 
 #include "ctc_signal_handler.h"
 
-void CtcSH::TimedEvents() {
+void CtcSH::TimedEvents(QTime sim_time) {
+    qDebug() << "CTC Timed events: " << sim_time.toString("HH:mm:ss");
+
     qDebug() << "UpdateOutputs";
     emit UpdateOutputs();
+
+    qDebug() << "RecalcRoutes";
+    emit RecalculateRoutes();
+
+    qDebug() << "CheckTrainDepartures";
+    emit CheckTrainDepartures(&sim_time);
+
+    qDebug() << "RecalculateThroughput";
+    emit RecalculateThroughput(&sim_time);
 }
 
 void CtcSH::GetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {
@@ -12,6 +23,15 @@ void CtcSH::GetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths
     emit NewTrackInfo(speed_limits, lengths, line);
 }
 
+void CtcSH::GetLineSales(int sales, bool line) {
+    qDebug() << "GetLineSales " << sales << " " << line;
+    emit NewLineSales(sales, line);
+}
+
+void CtcSH::GetTrainStopped(int train_num) {
+    qDebug() << "GetTrainStopped " << train_num;
+    emit TrainStopped(train_num);
+}
 void CtcSH::GetSwitchPosition(int pointing_to, bool line) {
     qDebug() << "NewSwitchPos " << pointing_to << " " << line;
     emit NewSwitchPos(pointing_to, line);
@@ -42,4 +62,14 @@ void CtcSH::SwitchMaint(int switch_num, bool maint_mode, bool line) {
 void CtcSH::SwitchPos(int pointing_to, bool line) {
     qDebug() << "ShareSwitchPosition " << pointing_to << " " << line;
     emit ShareSwitchPosition(pointing_to, line);
+}
+
+void CtcSH::TrainScheduled(int trainNum, bool line) {
+    qDebug() << "CTC: emitting New Train " << trainNum << " " << line;
+    emit NewTrain(trainNum, line);
+}
+
+void CtcSH::TrainDispatched(int trainNum, bool line) {
+    qDebug() << "CTC: TrainDeparting " << trainNum << " " << line;
+    emit TrainDeparting(trainNum, line);
 }

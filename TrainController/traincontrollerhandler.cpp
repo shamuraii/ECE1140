@@ -107,8 +107,8 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
 
     // Redundancy check for power
     // Vital architecture of train controller
-    if (power != redundancy_power)
-        power = 0;
+    //if (power != redundancy_power)
+        //power = 0;
 
     qDebug() << "Power: " << power;
 
@@ -478,6 +478,7 @@ void TrainControllerHandler::TimerTicked()
     for (int i = 0; i < trains.size(); i++)
     {
         trains[i].Timer();
+        redundancy_trains[i].Timer();
     }
 
 }

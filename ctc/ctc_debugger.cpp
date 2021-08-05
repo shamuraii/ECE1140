@@ -81,7 +81,7 @@ void CtcDebugger::RefreshStationData() {
         if (s) {
             connect(ui->throughput_button, &QPushButton::clicked, this, &CtcDebugger::SetThroughput);
             ui->station_loc_text->setText(QString::number(s->GetBlockNum()));
-            ui->throughput_text->setText(QString::number(s->GetSales()));
+            ui->throughput_text->setText(0);
         }
     }
 }
@@ -93,7 +93,20 @@ void CtcDebugger::SetThroughput() {
         Station *s = network_->GetTrackLine(kRedlineName)->GetStation(station_name);
         int throughput = ui->throughput_text->text().toInt();
         if (s) {
-            s->SetThroughput(throughput);
+            network_->GetTrackLine(kRedlineName)->UpdateSales(throughput);
         }
     }
 }
+
+void CtcDebugger::on_dispatch_button_clicked()
+{
+    QComboBox *box = ui->train_box;
+    if (box && !box->currentText().isEmpty()) {
+        int t_num = box->currentText().remove(0, 6).toInt();
+        CTrain *t = network_->GetTrain(t_num);
+        if (t) {
+            network_->DebugDispatchTrain(t);
+        }
+    }
+}
+
