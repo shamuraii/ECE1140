@@ -19,13 +19,8 @@ public:
     int GetBlockNum() const;
     int GetBlockNum2() const;
     QString GetName() const;
-    int GetSales() const;
 
     void SetBlockNum2(int num);
-public slots:
-    void SetThroughput(int persons);
-signals:
-    void ThroughputUpdated();
 };
 }
 

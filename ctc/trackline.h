@@ -2,6 +2,7 @@
 #define TRACKLINE_H
 
 #include <QObject>
+#include <QTime>
 #include <vector>
 
 #include "block.h"
@@ -31,6 +32,7 @@ private:
     QString name_;
 
     std::vector<Station*> stop_order_;
+    int line_sales_;
 
     std::vector<Block*> ReconstructPath(int start_num, int end_num, std::unordered_map<int, int> came_from) const;
 
@@ -56,11 +58,11 @@ public:
     std::vector<Block*> GetFullRoute(std::vector<int> stop_blocks) const;
     std::vector<Block*> GetRoute(int start_num, int end_num) const;
 
-public slots:
-    void UpdateThroughput();
+    void CalculateThroughputs(QTime sim_time);
+    void UpdateSales(int sales);
 
 signals:
-    void ThroughputUpdated(int persons);
+    void ThroughputUpdated(int persons_hour);
 
 };
 }

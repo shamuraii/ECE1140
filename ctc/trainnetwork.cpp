@@ -15,7 +15,10 @@ TrainNetwork::TrainNetwork() : QObject(nullptr)
 
     connect(this, &TrainNetwork::OutputsUpdated, &CtcSH::Get(), &CtcSH::OutputsUpdated);
     connect(this, &TrainNetwork::TrainAdded, &CtcSH::Get(), &CtcSH::TrainScheduled);
+    connect(this, &TrainNetwork::TrainDispatched, &CtcSH::Get(), &CtcSH::TrainDispatched);
     connect(&CtcSH::Get(), &CtcSH::UpdateOutputs, this, &TrainNetwork::UpdateOutputs);
+    connect(&CtcSH::Get(), &CtcSH::RecalculateThroughput, this, &TrainNetwork::CalculateThroughputs);
+    connect(&CtcSH::Get(), &CtcSH::NewLineSales, this, &TrainNetwork::AddLineSales);
     connect(&CtcSH::Get(), &CtcSH::NewSwitchPos, this, &TrainNetwork::SwitchMoved);
     connect(&CtcSH::Get(), &CtcSH::NewOccupancies, this, &TrainNetwork::UpdateOccupancy);
     connect(&CtcSH::Get(), &CtcSH::NewTrackInfo, this, &TrainNetwork::SetTrackInfo);
@@ -209,5 +212,31 @@ void TrainNetwork::SetTrackInfo(std::vector<int> speed_limits, std::vector<int> 
             blocks[i+1]->SetInfo(speed_limits[i], lengths[i]);
             qDebug() << blocks[i+1]->GetNum() << " " << blocks[i+1]->GetSpeedLimit();
         }
+    }
+}
+
+void TrainNetwork::CheckDepartures(QTime sim_time) {
+    for(CTrain *t : trains_) {
+        if (t->GetDepartTime() == sim_time) {
+            t->DispatchTrain();
+            bool line_bool = (t->GetLine()->GetName() == kRedlineName) ? kRedBool : kGreenBool;
+            emit TrainDispatched(t->GetNum(), line_bool);
+        }
+    }
+}
+
+void TrainNetwork::AddLineSales(int sales, bool line) {
+    if (line == kRedBool) {
+        TrackLine *l = GetTrackLine(kRedlineName);
+        l->UpdateSales(sales);
+    } else {
+        TrackLine *l = GetTrackLine(kGreenlineName);
+        l->UpdateSales(sales);
+    }
+}
+
+void TrainNetwork::CalculateThroughputs(QTime sim_time) {
+    for (TrackLine *l : lines_) {
+        l->CalculateThroughputs(sim_time);
     }
 }

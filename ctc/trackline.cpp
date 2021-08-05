@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <queue>
+#include <QTime>
 
 #include "trackline.h"
 #include "block.h"
@@ -16,6 +17,8 @@ TrackLine::TrackLine(QString block_file,
                      QString switch_file,
                      QString name) : QObject(nullptr), name_(name)
 {
+    line_sales_ = 0;
+
     std::ifstream fin;
     std::string line;
     std::string val;
@@ -53,7 +56,6 @@ TrackLine::TrackLine(QString block_file,
         if (s == nullptr) {
             // Make new station
             s = new Station(block_num, s_name);
-            connect(s, &Station::ThroughputUpdated, this, &TrackLine::UpdateThroughput);
             stations_.push_back(s);
         } else {
             // Add block2 to station
@@ -231,9 +233,14 @@ std::vector<Block*> TrackLine::ReconstructPath(int start_num, int end_num, std::
     return path;
 }
 
-void TrackLine::UpdateThroughput() {
-    int throughput = 0;
-    for (Station *s : stations_)
-        throughput += s->GetSales();
-    emit ThroughputUpdated(throughput);
+void TrackLine::CalculateThroughputs(QTime sim_time) {
+    //Calculate total sales / time passed (in hours)
+    double sec_passed = (double) sim_time.msecsSinceStartOfDay() / 1000;
+    double hours_passed = sec_passed / (60 * 60);
+    double persons_hour = (double) line_sales_ / hours_passed;
+    emit ThroughputUpdated(persons_hour);
+}
+
+void TrackLine::UpdateSales(int sales) {
+    line_sales_ += sales;
 }

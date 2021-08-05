@@ -23,15 +23,6 @@ QString Station::GetName() const {
     return name_;
 }
 
-int Station::GetSales() const {
-    return sales_;
-}
-
 void Station::SetBlockNum2(int num) {
     block_num2_ = num;
-}
-
-void Station::SetThroughput(int persons) {
-    sales_ = persons;
-    emit ThroughputUpdated();
 }

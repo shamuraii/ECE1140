@@ -5,11 +5,20 @@
 void CtcSH::TimedEvents() {
     qDebug() << "UpdateOutputs";
     emit UpdateOutputs();
+    qDebug() << "CheckTrainDepartures";
+    //TODO emit CheckTrainDepartures(sim_time);
+    qDebug() << "RecalculateThroughput";
+    //TODO emit RecalculateThroughput(sim_time);
 }
 
 void CtcSH::GetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {
     qDebug() << "NewTrackInfo " << speed_limits.size() << " " << lengths.size() << " " << line;
     emit NewTrackInfo(speed_limits, lengths, line);
+}
+
+void CtcSH::GetLineSales(int sales, bool line) {
+    qDebug() << "GetLineSales " << sales << " " << line;
+    emit NewLineSales(sales, line);
 }
 
 void CtcSH::GetSwitchPosition(int pointing_to, bool line) {
@@ -47,4 +56,9 @@ void CtcSH::SwitchPos(int pointing_to, bool line) {
 void CtcSH::TrainScheduled(int trainNum, bool line) {
     qDebug() << "CTC: emitting New Train " << trainNum << " " << line;
     emit NewTrain(trainNum, line);
+}
+
+void CtcSH::TrainDispatched(int trainNum, bool line) {
+    qDebug() << "CTC: TrainDeparting " << trainNum << " " << line;
+    emit TrainDeparting(trainNum, line);
 }

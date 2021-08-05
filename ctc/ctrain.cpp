@@ -13,6 +13,7 @@ CTrain::CTrain(Station *destination, QTime departure_time, TrackLine *line)
 {
     stops_ = line_->GetStopListFromDestination(destination_);
     stopped_ = false;
+    dispatched_ = false;
 
     std::vector<int> stop_blocks;
     stop_blocks.push_back(Block::kYardNum);
@@ -117,9 +118,16 @@ int CTrain::GetSugAuth() const {
 void CTrain::IncrementRouteIndex() {
     route_index_++;
 }
+
 void CTrain::UpdateOutputs() {
+    // Do nothing if not dispatched
+    if (!dispatched_)
+        return;
+
+    // TODO this whole block doesnt make sense. Use stopping distance and stop at scheduled stations appropriately
     bool found_station = false;
     if (stopped_) {
+        // If stopped (at station), reset authority to 1
         GetLocation()->SetAuth(1);
     } else {
         for (Station *s : line_->GetStations()) {
@@ -159,6 +167,10 @@ void CTrain::SetNum(int num) {
 
 void CTrain::TrainStopped() {
     stopped_ = true;
+}
+
+void CTrain::DispatchTrain() {
+    dispatched_ = true;
 }
 
 void CTrain::RecalculateRoute(int num) {

@@ -25,6 +25,7 @@ private:
     std::vector<Block*> route_;
     int route_index_;
     bool stopped_;
+    bool dispatched_;
 
     void CalculateEstimatedArrival();
 
@@ -47,6 +48,7 @@ public:
 
     void SetNum(int num);
     void TrainStopped();
+    void DispatchTrain();
 
     void IncrementRouteIndex();
 
