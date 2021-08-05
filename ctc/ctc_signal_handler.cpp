@@ -5,10 +5,17 @@
 void CtcSH::TimedEvents() {
     qDebug() << "UpdateOutputs";
     emit UpdateOutputs();
-    qDebug() << "CheckTrainDepartures";
-    //TODO emit CheckTrainDepartures(sim_time);
-    qDebug() << "RecalculateThroughput";
-    //TODO emit RecalculateThroughput(sim_time);
+
+    qDebug() << "RecalcRoutes";
+    emit RecalculateRoutes();
+
+    //TODO - requires track model simulation time
+    //qDebug() << "CheckTrainDepartures";
+    //emit CheckTrainDepartures(sim_time);
+
+    //TODO - requires track model simulation time
+    //qDebug() << "RecalculateThroughput";
+    //emit RecalculateThroughput(sim_time);
 }
 
 void CtcSH::GetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {

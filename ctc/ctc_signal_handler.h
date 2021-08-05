@@ -49,6 +49,7 @@ signals:
 
     // Internal
     void UpdateOutputs();
+    void RecalculateRoutes();
     void CheckTrainDepartures(QTime sim_time);
     void RecalculateThroughput(QTime sim_time);
     void NewSwitchPos(int pointing_to, bool line);

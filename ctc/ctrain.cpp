@@ -14,6 +14,7 @@ CTrain::CTrain(Station *destination, QTime departure_time, TrackLine *line)
     stops_ = line_->GetStopListFromDestination(destination_);
     stopped_ = false;
     dispatched_ = false;
+    manually_routed_ = false;
 
     std::vector<int> stop_blocks;
     stop_blocks.push_back(Block::kYardNum);
@@ -119,6 +120,26 @@ void CTrain::IncrementRouteIndex() {
     route_index_++;
 }
 
+int CTrain::LengthToNextStop() {
+    int distance = 0;
+    bool stop_reached = false;
+
+    for (size_t i = route_index_; i < route_.size(); i++) {
+        Block *b = route_[route_index_];
+        for (Station *s : stops_) {
+            if (b->GetNum() == s->GetBlockNum() || b->GetNum() == s->GetBlockNum2()) {
+                // Next stop reached, exit loop
+                stop_reached = true;
+            }
+        }
+        if (stop_reached)
+            break;
+        else
+            distance += b->GetLength();
+    }
+    return distance;
+}
+
 void CTrain::UpdateOutputs() {
     // Do nothing if not dispatched
     if (!dispatched_)
@@ -127,7 +148,7 @@ void CTrain::UpdateOutputs() {
     // TODO this whole block doesnt make sense. Use stopping distance and stop at scheduled stations appropriately
     bool found_station = false;
     if (stopped_) {
-        // If stopped (at station), reset authority to 1
+        // If stopped, reset authority to 1
         GetLocation()->SetAuth(1);
     } else {
         for (Station *s : line_->GetStations()) {
@@ -173,11 +194,25 @@ void CTrain::DispatchTrain() {
     dispatched_ = true;
 }
 
-void CTrain::RecalculateRoute(int num) {
+void CTrain::RecalculateRoute(int num, Station *new_destination) {
     if (num == -1) {
-        // Regular route recalculation
+        //Recalculate normal route
+
     } else {
         // Forced to route to a specific block
+        std::vector<int> stop_blocks;
+        stop_blocks.push_back(location_->GetNum());
+        stop_blocks.push_back(num);
+        // Try adding the destination's block number to stop_blocks vector
+        stops_.clear();
+        destination_ = new_destination;
+        stops_.push_back(destination_);
+        stop_blocks.push_back(destination_->GetBlockNum());
+        stop_blocks.push_back(Block::kYardNum);
+
+        route_ = line_->GetFullRoute(stop_blocks);
+
+        manually_routed_ = true;
     }
 }
 

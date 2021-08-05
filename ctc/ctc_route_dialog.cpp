@@ -51,7 +51,22 @@ void CtcRouteDialog::on_route_text_editingFinished()
 
 void CtcRouteDialog::on_save_button_clicked()
 {
-    QMessageBox::information(this, "Sorry", "This has not yet been implemented.");
+    bool is_numeric = false;
+    int block_num = ui->route_text->text().toInt(&is_numeric);
+
+    if (!is_numeric) {
+        QMessageBox::warning(this, "Invalid Route Info", "Route-text must be a valid block number.");
+        ui->route_text->clear();
+        return;
+    } else if (!line_->GetBlock(block_num)) {
+        QMessageBox::warning(this, "Invalid Route Info", "Route-text provided block does not exist on track.");
+        ui->route_text->clear();
+        return;
+    }
+
+    Station *s = line_->GetStation(ui->dest_cbox->currentText());
+
+    train_->RecalculateRoute(block_num, s);
     this->close();
 }
 

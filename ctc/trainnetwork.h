@@ -37,6 +37,7 @@ public slots:
 
     // From CtcSH
     void UpdateOutputs();
+    void RecalculateRoutes();
     void SwitchMoved(int pointing_to, bool line);
     void UpdateOccupancy(std::vector<bool> occupancy, bool line);
     void TrainStopped(int train_num);

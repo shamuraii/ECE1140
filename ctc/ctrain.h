@@ -26,6 +26,7 @@ private:
     int route_index_;
     bool stopped_;
     bool dispatched_;
+    bool manually_routed_;
 
     void CalculateEstimatedArrival();
 
@@ -52,10 +53,12 @@ public:
 
     void IncrementRouteIndex();
 
+    int LengthToNextStop();
+
 public slots:
     void SetLocation(Block *new_location);
     void UpdateOutputs();
-    void RecalculateRoute(int force_num = -1);
+    void RecalculateRoute(int force_num = -1, Station *new_destination = nullptr);
     void DebugAdvanceTrain();
 
 signals:

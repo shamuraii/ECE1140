@@ -17,6 +17,7 @@ TrainNetwork::TrainNetwork() : QObject(nullptr)
     connect(this, &TrainNetwork::TrainAdded, &CtcSH::Get(), &CtcSH::TrainScheduled);
     connect(this, &TrainNetwork::TrainDispatched, &CtcSH::Get(), &CtcSH::TrainDispatched);
     connect(&CtcSH::Get(), &CtcSH::UpdateOutputs, this, &TrainNetwork::UpdateOutputs);
+    connect(&CtcSH::Get(), &CtcSH::RecalculateRoutes, this, &TrainNetwork::RecalculateRoutes);
     connect(&CtcSH::Get(), &CtcSH::RecalculateThroughput, this, &TrainNetwork::CalculateThroughputs);
     connect(&CtcSH::Get(), &CtcSH::NewLineSales, this, &TrainNetwork::AddLineSales);
     connect(&CtcSH::Get(), &CtcSH::NewSwitchPos, this, &TrainNetwork::SwitchMoved);
@@ -104,6 +105,11 @@ void TrainNetwork::UpdateOutputs() {
         g_out_speed.push_back(b->GetSpeed());
     }
     emit OutputsUpdated(g_out_auth, g_out_speed, kGreenBool);
+}
+
+void TrainNetwork::RecalculateRoutes() {
+    for (CTrain *t : trains_)
+        t->RecalculateRoute();
 }
 
 void TrainNetwork::SwitchMoved(int pointing_to, bool line) {
