@@ -117,6 +117,7 @@ protected:
 private slots:
     void on_startButton_clicked();
     void on_stopButton_clicked();
+    void on_startButton_2_clicked();
 };
 
 #endif // SIMULATION_H
