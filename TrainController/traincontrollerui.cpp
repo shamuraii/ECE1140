@@ -57,6 +57,7 @@ void TrainControllerUi::SetUpSignals()
     QObject::connect(&test_ui, &TestUi::UpdateTestGui, &train_handler, &TrainControllerHandler::UpdateTestGui);
     QObject::connect(&test_ui, &TestUi::NewAuthority, &train_handler, &TrainControllerHandler::NewAuthority);
     QObject::connect(&test_ui, &TestUi::FailureMode, &train_handler, &TrainControllerHandler::FailureMode);
+    QObject::connect(&test_ui, &TestUi::BeaconInfo, &train_handler, &TrainControllerHandler::NewBeaconInfo);
 
 }
 

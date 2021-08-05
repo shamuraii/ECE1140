@@ -231,3 +231,11 @@ double TestUi::MPHToKMPH(double speed)
 {
     return speed*1.60934;
 }
+
+void TestUi::on_beacon_button_clicked()
+{
+    if (ui->beacon_info->text() == "")
+        return;
+    emit BeaconInfo(ui->train_index->currentText().toInt() - 1, ui->beacon_info->text());
+}
+
