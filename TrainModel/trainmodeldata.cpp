@@ -52,10 +52,10 @@ void TrainModelData::tick(int time)
 
     bool wasMoving = actual_speed > 0;
     double current_energy = .5 * .454 * mass * actual_speed * actual_speed;
-    current_energy += 0.001 * time * power;
+    current_energy += (engine_failure) ? 0 : 0.001 * time * power;
     actual_speed = sqrt(2 * current_energy / (.454 * mass));
     if (ebrakes_on) actual_speed -= 0.001*2.73*time;
-    else if (brakes_on) actual_speed -= 0.001*1.2*time;
+    else if (brakes_on && !brake_failure) actual_speed -= 0.001*1.2*time;
     if (actual_speed < 0) actual_speed = 0;
 
     qDebug() << "Train Model speed changed to: " << 3.6*actual_speed << "kmh";
@@ -66,9 +66,7 @@ void TrainModelData::tick(int time)
     //Tell controller our speed changed in kmh
     emit ControllerInterface::getInstance().speedChanged(getID(), 3.6*actual_speed);
 
-    //Tell track model our speed changed (TODO) (Moved to long tick)
-
-    //If speed dropped to 0, tell CTC we've arrived at a station (TODO)
+    //If speed dropped to 0, tell CTC we've arrived at a station
     if (wasMoving && actual_speed == 0)
     {
         qDebug() << "Train Model stopped...telling CTC";

@@ -32,7 +32,8 @@ public slots:
     void ToggleEmergencyBrake(int,bool);
     //void ToggleServiceBrake(int,bool); // Might use for failure
     void NewAuthority(int,int);
-    //void FailureMode(int,string);
+    void FailureMode(int,int);
+    void EndFailure(int);
     void NewBeaconInfo(int,QString); // Talk with group
 
     // Internal signals from train controller
@@ -66,9 +67,10 @@ signals:
     void CommandedSpeed(int,double);
     void ActualSpeed(int,double);
     void TCEmergencyBrake(int,bool);
-    // void ServiceBrake(int,bool); for failure mode
     void Authority(int,int);
     void BeaconInfo(int,QString);
+    void TCFailureMode(int,int);
+    void TCEndFailure(int);
 
     // Timer signal to train controller
     void Timer();

@@ -29,9 +29,11 @@ public slots:
     void SetKi(int,double);
     void UpdateGui(int);
     void ToggleEmergencyBrake(int);
+    void PassengerEmergencyBrake(int);
     void UpdateTestGui(int);
     void NewAuthority(int,int);
-    void FailureMode(int, QString);
+    void FailureMode(int, int);
+    void EndFailure(int);
     void NewBeaconInfo(int,QString);
     void ArrivedAtStation(int);
     void ManualMode(int);
@@ -44,6 +46,7 @@ private:
     void SetUpSignals();
     double ConvertKMPHToMS(double);
     double ConvertMPHToMS(double);
+    vector<TrainController> redundancy_trains;
 
 signals:
     void GuiUpdate(TrainController);

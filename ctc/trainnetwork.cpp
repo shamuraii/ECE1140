@@ -20,6 +20,7 @@ TrainNetwork::TrainNetwork() : QObject(nullptr)
     connect(&CtcSH::Get(), &CtcSH::RecalculateRoutes, this, &TrainNetwork::RecalculateRoutes);
     connect(&CtcSH::Get(), &CtcSH::RecalculateThroughput, this, &TrainNetwork::CalculateThroughputs);
     connect(&CtcSH::Get(), &CtcSH::TrainStopped, this, &TrainNetwork::TrainStopped);
+
     connect(&CtcSH::Get(), &CtcSH::NewLineSales, this, &TrainNetwork::AddLineSales);
     connect(&CtcSH::Get(), &CtcSH::NewSwitchPos, this, &TrainNetwork::SwitchMoved);
     connect(&CtcSH::Get(), &CtcSH::NewOccupancies, this, &TrainNetwork::UpdateOccupancy);

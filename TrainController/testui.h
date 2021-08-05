@@ -40,7 +40,8 @@ signals:
     void ToggleEmergencyBrake(int);
     void UpdateTestGui(int);
     void NewAuthority(int,int);
-    void FailureMode(int, QString);
+    void FailureMode(int, int);
+    void BeaconInfo(int, QString);
 
 private slots:
     void on_new_train_button_clicked();
@@ -55,6 +56,8 @@ private slots:
     void on_failure_mode_button_clicked();
 
     void on_train_index_currentIndexChanged(int index);
+
+    void on_beacon_button_clicked();
 
 private:
     Ui::TestUi *ui;

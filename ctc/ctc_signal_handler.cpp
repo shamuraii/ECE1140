@@ -32,7 +32,6 @@ void CtcSH::GetTrainStopped(int train_num) {
     qDebug() << "GetTrainStopped " << train_num;
     emit TrainStopped(train_num);
 }
-
 void CtcSH::GetSwitchPosition(int pointing_to, bool line) {
     qDebug() << "NewSwitchPos " << pointing_to << " " << line;
     emit NewSwitchPos(pointing_to, line);
