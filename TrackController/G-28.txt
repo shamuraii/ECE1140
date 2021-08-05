@@ -1,0 +1,2 @@
+upper 30
+lower 150
