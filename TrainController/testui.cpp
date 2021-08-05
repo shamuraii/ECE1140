@@ -7,7 +7,6 @@ TestUi::TestUi(QWidget *parent) :
 {
     ui->setupUi(this);
     num_trains = 0;
-    AddNewTrain(0);
 }
 
 TestUi::~TestUi()
@@ -25,8 +24,6 @@ bool TestUi::IsNumber(string s)
 
 void TestUi::on_new_train_button_clicked()
 {
-    num_trains += 1;
-    ui->train_index->addItem(QString::number(num_trains));
     emit NewTrain(num_trains - 1);
 }
 
@@ -34,7 +31,7 @@ void TestUi::AddNewTrain(int index)
 {
     qDebug() << "In Test Ui Add new train: " << index;
     num_trains += 1;
-    ui->train_index->addItem(QString::number(index+1));
+    ui->train_index->addItem(QString::number(index));
 }
 
 void TestUi::on_commanded_speed_button_clicked()
