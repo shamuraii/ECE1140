@@ -18,8 +18,7 @@ void TrackModelSH::getCommandedSpeed(std::vector<int> comSpeed){
 }
 
 void TrackModelSH::getTimerTicked() {
-    sim_time_ = sim_time_.addSecs(1);
-    emit sendTimerTicked(sim_time_);
+    emit sendTimerTicked();
 }
 
 void TrackModelSH::getPTimerTicked() {
