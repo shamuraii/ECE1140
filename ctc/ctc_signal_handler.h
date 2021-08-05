@@ -25,6 +25,7 @@ public slots:
 
     void GetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
     void GetLineSales(int sales, bool line);
+    void GetTrainStopped(int train_num);
 
     void TimedEvents();
 
@@ -56,6 +57,7 @@ signals:
     void NewOccupancies(std::vector<bool> occupancy, bool line);
     void NewTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
     void NewLineSales(int sales, bool line);
+    void TrainStopped(int train_num);
 };
 
 #endif // CTCSIGNALHANDLER_H
