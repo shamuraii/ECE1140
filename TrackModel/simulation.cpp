@@ -82,6 +82,10 @@ Simulation::Simulation(QWidget *parent) :
         }
         if(blockData.at(0).toInt() > blockCount + 1 && blockData.at(0).toInt() <= stationCount){
             setStationName(blockData.at(1));
+            setTicketSales(blockData.at(2).toInt());
+            setBoarding(blockData.at(3).toInt());
+            setDisembarking(blockData.at(4).toInt());
+
         }
         if(blockData.at(0).toInt() > stationCount && blockData.at(0).toInt() <= beaconCount){
             setBeaconStation(blockData.at(1));
@@ -140,9 +144,22 @@ void Simulation::calculateBlock(int trainNum, double distance){
         blockNum = 8;
     } else if (totalMeters < 300) {
         blockNum = 7;
-    } else {
+    } else if (totalMeters < 350){
         blockNum = 6;
+    } else if (totalMeters < 400){
+        blockNum = 5;
+    } else if (totalMeters < 450){
+        blockNum = 4;
+    } else if (totalMeters < 500){
+        blockNum = 3;
+    } else if (totalMeters < 550){
+        blockNum = 2;
+    } else if (totalMeters < 600){
+        blockNum = 1;
+    } else if (totalMeters < 650){
+        blockNum = 16;
     }
+
     setPrevBlockNum(getCurrentBlockNum());
     setCurrentBlockNum(blockNum);
 
@@ -156,7 +173,7 @@ void Simulation::timerEvent(QTimerEvent *event)
     QLabel *label2 = ui->date_label;
     label2->setText(QDate::currentDate().toString("MM/dd/yyyy"));
     QLabel *label = ui->time_label;
-    label->setText(TrackModelSH::Get().sim_time_.toString("hh:mm:ss"));
+    label->setText(QTime::currentTime().toString("hh:mm:ss"));
 }
 
 void Simulation::on_tempEdit_textEdited(const QString &arg1)
@@ -344,22 +361,15 @@ void Simulation::setOccupied(){
 
 void Simulation::on_startButton_clicked()
 {
-    timer->setInterval(1000);
-    ptimer->setInterval(400);
     timer->start();
     ptimer->start();
 }
 
-void Simulation::on_startButton_2_clicked()
-{
-    timer->setInterval(100);
-    ptimer->setInterval(40);
-    timer->start();
-    ptimer->start();
-}
+
 
 void Simulation::on_stopButton_clicked()
 {
     timer->stop();
     ptimer->stop();
 }
+
