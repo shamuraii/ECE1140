@@ -5,11 +5,27 @@
 void CtcSH::TimedEvents() {
     qDebug() << "UpdateOutputs";
     emit UpdateOutputs();
+
+    qDebug() << "RecalcRoutes";
+    emit RecalculateRoutes();
+
+    //TODO - requires track model simulation time
+    //qDebug() << "CheckTrainDepartures";
+    //emit CheckTrainDepartures(sim_time);
+
+    //TODO - requires track model simulation time
+    //qDebug() << "RecalculateThroughput";
+    //emit RecalculateThroughput(sim_time);
 }
 
 void CtcSH::GetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {
     qDebug() << "NewTrackInfo " << speed_limits.size() << " " << lengths.size() << " " << line;
     emit NewTrackInfo(speed_limits, lengths, line);
+}
+
+void CtcSH::GetLineSales(int sales, bool line) {
+    qDebug() << "GetLineSales " << sales << " " << line;
+    emit NewLineSales(sales, line);
 }
 
 void CtcSH::GetSwitchPosition(int pointing_to, bool line) {
@@ -42,4 +58,14 @@ void CtcSH::SwitchMaint(int switch_num, bool maint_mode, bool line) {
 void CtcSH::SwitchPos(int pointing_to, bool line) {
     qDebug() << "ShareSwitchPosition " << pointing_to << " " << line;
     emit ShareSwitchPosition(pointing_to, line);
+}
+
+void CtcSH::TrainScheduled(int trainNum, bool line) {
+    qDebug() << "CTC: emitting New Train " << trainNum << " " << line;
+    emit NewTrain(trainNum, line);
+}
+
+void CtcSH::TrainDispatched(int trainNum, bool line) {
+    qDebug() << "CTC: TrainDeparting " << trainNum << " " << line;
+    emit TrainDeparting(trainNum, line);
 }
