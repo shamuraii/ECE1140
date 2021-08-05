@@ -9,15 +9,16 @@ class Switch : public QObject
 {
     Q_OBJECT
 private:
+    int block_;
     int lower_;
     int upper_;
     int pointing_to_;
 
     bool maint_mode_;
 public:
-    explicit Switch(int lower, int upper);
+    explicit Switch(int block, int lower, int upper);
 
-
+    int GetBlock() const;
     bool HasBlock(int block_num) const;
     int LowerBlock() const;
     int UpperBlock() const;

@@ -8,10 +8,15 @@ Station::Station(int block_num, QString name)
       name_(name)
 {
     sales_ = 0;
+    block_num2_  = -1;
 }
 
 int Station::GetBlockNum() const {
     return block_num_;
+}
+
+int Station::GetBlockNum2() const {
+    return block_num2_;
 }
 
 QString Station::GetName() const {
@@ -20,6 +25,10 @@ QString Station::GetName() const {
 
 int Station::GetSales() const {
     return sales_;
+}
+
+void Station::SetBlockNum2(int num) {
+    block_num2_ = num;
 }
 
 void Station::SetThroughput(int persons) {

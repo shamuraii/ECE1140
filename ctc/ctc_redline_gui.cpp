@@ -73,7 +73,7 @@ void CtcRedLineGui::block_clicked()
 void CtcRedLineGui::switch_clicked() {
     QPushButton *button = qobject_cast<QPushButton*>(sender());
     if (button) {
-        int sw_num = button->text().toInt();
+        int sw_num = button->objectName().remove(0,2).toInt();
         Switch *sw = GetRedLine()->GetSwitch(sw_num);
         if (sw->InMaintenance()) {
             int result = QMessageBox::question(this, "Maintenance Mode", "Currently, switch in maintenance mode. Would you like to disable maintenance mode?",
@@ -116,7 +116,7 @@ void CtcRedLineGui::UpdateDisplay() {
             continue;
         } else if (button_name.startsWith("sw")) {
             // Update SW Display
-            int sw_num = button->text().toInt();
+            int sw_num = button_name.remove(0,2).toInt();
             Switch *sw = GetRedLine()->GetSwitch(sw_num);
             if (sw->PointingTo() == sw->LowerBlock()) {
                 button->setStyleSheet(ui->legend_switch0->styleSheet());

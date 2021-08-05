@@ -30,6 +30,8 @@ private:
     std::vector<Switch*> switches_;
     QString name_;
 
+    std::vector<Station*> stop_order_;
+
     std::vector<Block*> ReconstructPath(int start_num, int end_num, std::unordered_map<int, int> came_from) const;
 
 public:

@@ -21,6 +21,7 @@ TrackLine::TrackLine(QString block_file,
     std::string val;
     std::stringstream ss;
 
+    // Open the Block File
     fin.open(block_file.toStdString());
     while (std::getline(fin, line)) {
         ss = std::stringstream(line);
@@ -36,6 +37,7 @@ TrackLine::TrackLine(QString block_file,
     fin.close();
     fin.clear();
 
+    // Open the Station File
     fin.open(station_file.toStdString());
     while (std::getline(fin, line)) {
         ss = std::stringstream(line);
@@ -43,14 +45,27 @@ TrackLine::TrackLine(QString block_file,
         while (std::getline(ss, val, ',')) {
             results.push_back(val);
         }
-        // Make new station
-        Station *s = new Station(std::stoi(results[0]), QString::fromStdString(results[1]));
-        connect(s, &Station::ThroughputUpdated, this, &TrackLine::UpdateThroughput);
-        stations_.push_back(s);
+        int block_num = std::stoi(results[0]);
+        QString s_name = QString::fromStdString(results[1]);
+
+        // Check if station already added to another block
+        Station *s = GetStation(s_name);
+        if (s == nullptr) {
+            // Make new station
+            s = new Station(block_num, s_name);
+            connect(s, &Station::ThroughputUpdated, this, &TrackLine::UpdateThroughput);
+            stations_.push_back(s);
+        } else {
+            // Add block2 to station
+            s->SetBlockNum2(block_num);
+        }
+        // Add to the station stop order
+        stop_order_.push_back(s);
     }
     fin.close();
     fin.clear();
 
+    // Open the Switch File
     fin.open(switch_file.toStdString());
     while (std::getline(fin, line)) {
         ss = std::stringstream(line);
@@ -59,7 +74,9 @@ TrackLine::TrackLine(QString block_file,
             results.push_back(val);
         }
         // Make new switch
-        Switch *sw = new Switch(std::stoi(results[0]), std::stoi(results[1]));
+        Switch *sw = new Switch(std::stoi(results[0]),
+                                std::stoi(results[1]),
+                                std::stoi(results[2]));
         switches_.push_back(sw);
     }
     fin.close();
@@ -82,7 +99,7 @@ Block *TrackLine::GetBlock(int block_num) const {
 
 Station *TrackLine::GetStation(int block_num) const {
     for (Station *s : stations_)
-        if (s->GetBlockNum() == block_num)
+        if (s->GetBlockNum() == block_num || s->GetBlockNum2() == block_num)
             return s;
     return nullptr;
 }
@@ -96,7 +113,7 @@ Station *TrackLine::GetStation(QString station_name) const {
 
 Switch *TrackLine::GetSwitch(int block_num) const {
     for (Switch *sw : switches_)
-        if (sw->HasBlock(block_num))
+        if (sw->GetBlock() == block_num)
             return sw;
     return nullptr;
 }
@@ -120,12 +137,10 @@ std::vector<Switch*> TrackLine::GetSwitches() const {
 std::vector<Station*> TrackLine::GetStopListFromDestination(Station *destination) const {
     std::vector<Station*> stops;
 
-    for (auto* s : stations_) {
-        if (s->GetBlockNum() <= destination->GetBlockNum())
-            stops.push_back(s);
-    }
-    for (int i = stops.size() - 2; i >= 0; --i) {
-        stops.push_back(stops[i]);
+    for (auto* s : stop_order_) {
+        stops.push_back(s);
+        if (s == destination)
+            break;
     }
 
     return stops;
