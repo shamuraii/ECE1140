@@ -27,7 +27,7 @@ public slots:
     void GetLineSales(int sales, bool line);
     void GetTrainStopped(int train_num);
 
-    void TimedEvents();
+    void TimedEvents(QTime sim_time);
 
     // Internal
     void OutputsUpdated(std::vector<bool> out_auth, std::vector<int> out_speed, bool line);

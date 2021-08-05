@@ -141,10 +141,6 @@ int CTrain::LengthToNextStop() {
 }
 
 void CTrain::UpdateOutputs() {
-    // Do nothing if not dispatched
-    if (!dispatched_)
-        return;
-
     // TODO this whole block doesnt make sense. Use stopping distance and stop at scheduled stations appropriately
     bool found_station = false;
     if (stopped_) {
@@ -190,8 +186,12 @@ void CTrain::TrainStopped() {
     stopped_ = true;
 }
 
-void CTrain::DispatchTrain() {
-    dispatched_ = true;
+bool CTrain::DispatchTrain() {
+    if (dispatched_)
+        return false;
+    else
+        dispatched_ = true;
+    return true;
 }
 
 void CTrain::RecalculateRoute(int num, Station *new_destination) {

@@ -19,6 +19,7 @@ TrainNetwork::TrainNetwork() : QObject(nullptr)
     connect(&CtcSH::Get(), &CtcSH::UpdateOutputs, this, &TrainNetwork::UpdateOutputs);
     connect(&CtcSH::Get(), &CtcSH::RecalculateRoutes, this, &TrainNetwork::RecalculateRoutes);
     connect(&CtcSH::Get(), &CtcSH::RecalculateThroughput, this, &TrainNetwork::CalculateThroughputs);
+    connect(&CtcSH::Get(), &CtcSH::CheckTrainDepartures, this, &TrainNetwork::CheckDepartures);
     connect(&CtcSH::Get(), &CtcSH::TrainStopped, this, &TrainNetwork::TrainStopped);
 
     connect(&CtcSH::Get(), &CtcSH::NewLineSales, this, &TrainNetwork::AddLineSales);
@@ -136,11 +137,11 @@ void TrainNetwork::UpdateOccupancy(std::vector<bool> occupancy, bool line) {
         TrackLine *l = GetTrackLine(kRedlineName);
         std::vector<Block*> blocks = l->GetBlocks();
 
-        /*
+
         for (size_t i = 0; i < 11; i++) {
             qDebug() << occupancy[i];
         }
-        */
+
 
         for (size_t i = 0; i < occupancy.size(); i++) {
 
@@ -225,10 +226,12 @@ void TrainNetwork::SetTrackInfo(std::vector<int> speed_limits, std::vector<int> 
 
 void TrainNetwork::CheckDepartures(QTime sim_time) {
     for(CTrain *t : trains_) {
+        qDebug() << "Depart time: " << t->GetDepartTime().toString("HH:mm") << " SimTime: " << sim_time.toString("HH:mm");
         if (t->GetDepartTime() <= sim_time) {
-            t->DispatchTrain();
-            bool line_bool = (t->GetLine()->GetName() == kRedlineName) ? kRedBool : kGreenBool;
-            emit TrainDispatched(t->GetNum(), line_bool);
+            if (t->DispatchTrain()) {
+                bool line_bool = (t->GetLine()->GetName() == kRedlineName) ? kRedBool : kGreenBool;
+                emit TrainDispatched(t->GetNum(), line_bool);
+            }
         }
     }
 }

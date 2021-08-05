@@ -59,7 +59,7 @@ public slots:
     void UpdateOutputs();
     void RecalculateRoute(int force_num = -1, Station *new_destination = nullptr);
     void DebugAdvanceTrain();
-    void DispatchTrain();
+    bool DispatchTrain();
 
 signals:
     void DebugMovedTrain(Block *old_loc, Block *new_loc);
