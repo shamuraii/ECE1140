@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1170</width>
-    <height>636</height>
+    <height>637</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
    <widget class="QPushButton" name="stopButton">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>400</x>
       <y>0</y>
       <width>71</width>
       <height>21</height>
@@ -33,7 +33,7 @@
      <string notr="true">background-color: rgb(255, 0, 0);</string>
     </property>
     <property name="text">
-     <string>Stop</string>
+     <string>Pause</string>
     </property>
    </widget>
    <widget class="QPushButton" name="failSelectButton">
@@ -52,7 +52,7 @@
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>480</x>
       <y>0</y>
       <width>71</width>
       <height>21</height>
@@ -62,7 +62,7 @@
      <string notr="true">background-color: rgb(0, 170, 0);</string>
     </property>
     <property name="text">
-     <string>Start</string>
+     <string>1x</string>
     </property>
    </widget>
    <widget class="QPushButton" name="block1">
@@ -2077,7 +2077,7 @@ color: rgb(255, 255, 255);
      </rect>
     </property>
     <property name="text">
-     <string>Beacon</string>
+     <string>Beacon:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="station78">
@@ -2094,7 +2094,7 @@ color: rgb(255, 255, 255);
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>1</string>
     </property>
    </widget>
    <widget class="QPushButton" name="block72">
@@ -2969,7 +2969,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(0, 0, 127);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>2</string>
     </property>
    </widget>
    <widget class="QPushButton" name="station80">
@@ -2985,7 +2985,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(0, 0, 127);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>3</string>
     </property>
    </widget>
    <widget class="QPushButton" name="station81">
@@ -3001,7 +3001,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(0, 0, 127);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>4</string>
     </property>
    </widget>
    <widget class="QPushButton" name="station84">
@@ -3017,7 +3017,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(0, 0, 127);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>7</string>
     </property>
    </widget>
    <widget class="QPushButton" name="station83">
@@ -3033,7 +3033,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(0, 0, 127);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>6</string>
     </property>
    </widget>
    <widget class="QPushButton" name="station82">
@@ -3049,7 +3049,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(0, 0, 127);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>5</string>
     </property>
    </widget>
    <widget class="QPushButton" name="station85">
@@ -3065,7 +3065,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(0, 0, 127);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>8</string>
     </property>
    </widget>
    <widget class="QPushButton" name="switch16">
@@ -4613,7 +4613,7 @@ color: rgb(255, 255, 255);
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon22">
+   <widget class="QPushButton" name="beacon6">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -4626,10 +4626,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>6</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon20">
+   <widget class="QPushButton" name="beacon5">
     <property name="geometry">
      <rect>
       <x>220</x>
@@ -4642,10 +4642,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>5</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon26">
+   <widget class="QPushButton" name="beacon8">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -4658,10 +4658,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>8</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon24">
+   <widget class="QPushButton" name="beacon7">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -4674,10 +4674,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>7</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon17">
+   <widget class="QPushButton" name="beacon4">
     <property name="geometry">
      <rect>
       <x>500</x>
@@ -4690,10 +4690,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>4</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon15">
+   <widget class="QPushButton" name="beacon3">
     <property name="geometry">
      <rect>
       <x>570</x>
@@ -4706,10 +4706,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>3</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon34">
+   <widget class="QPushButton" name="beacon9">
     <property name="geometry">
      <rect>
       <x>690</x>
@@ -4722,10 +4722,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>9</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon36">
+   <widget class="QPushButton" name="beacon10">
     <property name="geometry">
      <rect>
       <x>760</x>
@@ -4738,10 +4738,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>10</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon49">
+   <widget class="QPushButton" name="beacon14">
     <property name="geometry">
      <rect>
       <x>630</x>
@@ -4754,10 +4754,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>14</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon47">
+   <widget class="QPushButton" name="beacon13">
     <property name="geometry">
      <rect>
       <x>700</x>
@@ -4770,10 +4770,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>13</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon46">
+   <widget class="QPushButton" name="beacon12">
     <property name="geometry">
      <rect>
       <x>840</x>
@@ -4786,10 +4786,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>12</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon44">
+   <widget class="QPushButton" name="beacon11">
     <property name="geometry">
      <rect>
       <x>900</x>
@@ -4802,10 +4802,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>11</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon6">
+   <widget class="QPushButton" name="beacon1">
     <property name="geometry">
      <rect>
       <x>920</x>
@@ -4818,10 +4818,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>1</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon8">
+   <widget class="QPushButton" name="beacon2">
     <property name="geometry">
      <rect>
       <x>990</x>
@@ -4834,10 +4834,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>2</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon61">
+   <widget class="QPushButton" name="beacon16">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -4850,10 +4850,10 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>16</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="beacon59">
+   <widget class="QPushButton" name="beacon15">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -4866,7 +4866,7 @@ color: rgb(255, 255, 255);
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string/>
+     <string>15</string>
     </property>
    </widget>
    <widget class="QPushButton" name="switch52_2">
@@ -5329,6 +5329,22 @@ color: rgb(255, 255, 255);
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
+   <widget class="QPushButton" name="startButton_2">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>0</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 170, 0);</string>
+    </property>
+    <property name="text">
+     <string>10x</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -5336,7 +5352,7 @@ color: rgb(255, 255, 255);
      <x>0</x>
      <y>0</y>
      <width>1170</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
