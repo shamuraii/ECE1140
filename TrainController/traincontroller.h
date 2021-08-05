@@ -5,6 +5,8 @@
 #include <iostream>
 #include <QString>
 #include <QStringList>
+#include <QDebug>
+
 
 using namespace std;
 
@@ -17,6 +19,7 @@ public:
     double CalculatePower();
     void GrabBeaconInfo(QString);
     void AtStation();
+    void Timer();
 
     bool service_brake;
     bool emergency_brake;
@@ -45,7 +48,10 @@ private:
     double prev_error;
     double T;
     double max_power;
+    double previous_power;
     bool station_here;
+    int wait_counter;
+    bool leaving_station;
 
     double CheckPowerCalculation(double,double);
 

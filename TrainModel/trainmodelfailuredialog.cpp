@@ -29,11 +29,12 @@ void TrainModelFailureDialog::setTrain(TrainModelData* d)
     update();
 }
 
-//Brake toggle button
+//Brake toggle button (DEPRECATED)
 void TrainModelFailureDialog::on_pushButton_clicked()
 {
     //data->setBrakesOn(!data->getBrakesOn());
     emit brakeToggled(data->getID(), !data->getBrakesOn());
+	if (data->getEbrakesOn()) emit ControllerInterface::getInstance().eBrakeChanged(data->getID(), data->getBrakesOn());
     update();
 }
 
@@ -41,7 +42,11 @@ void TrainModelFailureDialog::on_pushButton_clicked()
 void TrainModelFailureDialog::on_pushButton_2_clicked()
 {
     //data->setEbrakesOn(!data->getEbrakesOn());
-    emit eBrakeToggled(data->getID(), !data->getEbrakesOn());
+	if (!data->getEbrakesOn()) 
+	{
+		emit eBrakeToggled(data->getID(), true);
+		emit ControllerInterface::getInstance().eBrakeChanged(data->getID(), true);
+	}
     update();
 }
 
@@ -49,6 +54,8 @@ void TrainModelFailureDialog::on_pushButton_2_clicked()
 void TrainModelFailureDialog::on_pushButton_3_clicked()
 {
     data->setEngineFail(!data->getEngineFail());
+	if (data->getEngineFail()) emit ControllerInterface::getInstance().failureChanged(data->getID(), 1);
+	else emit ControllerInterface::getInstance().failureFixed(data->getID(), 1);
     update();
 }
 
@@ -56,6 +63,8 @@ void TrainModelFailureDialog::on_pushButton_3_clicked()
 void TrainModelFailureDialog::on_pushButton_4_clicked()
 {
     data->setSignalFail(!data->getSignalFail());
+	if (data->getSignalFail()) emit ControllerInterface::getInstance().failureChanged(data->getID(), 2);
+	else emit ControllerInterface::getInstance().failureFixed(data->getID(), 2);
     update();
 }
 
@@ -63,6 +72,8 @@ void TrainModelFailureDialog::on_pushButton_4_clicked()
 void TrainModelFailureDialog::on_pushButton_5_clicked()
 {
     data->setBrakeFail(!data->getBrakeFail());
+	if (data->getBrakeFail()) emit ControllerInterface::getInstance().failureChanged(data->getID(), 0);
+	else emit ControllerInterface::getInstance().failureFixed(data->getID(), 0);
     update();
 }
 

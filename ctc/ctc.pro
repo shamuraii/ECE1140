@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     block.cpp \
     ctc_debugger.cpp \
+    ctc_greenline_gui.cpp \
     ctc_home.cpp \
     ctc_redline_gui.cpp \
     ctc_route_dialog.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     block.h \
     ctc_constants.h \
     ctc_debugger.h \
+    ctc_greenline_gui.h \
     ctc_home.h \
     ctc_redline_gui.h \
     ctc_route_dialog.h \
@@ -44,6 +46,7 @@ HEADERS += \
 
 FORMS += \
     ctc_debugger.ui \
+    ctc_greenline_gui.ui \
     ctc_home.ui \
     ctc_redline_gui.ui \
     ctc_route_dialog.ui \

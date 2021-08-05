@@ -1,6 +1,5 @@
 #include "trainmodeldatabase.h"
 
-int TrainModelDatabase::id_count = 0;
 std::vector<TrainModelData*> TrainModelDatabase::trains;
 
 TrainModelData* TrainModelDatabase::getTrainByID(int id)
@@ -17,11 +16,9 @@ std::vector<TrainModelData*> TrainModelDatabase::getAllTrains()
     return trains;
 }
 
-int TrainModelDatabase::createTrain()
+void TrainModelDatabase::createTrain(int id)
 {
-    id_count++;
     TrainModelData* d = new TrainModelData;
-    d->setID(id_count);
+    d->setID(id);
     trains.push_back(d);
-    return id_count;
 }

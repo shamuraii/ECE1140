@@ -51,8 +51,8 @@ void wssh::SetBlockMaintenance(int block_num, bool maintenance_mode) {
 }
 
 void wssh::SetTrainPresence(int curr_block_num, int prev_block_num) {
-    track_control::setBlockOccupancy(curr_block_num, true, "red");
     track_control::setBlockOccupancy(prev_block_num, false, "red");
+    track_control::setBlockOccupancy(curr_block_num, true, "red");
 
     //TODO emit ShareTrainPresence to CTC
     if(curr_block_num == 46)

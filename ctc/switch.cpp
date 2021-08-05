@@ -3,8 +3,9 @@
 
 using namespace ctc;
 
-Switch::Switch(int lower, int upper)
+Switch::Switch(int block, int lower, int upper)
     : QObject(nullptr),
+      block_(block),
       lower_(lower),
       upper_(upper)
 {
@@ -13,6 +14,10 @@ Switch::Switch(int lower, int upper)
 
     connect(this, &Switch::StateChanged, &CtcSH::Get(), &CtcSH::SwitchPos);
     connect(this, &Switch::MaintChanged, &CtcSH::Get(), &CtcSH::SwitchMaint);
+}
+
+int Switch::GetBlock() const {
+    return block_;
 }
 
 bool Switch::HasBlock(int block_num) const {
