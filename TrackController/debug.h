@@ -2,7 +2,6 @@
 #define DEBUG_H
 
 #include <QWidget>
-#include "wssh.h"
 
 namespace Ui {
 class debug;
@@ -15,9 +14,6 @@ class debug : public QWidget
 public:
     explicit debug(QWidget *parent = nullptr);
     ~debug();
-
-private slots:
-    void on_pushButton_clicked();
 
 private:
     Ui::debug *ui;

@@ -97,3 +97,16 @@ void CtcDebugger::SetThroughput() {
         }
     }
 }
+
+void CtcDebugger::on_dispatch_button_clicked()
+{
+    QComboBox *box = ui->train_box;
+    if (box && !box->currentText().isEmpty()) {
+        int t_num = box->currentText().remove(0, 6).toInt();
+        CTrain *t = network_->GetTrain(t_num);
+        if (t) {
+            network_->DebugDispatchTrain(t);
+        }
+    }
+}
+

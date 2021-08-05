@@ -8,12 +8,12 @@ void TrackModelSH::getDistanceTraveled(int trainNum, double distance){
 }
 
 void TrackModelSH::getAuthority(std::vector<bool> auth){
-    qDebug() << "TrackModel: " << auth.size();
+    qDebug() << "TrackModel: get auth vector: " << auth.size();
     emit sendAuthVector(auth);
 }
 
 void TrackModelSH::getCommandedSpeed(std::vector<int> comSpeed){
-    qDebug() << "TrackModel:  " << comSpeed.size();
+    qDebug() << "TrackModel:  get speed vector: " << comSpeed.size();
     emit sendSpeedVector(comSpeed);
 }
 

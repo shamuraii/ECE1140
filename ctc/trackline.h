@@ -58,7 +58,7 @@ public:
     std::vector<Block*> GetFullRoute(std::vector<int> stop_blocks) const;
     std::vector<Block*> GetRoute(int start_num, int end_num) const;
 
-    void CalculateThroughputs(QTime sim_time);
+    void CalculateThroughputs(QTime *sim_time);
     void UpdateSales(int sales);
 
 signals:

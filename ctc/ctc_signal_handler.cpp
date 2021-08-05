@@ -2,20 +2,20 @@
 
 #include "ctc_signal_handler.h"
 
-void CtcSH::TimedEvents() {
+void CtcSH::TimedEvents(QTime sim_time) {
+    qDebug() << "CTC Timed events: " << sim_time.toString("HH:mm:ss");
+
     qDebug() << "UpdateOutputs";
     emit UpdateOutputs();
 
     qDebug() << "RecalcRoutes";
     emit RecalculateRoutes();
 
-    //TODO - requires track model simulation time
-    //qDebug() << "CheckTrainDepartures";
-    //emit CheckTrainDepartures(sim_time);
+    qDebug() << "CheckTrainDepartures";
+    emit CheckTrainDepartures(&sim_time);
 
-    //TODO - requires track model simulation time
-    //qDebug() << "RecalculateThroughput";
-    //emit RecalculateThroughput(sim_time);
+    qDebug() << "RecalculateThroughput";
+    emit RecalculateThroughput(&sim_time);
 }
 
 void CtcSH::GetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line) {

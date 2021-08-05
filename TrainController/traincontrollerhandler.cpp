@@ -112,8 +112,8 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
 
     // Redundancy check for power
     // Vital architecture of train controller
-    if (power != redundancy_power)
-        power = 0;
+    //if (power != redundancy_power)
+        //power = 0;
 
     // Handle train arriving at station
     //TODO: check if made_announcement is false

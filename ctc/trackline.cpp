@@ -233,9 +233,9 @@ std::vector<Block*> TrackLine::ReconstructPath(int start_num, int end_num, std::
     return path;
 }
 
-void TrackLine::CalculateThroughputs(QTime sim_time) {
+void TrackLine::CalculateThroughputs(QTime *sim_time) {
     //Calculate total sales / time passed (in hours)
-    double sec_passed = (double) sim_time.msecsSinceStartOfDay() / 1000;
+    double sec_passed = (double) sim_time->msecsSinceStartOfDay() / 1000;
     double hours_passed = sec_passed / (60 * 60);
     double persons_hour = (double) line_sales_ / hours_passed;
     emit ThroughputUpdated(persons_hour);

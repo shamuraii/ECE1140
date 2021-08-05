@@ -1,38 +1,62 @@
 #include "wsmainwindow.h"
 #include "ui_wsmainwindow.h"
 #include "block_info.h"
-#include "debug.h"
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QPointer>
-#include <QFont>
+#include "track_control.h"
+#include <QPixmap>
 #include <string>
-#include <QObject>
 
 WSMainWindow::WSMainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::WSMainWindow)
 {
     ui->setupUi(this);
-    QObject::connect(&wssh::Get(), &wssh::UpdateGUI, this, &WSMainWindow::UpdateGUI);
-    track_control::initialize();
-    block_vector = track_control::getBlockVector("red");
+    track_control::Initialize();
 
-    QHeaderView *ctc_header = ui->ctc_info->horizontalHeader();
-    ctc_header->setSectionResizeMode(QHeaderView::Stretch);
-    QHeaderView *track_header = ui->trackmodel_info->horizontalHeader();
-    track_header->setSectionResizeMode(QHeaderView::Stretch);
-    ui->ctc_info->setColumnCount(1);
-    ui->ctc_info->setRowCount(2);
-    ui->trackmodel_info->setColumnCount(1);
-    ui->trackmodel_info->setRowCount(2);
-    QStringList ctc_labels;
-    ctc_labels << "Suggested Speed" << "Suggested Authority";
-    QStringList model_labels;
-    model_labels << "Commanded Speed" << "Commanded Authority";
-    ui->ctc_info->setVerticalHeaderLabels(ctc_labels);
-    ui->trackmodel_info->setVerticalHeaderLabels(model_labels);
-    fillTable("red");
+    QPixmap pm("C:\\Users\\Jeff\\Documents\\ECE 1140\\Project Repo\\track_layout.png");
+    ui->track_image->setPixmap(pm);
+    ui->track_image->setScaledContents(true);
+
+    QPixmap pm1("C:\\Users\\Jeff\\Documents\\ECE 1140\\Project Repo\\red_track_layout.png");
+    ui->red_line->setPixmap(pm1);
+    ui->red_line->setScaledContents(true);
+
+    QPixmap pm2("C:\\Users\\Jeff\\Documents\\ECE 1140\\Project Repo\\green_track_layout.png");
+    ui->green_line->setPixmap(pm2);
+    ui->green_line->setScaledContents(true);
+
+    vector<track_control::Block> block_vector = track_control::getBlockVector("red");
+    int block_num;
+    bool auth;
+    int comm_speed;
+    bool maint_mode;
+    bool safe_auth;
+    int sug_speed;
+    QString location;
+
+    /*
+    for (int i=0; i<76; i++) {
+        if(block_vector[i].occupancy == 1) {
+            block_num = track_control::getBlockID(i);
+            auth = track_control::getBlockAuthority(block_num);
+            comm_speed = track_control::getBlockSpeed(block_num);
+            maint_mode = track_control::getBlockMaintenanceMode(block_num, "red");
+            safe_auth = track_control::getBlockAuthority(block_num);
+            sug_speed = track_control::getBlockSpeed(block_num);
+            location = QString::fromStdString("Red " + to_string(block_num));
+        }
+    }*/
+
+    ui->authority->setText(QString::number(auth));
+    ui->commanded_speed->setText(QString::number(comm_speed));
+    ui->maintenance_mode->setText(QString::number(maint_mode));
+    ui->safe_authority->setText(QString::number(safe_auth));
+    ui->suggested_speed->setText(QString::number(sug_speed));
+    ui->train_location->setText(location);
+}
+
+void WSMainWindow::blockWidgetPopup()
+{
+
 }
 
 WSMainWindow::~WSMainWindow()
@@ -40,91 +64,123 @@ WSMainWindow::~WSMainWindow()
     delete ui;
 }
 
-void WSMainWindow::fillTable(string line) {
-    //CTC: authority, suggested speed (based on where the train is)
-    //train model: commanded speed, authority
-    int occupied_block;
-    if(line == "red") {
-        for(int i=0; i<76; i++) {
-            if(track_control::getBlockOccupancy(i, false) == true)
-                occupied_block = i;
-        }
-    } else {
-        for(int i=0; i<150; i++) {
-            if(track_control::getBlockOccupancy(i, true) == true)
-                occupied_block = i;
-        }
-    }
-
-    QString sugg_speed = QString::number(block_vector[occupied_block-1].speed);
-    QString sugg_auth = QString::number(block_vector[occupied_block-1].authority);
-    QString commanded_speed = QString::number(block_vector[occupied_block-1].speed);
-    QString commanded_auth = QString::number(block_vector[occupied_block-1].authority);
-
-    ui->ctc_info->setItem(1, 0, new QTableWidgetItem(sugg_speed));
-    ui->ctc_info->setItem(1, 1, new QTableWidgetItem(sugg_auth));
-    ui->trackmodel_info->setItem(1, 0, new QTableWidgetItem(commanded_speed));
-    ui->trackmodel_info->setItem(1, 1, new QTableWidgetItem(commanded_auth));
-
-    //ui->ctc_info = new QTableWidget(2, 2);
-    //ui->trackmodel_info = new QTableWidget(2, 2);
-
-
-//    QTableWidgetItem *sugg_auth = new QTableWidgetItem();
-//    QTableWidgetItem *sugg_speed = new QTableWidgetItem();
-//    QTableWidgetItem *commanded_auth = new QTableWidgetItem();
-//    QTableWidgetItem *commanded_speed = new QTableWidgetItem();
-
-//    QTableWidgetItem *sugg_auth_name = new QTableWidgetItem();
-//    QTableWidgetItem *sugg_speed_name = new QTableWidgetItem();
-//    QTableWidgetItem *commanded_auth_name = new QTableWidgetItem();
-//    QTableWidgetItem *commanded_speed_name = new QTableWidgetItem();
-
-//    qDebug() << occupied_block;
-//    qDebug() << block_vector[occupied_block].speed;
-
-
-//    sugg_speed_name->setText("Suggested Speed");
-//    sugg_auth_name->setText("Suggested Authority");
-//    commanded_speed_name->setText("Commanded Speed");
-//    commanded_auth_name->setText("Commanded Authority");
-
-//    ui->ctc_info->setItem(1, 1, sugg_auth_name);
-//    ui->ctc_info->setItem(2, 1, sugg_speed_name);
-//    ui->ctc_info->setItem(1, 2, sugg_auth);
-//    ui->ctc_info->setItem(2, 2, sugg_speed);
-
-//    ui->trackmodel_info->setItem(1, 1, commanded_auth_name);
-//    ui->trackmodel_info->setItem(2, 1, commanded_speed_name);
-//    ui->trackmodel_info->setItem(1, 2, commanded_auth);
-//    ui->trackmodel_info->setItem(2, 2, commanded_speed);
-
-    QString temp = "";
-    if(track_control::getBlockMaintenanceMode(occupied_block, "red"))
-        temp = "ON";
-    else
-        temp = "Off";
-    ui->maintmode->setText(temp);
-
-    ui->plc_file->setText(QString::fromStdString(track_control::getPLCFile()));
-}
-
-void WSMainWindow::on_debug_button_clicked()
+void WSMainWindow::on_red_a_clicked()
 {
-    debug *debugWidget = new debug;
-    debugWidget->show();
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'A');
 }
 
-
-void WSMainWindow::on_uploadPLC_clicked()
+void WSMainWindow::on_red_b_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Upload PLC file", "C://");
-    QMessageBox::information(this, "Success", "PLC file successfully uploaded.");
-}
-
-void WSMainWindow::UpdateGUI() {
-    fillTable("red");
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'B');
 }
 
 
+void WSMainWindow::on_red_c_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'C');
+}
 
+
+void WSMainWindow::on_red_d_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'D');
+}
+
+
+void WSMainWindow::on_red_e_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'E');
+}
+
+
+void WSMainWindow::on_red_f_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'F');
+}
+
+
+void WSMainWindow::on_red_g_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'G');
+}
+
+
+void WSMainWindow::on_red_h_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'H');
+}
+
+
+void WSMainWindow::on_red_i_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'I');
+}
+
+
+void WSMainWindow::on_red_j_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'J');
+}
+
+void WSMainWindow::on_red_k_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'K');
+}
+
+
+void WSMainWindow::on_red_l_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'L');
+}
+
+
+void WSMainWindow::on_red_m_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("red", 'M');
+}
+
+void WSMainWindow::on_green_b_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("green", 'B');
+}
+
+void WSMainWindow::on_green_c_clicked()
+{
+    block_info *blockWidget = new block_info;
+    blockWidget->show();
+    blockWidget->fillTable("green", 'C');
+}
+
+void WSMainWindow::on_pushButton_clicked()
+{
+    int arg1 = ui->comboBox->currentIndex();
+
+}

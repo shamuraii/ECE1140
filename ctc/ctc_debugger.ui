@@ -224,13 +224,6 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="0" colspan="2">
-      <widget class="QPushButton" name="advance_button">
-       <property name="text">
-        <string>Advance Train</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_15">
        <property name="text">
@@ -242,6 +235,20 @@
       <widget class="QLabel" name="line_text">
        <property name="text">
         <string>Red Line</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0" colspan="2">
+      <widget class="QPushButton" name="advance_button">
+       <property name="text">
+        <string>Advance Train</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0" colspan="2">
+      <widget class="QPushButton" name="dispatch_button">
+       <property name="text">
+        <string>Force Dispatch</string>
        </property>
       </widget>
      </item>

@@ -3,8 +3,6 @@
 
 #include <QMainWindow>
 #include <iostream>
-#include "track_control.h"
-#include "wssh.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class WSMainWindow; }
@@ -16,18 +14,29 @@ class WSMainWindow : public QMainWindow
 
 public:
     WSMainWindow(QWidget *parent = nullptr);
-    //void blockWidgetPopup();
+    void blockWidgetPopup();
     ~WSMainWindow();
-    void fillTable(string line);
 
 private slots:
-    void on_debug_button_clicked();
-    void on_uploadPLC_clicked();
-    void UpdateGUI();
+    void on_pushButton_clicked();
+    void on_red_a_clicked();
+    void on_red_b_clicked();
+    void on_red_c_clicked();
+    void on_red_d_clicked();
+    void on_red_e_clicked();
+    void on_red_f_clicked();
+    void on_red_g_clicked();
+    void on_red_h_clicked();
+    void on_red_i_clicked();
+    void on_red_j_clicked();
+    void on_red_k_clicked();
+    void on_red_l_clicked();
+    void on_red_m_clicked();
+
+    void on_green_b_clicked();
+    void on_green_c_clicked();   
 
 private:
-    vector<track_control::Block> block_vector;
-    string line;
     Ui::WSMainWindow *ui;
 };
 #endif // WSMAINWINDOW_H
