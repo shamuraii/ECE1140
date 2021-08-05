@@ -43,6 +43,7 @@ public slots:
     void TrainStopped(int train_num);
     void SetTrackInfo(std::vector<int> speed_limits, std::vector<int> lengths, bool line);
     void CheckDepartures(QTime sim_time);
+    void DebugDispatchTrain(CTrain *t);
     void AddLineSales(int sales, bool line);
     void CalculateThroughputs(QTime sim_time);
 

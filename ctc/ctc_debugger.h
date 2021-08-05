@@ -27,6 +27,9 @@ public slots:
 signals:
     void UpdatedThroughput(int persons);
 
+private slots:
+    void on_dispatch_button_clicked();
+
 private:
     Ui::CtcDebugger *ui;
     TrainNetwork *network_;

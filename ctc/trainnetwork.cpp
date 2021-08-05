@@ -225,12 +225,18 @@ void TrainNetwork::SetTrackInfo(std::vector<int> speed_limits, std::vector<int> 
 
 void TrainNetwork::CheckDepartures(QTime sim_time) {
     for(CTrain *t : trains_) {
-        if (t->GetDepartTime() == sim_time) {
+        if (t->GetDepartTime() <= sim_time) {
             t->DispatchTrain();
             bool line_bool = (t->GetLine()->GetName() == kRedlineName) ? kRedBool : kGreenBool;
             emit TrainDispatched(t->GetNum(), line_bool);
         }
     }
+}
+
+void TrainNetwork::DebugDispatchTrain(CTrain *t) {
+    t->DispatchTrain();
+    bool line_bool = (t->GetLine()->GetName() == kRedlineName) ? kRedBool : kGreenBool;
+    emit TrainDispatched(t->GetNum(), line_bool);
 }
 
 void TrainNetwork::AddLineSales(int sales, bool line) {

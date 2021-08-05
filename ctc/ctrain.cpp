@@ -227,6 +227,7 @@ void CTrain::DebugAdvanceTrain() {
     }
 
     location_ = next;
+    dispatched_ = true;
 
     emit DebugMovedTrain(old, location_);
 }

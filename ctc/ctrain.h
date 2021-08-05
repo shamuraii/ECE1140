@@ -49,7 +49,6 @@ public:
 
     void SetNum(int num);
     void TrainStopped();
-    void DispatchTrain();
 
     void IncrementRouteIndex();
 
@@ -60,6 +59,7 @@ public slots:
     void UpdateOutputs();
     void RecalculateRoute(int force_num = -1, Station *new_destination = nullptr);
     void DebugAdvanceTrain();
+    void DispatchTrain();
 
 signals:
     void DebugMovedTrain(Block *old_loc, Block *new_loc);
