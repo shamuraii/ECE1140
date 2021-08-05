@@ -1,0 +1,2 @@
+upper 10
+lower 0

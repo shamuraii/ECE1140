@@ -15,6 +15,10 @@ block_info::block_info(QWidget *parent) :
     ui(new Ui::block_info)
 {
     ui->setupUi(this);
+    QString sect = QString(section);
+    QString t = "Section";
+    t.append(section);
+    ui->title->setText(t);
 }
 
 block_info::~block_info()
