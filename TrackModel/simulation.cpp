@@ -156,7 +156,7 @@ void Simulation::timerEvent(QTimerEvent *event)
     QLabel *label2 = ui->date_label;
     label2->setText(QDate::currentDate().toString("MM/dd/yyyy"));
     QLabel *label = ui->time_label;
-    label->setText(QTime::currentTime().toString("hh:mm:ss"));
+    label->setText(TrackModelSH::Get().sim_time_.toString("hh:mm:ss"));
 }
 
 void Simulation::on_tempEdit_textEdited(const QString &arg1)
