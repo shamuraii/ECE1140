@@ -8,6 +8,7 @@
 #include "ctc_upload_dialog.h"
 #include "ctc_trains_dialog.h"
 #include "ctc_redline_gui.h"
+#include "ctc_greenline_gui.h"
 #include "ctc_debugger.h"
 #include "trainnetwork.h"
 
@@ -26,10 +27,12 @@ private:
     QPointer<CtcUploadDialog> upload_popup;
     QPointer<CtcTrainsDialog> trains_popup;
     QPointer<CtcRedLineGui> redline_popup;
+    QPointer<CtcGreenLineGui> greenline_popup;
 
     TrainNetwork *network_;
 
     void CreateRedLine();
+    void CreateGreenLine();
 
 public:
     CtcGUI(QWidget *parent = nullptr);
@@ -45,7 +48,8 @@ private slots:
 
     void on_redline_button_clicked();
 
-    void on_debug_button_clicked();
     void on_greenline_button_clicked();
+
+    void on_debug_button_clicked();
 };
 #endif // CTC_HOME_H

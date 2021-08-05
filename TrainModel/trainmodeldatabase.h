@@ -8,13 +8,12 @@ class TrainModelDatabase
 {
 private:
     static std::vector<TrainModelData*> trains;
-    static int id_count;
 
     TrainModelDatabase() {}
 public:
     static TrainModelData* getTrainByID(int);
     static std::vector<TrainModelData*> getAllTrains();
-    static int createTrain();
+    static void createTrain(int);
 };
 
 #endif // TRAINMODELDATABASE_H

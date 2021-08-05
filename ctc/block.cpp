@@ -38,7 +38,7 @@ int Block::GetNum() const {
 
 int Block::GetWeight() const {
     if (IsYard())
-        return 1;
+        return 10;
     else if (closed_)
         return kInfiniteWeight;
     else

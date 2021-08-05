@@ -31,6 +31,7 @@ public slots:
     void RightDoor(int,bool);
     void UpdateTest(TrainController);
     void EmergencyBrake(int,bool);
+    void AddNewTrain(int);
 
 signals:
     void NewTrain(int);
@@ -39,7 +40,8 @@ signals:
     void ToggleEmergencyBrake(int);
     void UpdateTestGui(int);
     void NewAuthority(int,int);
-    void FailureMode(int, QString);
+    void FailureMode(int, int);
+    void BeaconInfo(int, QString);
 
 private slots:
     void on_new_train_button_clicked();
@@ -49,17 +51,21 @@ private slots:
 
     void on_emergency_brake_button_clicked();
 
-    void on_train_index_currentIndexChanged(int index);
-
     void on_authority_button_clicked();
 
     void on_failure_mode_button_clicked();
+
+    void on_train_index_currentIndexChanged(int index);
+
+    void on_beacon_button_clicked();
 
 private:
     Ui::TestUi *ui;
     int num_trains;
 
     bool IsNumber(string);
+    double MSToMPH(double);
+    double MPHToKMPH(double);
 };
 
 #endif // TESTUI_H

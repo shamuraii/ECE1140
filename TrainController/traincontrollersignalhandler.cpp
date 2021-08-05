@@ -30,6 +30,13 @@ void TrainControllerSignalHandler::ToggleEmergencyBrake(int index, bool state)
 //    emit ServiceBrake(index, state);
 //}
 
+// Failure mode
+void TrainControllerSignalHandler::FailureMode(int index, int failure)
+{
+    qDebug() << "TC Failure mode received " << failure;
+    emit TCFailureMode(index-1, failure);
+}
+
 void TrainControllerSignalHandler::NewAuthority(int index, int auth)
 {
     emit Authority(index-1, auth);
@@ -92,6 +99,18 @@ void TrainControllerSignalHandler::RightDoor(int index, bool status)
 
 void TrainControllerSignalHandler::EmergencyBrake(int index, bool status)
 {
-    emit NewEmergencyBrake(index+1, status);
     qDebug() << "TC tell train to toggle ebrake " << status;
+    emit NewEmergencyBrake(index+1, status);
+}
+
+void TrainControllerSignalHandler::TimerTicked()
+{
+    emit Timer();
+}
+
+// Signal to end failure mode
+void TrainControllerSignalHandler::EndFailure(int index)
+{
+    qDebug() << "Failure is over";
+    emit TCEndFailure(index-1);
 }

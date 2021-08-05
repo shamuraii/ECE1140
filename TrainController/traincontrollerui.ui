@@ -201,7 +201,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Mph</string>
+       <string>mph</string>
       </property>
      </widget>
      <widget class="QLabel" name="mph_label_2">
@@ -214,7 +214,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Mph</string>
+       <string>mph</string>
       </property>
      </widget>
      <widget class="QLabel" name="mph_label_3">
@@ -227,7 +227,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Mph</string>
+       <string>mph</string>
       </property>
      </widget>
     </widget>
@@ -367,7 +367,7 @@
        <x>420</x>
        <y>80</y>
        <width>281</width>
-       <height>291</height>
+       <height>321</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -560,8 +560,8 @@
      <widget class="QPushButton" name="cabin_temp_button">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>250</y>
+        <x>210</x>
+        <y>280</y>
         <width>51</width>
         <height>23</height>
        </rect>
@@ -592,19 +592,22 @@
      <widget class="QLineEdit" name="cabin_temp_value">
       <property name="geometry">
        <rect>
-        <x>120</x>
-        <y>250</y>
-        <width>41</width>
+        <x>160</x>
+        <y>280</y>
+        <width>21</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="text">
+       <string>70</string>
       </property>
      </widget>
      <widget class="QLabel" name="temp_units_label">
       <property name="geometry">
        <rect>
-        <x>170</x>
-        <y>250</y>
-        <width>31</width>
+        <x>190</x>
+        <y>280</y>
+        <width>16</width>
         <height>21</height>
        </rect>
       </property>
@@ -612,12 +615,57 @@
        <string>F</string>
       </property>
      </widget>
+     <widget class="QLabel" name="cabin_temp">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>250</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="temp_units_label_2">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>250</y>
+        <width>16</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>F</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="cabin_temp_label_2">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>280</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Change Temp</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QFrame" name="manual_mode_frame">
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>390</y>
+       <y>430</y>
        <width>281</width>
        <height>161</height>
       </rect>
@@ -640,7 +688,7 @@
      <widget class="QLabel" name="manual_mode_label">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>50</x>
         <y>0</y>
         <width>131</width>
         <height>41</height>
@@ -652,26 +700,13 @@
        </font>
       </property>
       <property name="text">
-       <string>Manual Mode</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="password_label">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>50</y>
-        <width>81</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Password</string>
+       <string>Manual Mode:</string>
       </property>
      </widget>
      <widget class="QLabel" name="set_setpoint_label">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>0</x>
         <y>100</y>
         <width>101</width>
         <height>20</height>
@@ -681,17 +716,17 @@
        <string>Set Setpoint Speed</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="password_submit_button">
+     <widget class="QPushButton" name="manual_mode_button">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>100</x>
         <y>50</y>
         <width>80</width>
         <height>23</height>
        </rect>
       </property>
       <property name="text">
-       <string>Submit</string>
+       <string>Toggle</string>
       </property>
      </widget>
      <widget class="QPushButton" name="setpoint_speed_button">
@@ -716,7 +751,7 @@
      <widget class="QLabel" name="manual_mode_status">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>190</x>
         <y>0</y>
         <width>31</width>
         <height>41</height>
@@ -731,24 +766,27 @@
        <string>Off</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="password">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>50</y>
-        <width>113</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QSpinBox" name="setpoint_speed_edit">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>110</x>
         <y>90</y>
-        <width>61</width>
+        <width>41</width>
         <height>41</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mph_label_4">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>100</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>mph</string>
       </property>
      </widget>
     </widget>
@@ -875,9 +913,9 @@
     <widget class="QFrame" name="kp_ki_frame">
      <property name="geometry">
       <rect>
-       <x>210</x>
-       <y>120</y>
-       <width>211</width>
+       <x>40</x>
+       <y>80</y>
+       <width>261</width>
        <height>151</height>
       </rect>
      </property>
@@ -943,7 +981,7 @@
      <widget class="QPushButton" name="kp_set_button">
       <property name="geometry">
        <rect>
-        <x>110</x>
+        <x>170</x>
         <y>50</y>
         <width>80</width>
         <height>23</height>
@@ -956,7 +994,7 @@
      <widget class="QPushButton" name="ki_set_button">
       <property name="geometry">
        <rect>
-        <x>110</x>
+        <x>170</x>
         <y>100</y>
         <width>80</width>
         <height>23</height>
@@ -974,7 +1012,7 @@
        <rect>
         <x>60</x>
         <y>50</y>
-        <width>21</width>
+        <width>91</width>
         <height>22</height>
        </rect>
       </property>
@@ -987,7 +1025,7 @@
        <rect>
         <x>60</x>
         <y>100</y>
-        <width>21</width>
+        <width>91</width>
         <height>22</height>
        </rect>
       </property>

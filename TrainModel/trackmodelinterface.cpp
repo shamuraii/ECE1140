@@ -8,7 +8,7 @@ void TrackModelInterface::setAuthority(int id, bool comm_auth)
     TrainModelData* data = TrainModelDatabase::getTrainByID(id);
     data->setAuthority(comm_auth);
     qDebug() << "Train Model received authority: " << comm_auth;
-    emit ControllerInterface::getInstance().authorityChanged(id, comm_auth);
+    if (!data->getSignalFail()) emit ControllerInterface::getInstance().authorityChanged(id, comm_auth);
 }
 
 void TrackModelInterface::setBeaconInfo(int id, QString info)
@@ -16,7 +16,7 @@ void TrackModelInterface::setBeaconInfo(int id, QString info)
     TrainModelData* data = TrainModelDatabase::getTrainByID(id);
     data->setCurrentStation(info);
     qDebug() << "Train Model received beacon info: " << info;
-    emit ControllerInterface::getInstance().beaconInfoChanged(id, info);
+    if (!data->getSignalFail()) emit ControllerInterface::getInstance().beaconInfoChanged(id, info);
 }
 
 void TrackModelInterface::setCommandedSpeed(int id, int comm_speed)
@@ -24,18 +24,19 @@ void TrackModelInterface::setCommandedSpeed(int id, int comm_speed)
     TrainModelData* data = TrainModelDatabase::getTrainByID(id);
     data->setCommandedSpeed(comm_speed);
     qDebug() << "Train Model received commanded speed: " << comm_speed;
-    emit ControllerInterface::getInstance().commandedSpeedChanged(id, comm_speed);
+    if (!data->getSignalFail()) emit ControllerInterface::getInstance().commandedSpeedChanged(id, comm_speed);
 }
 
 //long timer tick
-//send distance traveled here
+//send distance traveled and stopping distance here
 void TrackModelInterface::timerTicked()
 {
     std::vector<TrainModelData*> trains = TrainModelDatabase::getAllTrains();
     for (auto train : trains)
     {
-        qDebug() << "Train Model sending distance: " << train->getDistance();
+        qDebug() << "Train #" << train->getID() << " sending distance: " << train->getDistance();
         emit distanceTraveled(train->getID(), train->getDistance());
+		emit stoppingDistance(train->getID(), train->getActualSpeed()*train->getActualSpeed()*0.5*(1/1.2));
         train->setDistance(0);
     }
 }
@@ -50,4 +51,14 @@ void TrackModelInterface::ptimerTicked()
         //Assuming short timer ticks every 200ms
         train->tick(200);
     }
+}
+
+void TrackModelInterface::createTrain(int id)
+{
+	//Who creates train id???
+	if (id != 1)
+	{
+		TrainModelDatabase::createTrain(id);
+		emit newTrain(id);
+	}
 }

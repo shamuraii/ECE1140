@@ -3,6 +3,8 @@
 
 #include "ctc_constants.h"
 #include "ctc_home.h"
+#include "ctc_redline_gui.h"
+#include "ctc_greenline_gui.h"
 #include "ui_ctc_home.h"
 #include "ctc_schedule_dialog.h"
 #include "trainnetwork.h"
@@ -14,6 +16,7 @@ CtcGUI::CtcGUI(QWidget *parent)
     ui->setupUi(this);
     network_ = new TrainNetwork();
     CreateRedLine();
+    CreateGreenLine();
 }
 
 CtcGUI::~CtcGUI()
@@ -54,6 +57,15 @@ void CtcGUI::on_redline_button_clicked()
     redline_popup->UpdateDisplay();
 }
 
+void CtcGUI::on_greenline_button_clicked()
+{
+    if (!greenline_popup)
+        greenline_popup = new CtcGreenLineGui(this);
+
+    greenline_popup->show();
+    greenline_popup->UpdateDisplay();
+}
+
 
 void CtcGUI::on_debug_button_clicked()
 {
@@ -72,8 +84,12 @@ void CtcGUI::CreateRedLine() {
     network_->AddLine(red);
 }
 
-void CtcGUI::on_greenline_button_clicked()
-{
-    QMessageBox::information(this, "Sorry", "This has not been added yet.");
+void CtcGUI::CreateGreenLine() {
+    TrackLine *green = new TrackLine(kGreenlineBlockFile,
+                                   kGreenlineStationFile,
+                                   kGreenlineSwitchesFile,
+                                   kGreenlineName);
+    network_->AddLine(green);
 }
+
 

@@ -44,6 +44,7 @@ SOURCES += \
     TrainModel/trainmodelmovementdialog.cpp \
     ctc/block.cpp \
     ctc/ctc_debugger.cpp \
+    ctc/ctc_greenline_gui.cpp \
     ctc/ctc_home.cpp \
     ctc/ctc_redline_gui.cpp \
     ctc/ctc_route_dialog.cpp \
@@ -96,6 +97,7 @@ HEADERS += \
     ctc/block.h \
     ctc/ctc_constants.h \
     ctc/ctc_debugger.h \
+    ctc/ctc_greenline_gui.h \
     ctc/ctc_home.h \
     ctc/ctc_redline_gui.h \
     ctc/ctc_route_dialog.h \
@@ -137,6 +139,7 @@ FORMS += \
     TrainModel/trainmodelgui.ui \
     TrainModel/trainmodelmovementdialog.ui \
     ctc/ctc_debugger.ui \
+    ctc/ctc_greenline_gui.ui \
     ctc/ctc_home.ui \
     ctc/ctc_redline_gui.ui \
     ctc/ctc_route_dialog.ui \

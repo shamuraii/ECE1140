@@ -11,6 +11,7 @@ class TrainControllerHandler : public QObject
     Q_OBJECT
 public:
     explicit TrainControllerHandler(QObject *parent = nullptr);
+    vector<TrainController> trains;
 
 public slots:
     void NewTrainController(int);
@@ -28,24 +29,29 @@ public slots:
     void SetKi(int,double);
     void UpdateGui(int);
     void ToggleEmergencyBrake(int);
+    void PassengerEmergencyBrake(int);
     void UpdateTestGui(int);
     void NewAuthority(int,int);
-    void FailureMode(int, QString);
+    void FailureMode(int, int);
+    void EndFailure(int);
     void NewBeaconInfo(int,QString);
     void ArrivedAtStation(int);
-    void ManualMode(int,QString);
+    void ManualMode(int);
+    void TimerTicked();
 
 private:
     int current_gui_index;
     int current_test_gui_index;
-    vector<TrainController> trains;
 
     void SetUpSignals();
     double ConvertKMPHToMS(double);
+    double ConvertMPHToMS(double);
+    vector<TrainController> redundancy_trains;
 
 signals:
     void GuiUpdate(TrainController);
     void GuiNewTrain(int);
+    void GuiTestNewTrain(int);
     void ServiceBrake(int,bool);
     void SendPower(int,double);
     void Headlights(int,bool);
