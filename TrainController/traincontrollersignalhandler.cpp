@@ -75,7 +75,7 @@ void TrainControllerSignalHandler::CabinTemp(int index, double temp)
 
 void TrainControllerSignalHandler::Announcement(int index, QString info)
 {
-    emit NewAnnouncement(index, info);
+    emit NewAnnouncement(index+1, info);
     qDebug() << "TC make announcement";
 }
 
