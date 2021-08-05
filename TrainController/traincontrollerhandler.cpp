@@ -42,6 +42,7 @@ void TrainControllerHandler::NewTrainController(int index)
 {
     TrainController newTrain;
     trains.push_back(newTrain);
+    redundancy_trains.push_back(newTrain);
 
     qDebug() << "Emitted Gui new: " << index;
     emit GuiNewTrain(index);
@@ -62,6 +63,7 @@ void TrainControllerHandler::NewCommandedSpeed(int index, double speed)
         return;
 
     trains[index].commanded_speed = ConvertKMPHToMS(speed);
+    redundancy_trains[index].commanded_speed = ConvertKMPHToMS(speed);
 
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
@@ -76,11 +78,13 @@ void TrainControllerHandler::ToggleServiceBrake(int index)
 
     // Toggles service brake
     trains[index].service_brake = !trains[index].service_brake;
+    redundancy_trains[index].service_brake = !trains[index].service_brake;
 
     // If braking set commanded power to 0
     if (!trains[index].service_brake)
     {
          trains[index].power = 0;
+         redundancy_trains[index].power = 0;
          emit SendPower(index, trains[index].power);
     }
 
@@ -101,8 +105,15 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
 
     // Converts the speed to m/s
     trains[index].actual_speed = ConvertKMPHToMS(speed);
+    redundancy_trains[index].actual_speed = ConvertKMPHToMS(speed);
     //Calculates power
     double power = trains[index].CalculatePower();
+    double redundancy_power = redundancy_trains[index].CalculatePower();
+
+    // Redundancy check for power
+    // Vital architecture of train controller
+    if (power != redundancy_power)
+        power = 0;
 
     // Handle train arriving at station
     //TODO: check if made_announcement is false
@@ -116,14 +127,19 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
         // Close doors to train
         trains[index].left_door = false;
         trains[index].right_door = false;
+        redundancy_trains[index].left_door = false;
+        redundancy_trains[index].right_door = false;
+
         emit LeftDoor(index, false);
         emit RightDoor(index, false);
 
         // Release brake
         trains[index].service_brake = false;
+        redundancy_trains[index].service_brake = false;
         emit ServiceBrake(index, false);
 
         trains[index].leave_station = false;
+        redundancy_trains[index].leave_station = false;
     }
 
     // Send new commanded power to train model
@@ -197,6 +213,8 @@ void TrainControllerHandler::StartAnnouncement(int index)
 //        return;
 
     trains[index].made_announcement = true;
+    redundancy_trains[index].made_announcement = true;
+
     emit Announcement(index, trains[index].announcement);
 }
 
@@ -212,6 +230,8 @@ void TrainControllerHandler::NewSetpointSpeed(int index, double speed)
 
     // Sets the new setpoint speed
     trains[index].setpoint_speed = speed;
+    redundancy_trains[index].setpoint_speed = speed;
+
     // Updates gui
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
@@ -256,6 +276,7 @@ void TrainControllerHandler::SetKp(int index, double kp)
 
     // Sets Kp value
     trains[index].kp = kp;
+    redundancy_trains[index].kp = kp;
 
     // Update gui
     if (current_gui_index == index)
@@ -270,6 +291,7 @@ void TrainControllerHandler::SetKi(int index, double ki)
 
     // Sets Ki value
     trains[index].ki = ki;
+    redundancy_trains[index].ki = ki;
 
     // Update gui
     if (current_gui_index == index)
@@ -294,6 +316,7 @@ void TrainControllerHandler::ToggleEmergencyBrake(int index)
         return;
 
     trains[index].emergency_brake = !trains[index].emergency_brake;
+    redundancy_trains[index].emergency_brake = !trains[index].emergency_brake;
 
     emit EmergencyBrake(index, trains[index].emergency_brake);
 
@@ -309,6 +332,7 @@ void TrainControllerHandler::PassengerEmergencyBrake(int index)
 
     // Turn ebrake on
     trains[index].emergency_brake = true;
+    redundancy_trains[index].emergency_brake = true;
 
     // Tell train model to turn ebrake on
     emit EmergencyBrake(index, trains[index].emergency_brake);
@@ -336,6 +360,8 @@ void TrainControllerHandler::NewAuthority(int index, int a)
     if (a == 0)
     {
         trains[index].service_brake = true;
+        redundancy_trains[index].service_brake = true;
+
         emit ServiceBrake(index, true);
     }
 
@@ -350,12 +376,6 @@ void TrainControllerHandler::FailureMode(int index, int failure)
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
         return;
 
-//    if (trains[index].emergency_brake)
-//        ToggleEmergencyBrake(index);
-
-//    NewAuthority(index,0);
-
-    //trains[index].ResolveFailure(failure);
     qDebug() << "Received failure in tc handler " << failure;
     switch(failure) {
         case 0: // brake failure
@@ -363,6 +383,8 @@ void TrainControllerHandler::FailureMode(int index, int failure)
             // Also results in power command of 0 being sent
             qDebug() << "Brake Failure";
             trains[index].emergency_brake = true;
+            redundancy_trains[index].emergency_brake = true;
+
             emit EmergencyBrake(index, true);
             break;
         case 1: //engine failure
@@ -370,6 +392,8 @@ void TrainControllerHandler::FailureMode(int index, int failure)
             // Also results in power command of 0 being sent
             qDebug() << "Engine";
             trains[index].emergency_brake = true;
+            redundancy_trains[index].emergency_brake = true;
+
             emit EmergencyBrake(index, true);
             break;
         case 2: //Signal pickup failure
@@ -392,8 +416,12 @@ void TrainControllerHandler::EndFailure(int index)
 
     // Failure is over so release the brakes
     trains[index].emergency_brake = false;
+    redundancy_trains[index].emergency_brake = false;
+
     emit EmergencyBrake(index, false);
     trains[index].service_brake = false;
+    redundancy_trains[index].service_brake = false;
+
     emit ServiceBrake(index, false);
 
     if (current_gui_index == index)
@@ -407,6 +435,8 @@ void TrainControllerHandler::NewBeaconInfo(int index, QString info)
 
     //cout << index << info;
     trains[index].GrabBeaconInfo(info);
+    redundancy_trains[index].GrabBeaconInfo(info);
+
 }
 
 void TrainControllerHandler::ArrivedAtStation(int index)
@@ -439,8 +469,13 @@ void TrainControllerHandler::ArrivedAtStation(int index)
 
 void TrainControllerHandler::ManualMode(int index)
 {
+    if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
+        return;
+
     //cout << index << password;
     trains[index].manual_mode = !trains[index].manual_mode;
+    redundancy_trains[index].manual_mode = !trains[index].manual_mode;
+
     if (current_gui_index == index)
         emit GuiUpdate(trains[index]);
 }
