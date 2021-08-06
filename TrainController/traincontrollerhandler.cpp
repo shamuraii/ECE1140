@@ -10,7 +10,6 @@ void TrainControllerHandler::SetUpSignals()
 {
     TrainControllerSignalHandler *tcsh = &TrainControllerSignalHandler::Get();
 
-    // Test gui and handler signal connection
     //Signals from train model
     QObject::connect(tcsh, &TrainControllerSignalHandler::TrainController, this, &TrainControllerHandler::NewTrainController);
     QObject::connect(tcsh, &TrainControllerSignalHandler::CommandedSpeed, this, &TrainControllerHandler::NewCommandedSpeed);
@@ -37,12 +36,12 @@ void TrainControllerHandler::SetUpSignals()
     QObject::connect(tcsh, &TrainControllerSignalHandler::Timer, this, &TrainControllerHandler::TimerTicked);
 }
 
+// When a new train controller is created for a new dispatched train
 void TrainControllerHandler::NewTrainController(int index)
 {
     TrainController newTrain;
     trains.push_back(newTrain);
 
-    qDebug() << "Emitted Gui new: " << index;
     emit GuiNewTrain(trains.size());
     emit GuiTestNewTrain(trains.size());
 
@@ -55,6 +54,7 @@ void TrainControllerHandler::NewTrainController(int index)
     }
 }
 
+// New commanded speed received
 void TrainControllerHandler::NewCommandedSpeed(int index, double speed)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
@@ -105,15 +105,12 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
     double power = trains[index].CalculatePower();
     double redundancy_power = redundancy_train.CalculatePower();
 
-    // Redundancy check for power
-    // Vital architecture of train controller
-    //if (power != redundancy_power)
-        //power = 0;
-
-    qDebug() << "Power: " << power;
+     //Redundancy check for power
+     //Vital architecture of train controller
+    if (power != redundancy_power)
+        power = 0;
 
     // Handle train arriving at station
-    //TODO: check if made_announcement is false
     if (trains[index].at_station)
         ArrivedAtStation(index);
 
@@ -145,12 +142,12 @@ void TrainControllerHandler::NewActualSpeed(int index, double speed)
         emit GuiTestUpdate(trains[index]);
 }
 
+// Toggle headlights on train
 void TrainControllerHandler::ToggleHeadlights(int index)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index || index < 0)
         return;
-    qDebug() << "Current index in headlights " << index;
-    qDebug() << "Current gui index " << current_gui_index;
+
     // Toggles the headlights
     trains[index].headlights = !trains[index].headlights;
 
@@ -338,6 +335,7 @@ void TrainControllerHandler::UpdateTestGui(int index)
     current_test_gui_index = index;
 }
 
+// New authority received
 void TrainControllerHandler::NewAuthority(int index, int a)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
@@ -357,6 +355,7 @@ void TrainControllerHandler::NewAuthority(int index, int a)
         emit GuiTestUpdate(trains[index]);
 }
 
+// Handle a specific failure
 void TrainControllerHandler::FailureMode(int index, int failure)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
@@ -410,6 +409,7 @@ void TrainControllerHandler::EndFailure(int index)
         emit GuiUpdate(trains[index]);
 }
 
+// Beacon information received
 void TrainControllerHandler::NewBeaconInfo(int index, QString info)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
@@ -420,6 +420,7 @@ void TrainControllerHandler::NewBeaconInfo(int index, QString info)
 
 }
 
+// If train is at station, open doors and make annoucement
 void TrainControllerHandler::ArrivedAtStation(int index)
 {
     if (!trains[index].made_announcement)
@@ -448,6 +449,7 @@ void TrainControllerHandler::ArrivedAtStation(int index)
     }
 }
 
+// Toggle manual mode
 void TrainControllerHandler::ManualMode(int index)
 {
     if (trains.size() == 0 || trains.size() <= (unsigned long long)index)
@@ -478,7 +480,6 @@ void TrainControllerHandler::TimerTicked()
     for (int i = 0; i < trains.size(); i++)
     {
         trains[i].Timer();
-        redundancy_trains[i].Timer();
     }
 
 }

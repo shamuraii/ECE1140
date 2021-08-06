@@ -55,7 +55,6 @@ void TrainControllerUi::SetUpSignals()
     QObject::connect(&train_handler, &TrainControllerHandler::GuiTestUpdate, &test_ui, &TestUi::UpdateTest);
     QObject::connect(&test_ui, &TestUi::UpdateTestGui, &train_handler, &TrainControllerHandler::UpdateTestGui);
     QObject::connect(&test_ui, &TestUi::NewAuthority, &train_handler, &TrainControllerHandler::NewAuthority);
-    QObject::connect(&test_ui, &TestUi::FailureMode, &train_handler, &TrainControllerHandler::FailureMode);
     QObject::connect(&test_ui, &TestUi::BeaconInfo, &train_handler, &TrainControllerHandler::NewBeaconInfo);
 
 }
@@ -68,6 +67,7 @@ bool TrainControllerUi::IsNumber(string s)
     return !s.empty() && it == s.end();
 }
 
+// Update gui with new possible train to view
 void TrainControllerUi::NewTrain(int num)
 {
     ui->train_index->addItem(QString::number(num));
@@ -98,7 +98,6 @@ void TrainControllerUi::Update(TrainController train)
     // Manual mode
     ui->setpoint_speed_edit->setValue(train.setpoint_speed);
     ui->manual_mode_status->setText((train.manual_mode) ? "On" : "Off");
-    //ui->setpoint_speed_button->setEnabled(train.manual_mode);
 
     //Kp and Ki info
     ui->ki_value->setText(QString::number(train.ki));
@@ -107,25 +106,25 @@ void TrainControllerUi::Update(TrainController train)
 
 }
 
-
+// Driver toggles service brake
 void TrainControllerUi::on_service_brake_button_clicked()
 {
     emit ToggleServiceBrake(ui->train_index->currentText().toInt() - 1);
 }
 
-
+// Driver toggles headlights lights
 void TrainControllerUi::on_headlights_button_clicked()
 {
     emit ToggleHeadlights(ui->train_index->currentText().toInt() - 1);
 }
 
-
+//Driver toggles cabin lights
 void TrainControllerUi::on_cabin_lights_button_clicked()
 {
     emit ToggleCabinLights(ui->train_index->currentText().toInt() - 1);
 }
 
-
+// Driver sets new cabin temperature
 void TrainControllerUi::on_cabin_temp_button_clicked()
 {
     // Make sure value wasnt empty or a string
@@ -145,13 +144,13 @@ void TrainControllerUi::on_cabin_temp_button_clicked()
 
 }
 
-
+// Driver hits button to make station announcement to train
 void TrainControllerUi::on_announcement_button_clicked()
 {
     emit StartAnnouncement(ui->train_index->currentText().toInt() - 1);
 }
 
-
+// Driver sets new setpoint speed
 void TrainControllerUi::on_setpoint_speed_button_clicked()
 {
     int s = ui->setpoint_speed_edit->text().toInt();
@@ -159,7 +158,7 @@ void TrainControllerUi::on_setpoint_speed_button_clicked()
     emit NewSetpointSpeed(ui->train_index->currentText().toInt() - 1, s);
 }
 
-
+// Driver toggles left door
 void TrainControllerUi::on_left_door_button_clicked()
 {
     // Wont open door if train is moving
@@ -170,7 +169,7 @@ void TrainControllerUi::on_left_door_button_clicked()
     emit ToggleLeftDoor(ui->train_index->currentText().toInt() - 1);
 }
 
-
+// Driver toggles right door
 void TrainControllerUi::on_right_door_button_clicked()
 {
     // Wont open door if train is moving
@@ -181,7 +180,7 @@ void TrainControllerUi::on_right_door_button_clicked()
     emit ToggleRightDoor(ui->train_index->currentText().toInt() - 1);
 }
 
-
+// Engineer sets kp
 void TrainControllerUi::on_kp_set_button_clicked()
 {
     // Make sure value wasnt empty or a string
@@ -199,7 +198,7 @@ void TrainControllerUi::on_kp_set_button_clicked()
         emit SetKp(ui->train_index->currentText().toInt() - 1, kp);
 }
 
-
+// Engineer sets ki
 void TrainControllerUi::on_ki_set_button_clicked()
 {
     // Make sure value wasnt empty or a string
@@ -217,14 +216,14 @@ void TrainControllerUi::on_ki_set_button_clicked()
         emit SetKi(ui->train_index->currentText().toInt() - 1, ki);
 }
 
-
+// View different train on gui
 void TrainControllerUi::on_train_index_currentIndexChanged(int index)
 {
     // Update gui to the currently viewed train
     emit UpdateGui(ui->train_index->currentText().toInt() - 1);
 }
 
-
+// Driver toggles emergency brake
 void TrainControllerUi::on_emergency_brake_button_clicked()
 {
     emit ToggleEmergencyBrake(ui->train_index->currentText().toInt() - 1);
@@ -235,13 +234,13 @@ void TrainControllerUi::on_emergency_brake_button_clicked()
     emit UpdateGui(ui->train_index->currentText().toInt() - 1);
 }
 
-
+// Open debugger/test gui
 void TrainControllerUi::on_debugger_clicked()
 {
     test_ui.show();
 }
 
-
+// Driver toggles manual mode
 void TrainControllerUi::on_manual_mode_button_clicked()
 {
     emit ToggleManualMode(ui->train_index->currentText().toInt() - 1);
