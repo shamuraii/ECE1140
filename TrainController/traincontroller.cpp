@@ -37,7 +37,7 @@ TrainController::TrainController()
 
 }
 
-
+// Power loop
 double TrainController::CalculatePower()
 {
     // No power calculation occurs if a brake is on, a failure mode is occuring, or authority is 0
@@ -50,6 +50,7 @@ double TrainController::CalculatePower()
     {
         double error;
 
+        // Uses setpoint speed for manual mode, else commanded speed
         if (manual_mode)
             error = setpoint_speed - actual_speed;
         else
@@ -61,19 +62,23 @@ double TrainController::CalculatePower()
         else
             u = prev_u;
 
+        // Calculates power
         power = kp*error + ki*u;
         previous_power = power;
 
+        // Caps power
         if(power > max_power)
             power = max_power;
 
         prev_error = error;
     }
+    // Checks if at station
     AtStation();
+    // Returns calculated power
     return power;
 }
 
-
+// Checking if train is at station
 void TrainController::AtStation()
 {
     // Checks if train has just stopped
@@ -105,6 +110,8 @@ void TrainController::AtStation()
 
 }
 
+// Grabbing the info in the beacon
+// Gets the train station name and sets what door to open at station
 void TrainController::GrabBeaconInfo(QString info)
 {
     QStringList splitted = info.split(",");
@@ -118,6 +125,7 @@ void TrainController::GrabBeaconInfo(QString info)
     station_here = !station_here;
 }
 
+// Simulation timer
 void TrainController::Timer()
 {
     if (at_station)
